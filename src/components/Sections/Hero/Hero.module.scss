@@ -29,6 +29,12 @@
 			width: 100%;
 			height: 100%;
 			z-index: -1;
+			opacity: 1;
+			transition: opacity 1s ease-in-out;
+
+			&.heroBgHidden {
+				opacity: 0;
+			}
 
 			img {
 				width: 100%;

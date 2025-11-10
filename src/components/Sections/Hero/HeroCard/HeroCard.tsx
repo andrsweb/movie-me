@@ -1,40 +1,113 @@
+"use client"
+
+import { useRef, useState } from 'react'
+import { motion, useScroll, useTransform, useMotionValueEvent, useReducedMotion } from 'framer-motion'
+import { maskTextVariants, maskTransition } from '@/lib/animations';
+import clsx from 'clsx'
 import s from "./HeroCard.module.scss";
 import Image from "next/image";
 import Link from "next/link";
+import { imagesData } from "@/data/data";
 import Button from "@/components/Ui/Button/Button";
 
-const imagesData = [
-	{ src: "/img/frames/t1.jpg", price: 4.99 },
-	{ src: "/img/frames/t2.jpg", price: 3.99 },
-	{ src: "/img/frames/t3.jpg", price: 5.49 },
-	{ src: "/img/frames/t4.jpg", price: 2.99 },
-	{ src: "/img/frames/t5.jpg", price: 6.99 },
-	{ src: "/img/frames/t6.jpg", price: 4.49 },
-	{ src: "/img/frames/t7.jpg", price: 3.49 },
-	{ src: "/img/frames/t8.jpg", price: 5.99 },
-	{ src: "/img/frames/t9.jpg", price: 4.79 },
-	{ src: "/img/frames/t10.jpg", price: 3.29 },
-	{ src: "/img/frames/t11.jpg", price: 6.49 },
-	{ src: "/img/frames/t12.jpg", price: 7.99 },
-	{ src: "/img/frames/t13.jpg", price: 2.49 },
-	{ src: "/img/frames/t14.jpg", price: 4.29 },
-	{ src: "/img/frames/t15.jpg", price: 5.79 },
-	{ src: "/img/frames/t16.jpg", price: 3.99 }
-];
+function HeroCardList({ data, start, end }: { data: typeof imagesData; start: number; end: number }) {
+	return data.slice(start, end).map(item => (
+		<div key={item.src} className={s.heroCardItem}>
+			<Link href="#">
+				<Image src={item.src} width={150} height={226} alt="Film cover" />
+				<div className={s.itemPrice}><span>Less than ${item.price}</span></div>
+			</Link>
+		</div>
+	))
+}
 
-export default function HeroCard() {
+interface HeroCardProps {
+	onShowChange?: (isShowed: boolean) => void
+}
+
+export default function HeroCard({ onShowChange }: HeroCardProps) {
+	const containerRef = useRef<HTMLDivElement>(null)
+	const [isShowed, setIsShowed] = useState(false)
+	const [showDesc, setShowDesc] = useState(false)
+	const [showText, setShowText] = useState(false)
+	const prefersReducedMotion = useReducedMotion()
+
+	const { scrollYProgress } = useScroll({
+		target: containerRef,
+		offset: ["start end", "start 20vh"]
+	})
+
+	const { scrollYProgress: shrinkProgress } = useScroll({
+		target: containerRef,
+		offset: ["start 20vh", "start -50vh"]
+	})
+
+	useMotionValueEvent(scrollYProgress, "change", (latest) => {
+		if (latest >= 1 && !isShowed) {
+			setIsShowed(true)
+			onShowChange?.(true)
+		} else if (latest < 1 && isShowed) {
+			setIsShowed(false)
+			onShowChange?.(false)
+		}
+	})
+
+	const cardMaxWidth = useTransform(
+		shrinkProgress,
+		[0, 1],
+		[1240, 912]
+	)
+
+	const imgHeight = useTransform(
+		shrinkProgress,
+		[0, 1],
+		[700, 510]
+	)
+
+	useMotionValueEvent(shrinkProgress, "change", (latest) => {
+		if (latest >= 0.3 && !showDesc) {
+			setShowDesc(true)
+		} else if (latest < 0.3 && showDesc) {
+			setShowDesc(false)
+		}
+
+		if (latest >= 0.5 && !showText) {
+			setShowText(true)
+		} else if (latest < 0.5 && showText) {
+			setShowText(false)
+		}
+	})
+
 	return (
-		<div className={s.heroCardContainer}>
-			<div className={s.heroCard}>
+		<div ref={containerRef} className={s.heroCardContainer}>
+			<motion.div
+				className={clsx(s.heroCard, isShowed && s.showed)}
+				style={prefersReducedMotion ? {} : { maxWidth: cardMaxWidth }}
+			>
 				<div className={s.heroCardInner}>
-					<div className={s.heroCardImg}>
+					<motion.div
+						className={s.heroCardImg}
+						style={prefersReducedMotion ? {} : { height: imgHeight }}
+					>
 						<Image src="/img/hero-bg.jpg" width={906} height={514} alt="Hero image"/>
-						<div className={s.heroCardDesc}>
+						<motion.div
+							className={s.heroCardDesc}
+							initial="hidden"
+							animate={showDesc ? "visible" : "hidden"}
+							variants={prefersReducedMotion ? {} : maskTextVariants}
+							transition={prefersReducedMotion ? {} : maskTransition}
+						>
 							<h2>Hating Game</h2>
 							<Button color="violet" type="button">Play <b>Me</b></Button>
-						</div>
-					</div>
-					<div className={s.heroCardText}>
+						</motion.div>
+					</motion.div>
+					<motion.div
+						className={s.heroCardText}
+						initial="hidden"
+						animate={showText ? "visible" : "hidden"}
+						variants={prefersReducedMotion ? {} : maskTextVariants}
+						transition={prefersReducedMotion ? {} : maskTransition}
+					>
 						<h3>
 							MovieMe is the  <em>un-subscription</em>
 						</h3>
@@ -42,14 +115,9 @@ export default function HeroCard() {
 							Handpicked films,
 							not an endless scroll.
 						</p>
-					</div>
+					</motion.div>
 					<div className={s.heroCardItems}>
-						{imagesData.slice(0, 8).map((item, index) => (
-							<Link href="#" key={index} className={s.heroCardItem}>
-								<Image src={item.src} width={150} height={226} alt={`Film cover ${index + 1}`}/>
-								<div className={s.itemPrice}><span>Less than ${item.price}</span></div>
-							</Link>
-						))}
+						<HeroCardList data={imagesData} start={0} end={8} />
 					</div>
 					<div className={s.heroCardItemsText}>
 						<h3>
@@ -61,15 +129,10 @@ export default function HeroCard() {
 						</em>
 					</div>
 					<div className={s.heroCardItems}>
-						{imagesData.slice(8, 16).map((item, index) => (
-							<Link href="#" key={index} className={s.heroCardItem}>
-								<Image src={item.src} width={150} height={226} alt={`Film cover ${index + 1}`}/>
-								<div className={s.itemPrice}><span>Less than ${item.price}</span></div>
-							</Link>
-						))}
+						<HeroCardList data={imagesData} start={8} end={16} />
 					</div>
 				</div>
-			</div>
+			</motion.div>
 		</div>
 	)
 }

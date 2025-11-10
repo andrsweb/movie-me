@@ -7,15 +7,19 @@
 	left: 0;
 	top: 20vh;
 	width: 100%;
-	max-width: 1240px;
-	//max-width: 906px;
 	padding: 10px;
 	background: v.$c-dark;
 	border: 2px solid v.$c-blue;
 	border-radius: 5px;
 	margin: 0 auto;
-	//opacity: 0;
-	transition: opacity ease-in-out v.$tr, max-width ease-in-out v.$tr;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 1s ease-in-out, visibility 1s;
+
+	&.showed {
+		opacity: 1;
+		visibility: visible;
+	}
 
 	&Container {
 		width: 100%;
@@ -34,7 +38,6 @@
 
 	&Img {
 		width: 100%;
-		min-height: 514px;
 		padding: 20px;
 		position: relative;
 
@@ -113,6 +116,9 @@
 		gap: 20px;
 		white-space: nowrap;
 		overflow: hidden;
+		position: relative;
+		min-height: 226px;
+		justify-content: center;
 
 		&Text {
 			width: 100%;
@@ -126,11 +132,23 @@
 			h3 {
 				text-align: center;
 				@include t.text-xl;
+				opacity: 0;
+				max-height: 0;
+				overflow: hidden;
+				transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out;
 			}
 
 			em {
 				@include t.text-xl;
 				color: v.$c-violet;
+			}
+
+			&.textShown {
+				h3 {
+					opacity: 1;
+					max-height: 200px;
+					overflow: visible;
+				}
 			}
 		}
 	}
