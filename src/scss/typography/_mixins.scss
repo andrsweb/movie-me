@@ -24,3 +24,21 @@
 		line-height: 48px;
 	}
 }
+
+@mixin text-em() {
+	position: relative;
+	z-index: 1;
+
+	&:after {
+		content: '';
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		bottom: 15%;
+		display: block;
+		width: 101%;
+		height: 20%;
+		background-color: v.$c-blue;
+		z-index: -1;
+	}
+}

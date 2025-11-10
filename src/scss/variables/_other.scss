@@ -1,4 +1,4 @@
-$border-radius-base: 8px;
-$opacity-base: 0.7;
-$box-shadow-base: 0 1px 3px 1px rgba(0, 0, 0, 0.08);
-$box-shadow-alt: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+$opacity-base       : 0.7;
+$dark-gradient      : linear-gradient(to right, rgb(13, 19, 15), rgba(13, 19, 35, 0.98), rgba(13, 19, 35, 0.5), rgba(13, 19, 35, 0.3), rgba(13, 19, 35, 0), rgba(13, 19, 35, 0));
+$dark-gradient-light: linear-gradient(to right, rgb(13, 19, 15), rgba(13, 19, 35, 0.88), rgba(13, 19, 35, 0.5), rgba(13, 19, 35, 0.3), rgba(13, 19, 35, 0), rgba(13, 19, 35, 0));
+$dark-gradient-v    : linear-gradient(to top, rgb(13, 19, 15), rgba(13, 19, 40, 1), rgba(13, 19, 35, 0.8), rgba(13, 19, 35, 0.3), rgba(13, 19, 35, 0), rgba(13, 19, 35, 0));
