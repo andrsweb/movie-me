@@ -1,0 +1,16 @@
+@use "@/scss/variables/variables" as v;
+
+.header {
+	width: 100%;
+	position: fixed;
+	left: 0;
+	top: 0;
+	padding: 30px 0;
+
+	&Wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 30px;
+	}
+}
