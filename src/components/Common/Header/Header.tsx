@@ -10,7 +10,7 @@ export default function Header()
 {
     return (
         <header className={s.header}>
-	        <Container maxWidth={1340}>
+	        <Container maxWidth={1540}>
 		        <div className={s.headerWrapper}>
 			        <Link href="/">
 				        <Image src="/img/svg/logo.svg" width={176} height={50} alt="Vector logotype MovieMe"/>

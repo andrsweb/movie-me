@@ -30,6 +30,7 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 	const [isShowed, setIsShowed] = useState(false)
 	const [showDesc, setShowDesc] = useState(false)
 	const [showText, setShowText] = useState(false)
+	const [isExpanded, setIsExpanded] = useState(false)
 	const prefersReducedMotion = useReducedMotion()
 
 	const { scrollYProgress } = useScroll({
@@ -40,6 +41,11 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 	const { scrollYProgress: shrinkProgress } = useScroll({
 		target: containerRef,
 		offset: ["start 20vh", "start -50vh"]
+	})
+
+	const { scrollYProgress: cardsProgress } = useScroll({
+		target: containerRef,
+		offset: ["start -50vh", "end end"]
 	})
 
 	useMotionValueEvent(scrollYProgress, "change", (latest) => {
@@ -55,7 +61,7 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 	const cardMaxWidth = useTransform(
 		shrinkProgress,
 		[0, 1],
-		[1240, 912]
+		[1440, 912]
 	)
 
 	const imgHeight = useTransform(
@@ -78,11 +84,21 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 		}
 	})
 
+	useMotionValueEvent(cardsProgress, "change", (latest) => {
+		if (latest >= 0.6 && !isExpanded) {
+			setIsExpanded(true)
+		} else if (latest < 0.6 && isExpanded) {
+			setIsExpanded(false)
+		}
+	})
+
 	return (
 		<div ref={containerRef} className={s.heroCardContainer}>
 			<motion.div
-				className={clsx(s.heroCard, isShowed && s.showed)}
+				className={clsx(s.heroCard, isShowed && s.showed, isExpanded && s.finish)}
 				style={prefersReducedMotion ? {} : { maxWidth: cardMaxWidth }}
+				animate={!prefersReducedMotion && isExpanded ? { maxWidth: 1440 } : {}}
+				transition={{ duration: 0.6, ease: [0.42, 0, 0.58, 1] }}
 			>
 				<div className={s.heroCardInner}>
 					<motion.div

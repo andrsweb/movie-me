@@ -15,12 +15,14 @@ export default function HeroDesc() {
 	const opacity = useTransform(scrollYProgress, [0.3, 1], [1, 0])
 	const x = useTransform(scrollYProgress, [0.1, 1], [0, 100])
 	const y = useTransform(scrollYProgress, [0.1, 1], [0, 100])
+	const pointerEvents = useTransform(opacity, (value) => value < 0.3 ? 'none' : 'auto')
+	const zIndex = useTransform(opacity, (value) => value < 0.3 ? -1 : 50)
 
 	return (
 		<motion.div
 			ref={ref}
 			className={s.heroDesc}
-			style={{ opacity, x, y }}
+			style={{ opacity, x, y, pointerEvents, zIndex }}
 		>
 			<p>Subscriptions are a trap</p>
 			<h2>Curated cinema, on your terms</h2>

@@ -14,11 +14,16 @@
 	margin: 0 auto;
 	opacity: 0;
 	visibility: hidden;
-	transition: opacity 1s ease-in-out, visibility 1s;
+	transition: opacity 1s ease-in-out, visibility 1s, max-width ease-in v.$tr,
+				border-color ease v.$tr;
 
 	&.showed {
 		opacity: 1;
 		visibility: visible;
+	}
+
+	&.finish {
+		border-color: transparent;
 	}
 
 	&Container {
@@ -151,8 +156,9 @@
 	}
 
 	&Item {
+		flex: 1;
+		width: calc(100% / 8);
 		min-width: 150px;
-		height: 226px;
 		transition: transform ease-in-out v.$tr;
 		position: relative;
 
