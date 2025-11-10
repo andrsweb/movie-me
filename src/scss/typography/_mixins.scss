@@ -1,0 +1,26 @@
+@use '../variables/variables' as v;
+
+@mixin text-xl() {
+	font-family: v.$ff;
+	font-weight: 700;
+	font-size: 32px;
+	line-height: 37px;
+	color: v.$c-white;
+
+	@media(min-width: v.$lg) {
+		font-size: 64px;
+		line-height: 70px;
+	}
+}
+
+@mixin text-base() {
+	font-family: v.$ff;
+	font-weight: 700;
+	font-size: 32px;
+	line-height: 48px;
+
+	@media(min-width: v.$lg) {
+		font-size: 32px;
+		line-height: 48px;
+	}
+}
