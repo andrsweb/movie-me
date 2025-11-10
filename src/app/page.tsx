@@ -1,6 +1,5 @@
+import HomeClient from "@/Clients/HomeClient/HomeClient";
 
 export default function Home() {
-  return (
-      <h1>page</h1>
-  );
+  return <HomeClient />
 }
