@@ -131,16 +131,13 @@
 
 			h3 {
 				text-align: center;
-				@include t.text-xl;
-				opacity: 0;
-				max-height: 0;
-				overflow: hidden;
 				transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out;
+				@include t.text-xl;
 			}
 
 			em {
+				text-align: center;
 				@include t.text-xl;
-				color: v.$c-violet;
 			}
 
 			&.textShown {

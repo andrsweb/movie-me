@@ -119,13 +119,14 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 					<div className={s.heroCardItems}>
 						<HeroCardList data={imagesData} start={0} end={8} />
 					</div>
+					{/*v1*/}
 					<div className={s.heroCardItemsText}>
 						<h3>
 							With MovieMe there are <br/>
 							no monthly fees
 						</h3>
 						<em>
-							Just pay when you play.
+							Just pay for the <br/> movies you watch.
 						</em>
 					</div>
 					<div className={s.heroCardItems}>
