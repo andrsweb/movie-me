@@ -1,0 +1,51 @@
+@use '@/scss/variables/variables' as v;
+@use '@/scss/helpers/helpers' as ui;
+
+.button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0;
+	margin: 0;
+	background-color: transparent;
+	cursor: pointer;
+	border: none;
+	outline: none;
+	appearance: none;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
+	transition: transform ease-out v.$tr, background-color ease-out v.$tr;
+
+	&:disabled {
+		opacity: v.$opacity-base;
+		cursor: not-allowed;
+
+		@include ui.hover {
+			transform: scale(1);
+			background-color: v.$c-violet;
+		}
+	}
+
+	&:active {
+		transform: scale(0.9);
+	}
+
+	&.violet {
+		padding: 10px 30px;
+		background-color: v.$c-violet;
+		font-family: v.$ff;
+		font-weight: 400;
+		font-size: 18px;
+		line-height: 22px;
+		color: v.$c-dark-blue;
+		border-radius: 5px;
+
+		@media(min-width: v.$md) {
+			padding: 10px 50px;
+		}
+
+		@include ui.hover {
+			background-color: v.$c-violet-dark;
+		}
+	}
+}
