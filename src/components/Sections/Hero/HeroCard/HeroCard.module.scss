@@ -5,7 +5,7 @@
 .heroCard {
 	position: sticky;
 	left: 0;
-	top: 20vh;
+	top: 10vh;
 	width: 100%;
 	padding: 10px;
 	background: v.$c-dark;
@@ -118,7 +118,7 @@
 		overflow: hidden;
 		position: relative;
 		min-height: 226px;
-		justify-content: center;
+		justify-content: flex-start;
 
 		&Text {
 			width: 100%;

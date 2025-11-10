@@ -10,12 +10,6 @@
 	gap: 20px;
 	z-index: 50;
 
-	&.hidden {
-		pointer-events: none;
-		transform: translateX(20px);
-		z-index: -100;
-	}
-
 	p {
 		@include t.text-base;
 	}
