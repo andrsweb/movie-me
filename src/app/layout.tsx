@@ -1,6 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import { Instrument_Sans } from "next/font/google";
+import Header from "@/components/Common/Header/Header";
 import "../scss/main.scss";
 
 const instrumentSans = Instrument_Sans({
@@ -23,6 +24,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 		<body className={`${instrumentSans.variable}`}>
+		<Header/>
 		{children}
 		</body>
 		</html>
