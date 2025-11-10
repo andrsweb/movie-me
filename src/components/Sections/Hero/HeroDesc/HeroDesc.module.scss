@@ -8,6 +8,12 @@
 	flex-direction: column;
 	align-items: flex-start;
 	gap: 20px;
+	z-index: 50;
+
+	&.hidden {
+		opacity: 0;
+		pointer-events: none;
+	}
 
 	p {
 		@include t.text-base;
