@@ -1,6 +1,7 @@
 @use "@/scss/typography/mixins" as t;
 
 .heroDesc {
+	position: fixed;
 	width: 100%;
 	max-width: 540px;
 	display: flex;
