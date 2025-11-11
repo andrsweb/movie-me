@@ -17,3 +17,46 @@ export const maskTransition = {
 	duration: 0.8,
 	ease: [0.42, 0, 0.58, 1] as const
 }
+
+const TRAIL_OFFSET_X = 6 
+const TRAIL_OFFSET_Y = 16
+
+export const trailContainerVariants = {
+	hidden: {
+		opacity: 0,
+		y: TRAIL_OFFSET_Y
+	},
+	visible: {
+		opacity: 1,
+		y: 0
+	}
+}
+
+export const trailContentVariants = {
+	hidden: {
+		opacity: 0,
+		x: TRAIL_OFFSET_X
+	},
+	visible: {
+		opacity: 1,
+		x: 0
+	}
+}
+
+export const trailGhostVariants = {
+	hidden: {
+		opacity: 0.6,
+		x: TRAIL_OFFSET_X
+	},
+	visible: {
+		opacity: 0,
+		x: 0
+	}
+}
+
+export const trailTransition = {
+	duration: 1.5,
+	ease: [0.25, 0.46, 0.45, 0.94] as const
+}
+
+export const trailContentDelayOffset = 0.4
