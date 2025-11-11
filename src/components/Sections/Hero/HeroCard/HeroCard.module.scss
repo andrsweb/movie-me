@@ -5,12 +5,11 @@
 .heroCard {
 	position: sticky;
 	left: 0;
-	top: 10vh;
+	top: 0;
 	width: 100%;
 	max-width: 912px;
-	padding: 10px;
 	background: v.$c-dark;
-	border: 2px solid v.$c-blue;
+	border: 2px solid transparent;
 	border-radius: 5px;
 	margin: 0 auto;
 	opacity: 0;
@@ -18,6 +17,12 @@
 	visibility: hidden;
 	transition: opacity 1s ease-in-out, visibility 1s, max-width ease-in 1s,
 				border-color ease v.$tr;
+
+	@media(min-width: v.$md) {
+		padding: 10px;
+		border-color: v.$c-blue;
+		top: 10vh;
+	}
 
 	&.showed {
 		opacity: 1;
