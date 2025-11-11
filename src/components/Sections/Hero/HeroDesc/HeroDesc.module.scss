@@ -1,14 +1,20 @@
 @use "@/scss/typography/mixins" as t;
+@use "@/scss/variables/variables" as v;
 
 .heroDesc {
 	position: fixed;
 	width: 100%;
-	max-width: 540px;
+	max-width: 600px;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 	gap: 20px;
+	padding-left: 20px;
 	z-index: 50;
+
+	@media(min-width: v.$md) {
+		padding-left: 50px;
+	}
 
 	p {
 		@include t.text-base;

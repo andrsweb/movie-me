@@ -1,31 +1,55 @@
 "use client"
 
-import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { useRef, useState } from 'react'
+import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion'
+import TrailText from '@/components/Ui/TrailText/TrailText'
 import s from "./HeroDesc.module.scss";
 
 export default function HeroDesc() {
 	const ref = useRef<HTMLDivElement>(null)
+	const [hideText, setHideText] = useState(false)
 
 	const { scrollYProgress } = useScroll({
 		target: ref,
 		offset: ["start start", "30vh start"]
 	})
 
-	const opacity = useTransform(scrollYProgress, [0.3, 1], [1, 0])
 	const x = useTransform(scrollYProgress, [0.1, 1], [0, 100])
 	const y = useTransform(scrollYProgress, [0.1, 1], [0, 100])
-	const pointerEvents = useTransform(opacity, (value) => value < 0.3 ? 'none' : 'auto')
-	const zIndex = useTransform(opacity, (value) => value < 0.3 ? -1 : 50)
+
+	useMotionValueEvent(scrollYProgress, "change", (latest) => {
+		if (latest >= 0.3 && !hideText) {
+			setHideText(true)
+		} else if (latest < 0.3 && hideText) {
+			setHideText(false)
+		}
+	})
 
 	return (
 		<motion.div
 			ref={ref}
 			className={s.heroDesc}
-			style={{ opacity, x, y, pointerEvents, zIndex }}
+			style={{ x, y }}
 		>
-			<p>Subscriptions are a trap</p>
-			<h2>Curated cinema, on your terms</h2>
+			<TrailText 
+				as="p"
+				show={hideText}
+				mode="hide"
+				trailDirection="right"
+				containerDirection="bottom"
+			>
+				Subscriptions are a trap
+			</TrailText>
+			<TrailText 
+				as="h2"
+				show={hideText}
+				mode="hide"
+				delay={0.1}
+				trailDirection="left"
+				containerDirection="bottom"
+			>
+				Curated cinema, <br/> on your terms
+			</TrailText>
 		</motion.div>
 	)
 }

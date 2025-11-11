@@ -9,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { imagesData } from "@/data/data";
 import Button from "@/components/Ui/Button/Button";
+import TrailText from "@/components/Ui/TrailText/TrailText";
 
 function HeroCardList({ data, start, end }: { data: typeof imagesData; start: number; end: number }) {
 	return data.slice(start, end).map(item => (
@@ -27,10 +28,12 @@ interface HeroCardProps {
 
 export default function HeroCard({ onShowChange }: HeroCardProps) {
 	const containerRef = useRef<HTMLDivElement>(null)
+	const cardsRef = useRef<HTMLDivElement>(null)
 	const [isShowed, setIsShowed] = useState(false)
 	const [showDesc, setShowDesc] = useState(false)
 	const [showText, setShowText] = useState(false)
 	const [isExpanded, setIsExpanded] = useState(false)
+	const [isFinish, setIsFinish] = useState(false)
 	const prefersReducedMotion = useReducedMotion()
 
 	const { scrollYProgress } = useScroll({
@@ -40,12 +43,12 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 
 	const { scrollYProgress: shrinkProgress } = useScroll({
 		target: containerRef,
-		offset: ["start 20vh", "start -50vh"]
+		offset: ["start 20vh", "start -300vh"]
 	})
 
 	const { scrollYProgress: cardsProgress } = useScroll({
-		target: containerRef,
-		offset: ["start -50vh", "end end"]
+		target: cardsRef,
+		offset: ["start end", "start start"]
 	})
 
 	useMotionValueEvent(scrollYProgress, "change", (latest) => {
@@ -57,12 +60,6 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 			onShowChange?.(false)
 		}
 	})
-
-	const cardMaxWidth = useTransform(
-		shrinkProgress,
-		[0, 1],
-		[1440, 912]
-	)
 
 	const imgHeight = useTransform(
 		shrinkProgress,
@@ -85,20 +82,23 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 	})
 
 	useMotionValueEvent(cardsProgress, "change", (latest) => {
-		if (latest >= 0.6 && !isExpanded) {
+		if (latest >= 1 && !isExpanded) {
 			setIsExpanded(true)
-		} else if (latest < 0.6 && isExpanded) {
+		} else if (latest < 1 && isExpanded) {
 			setIsExpanded(false)
+		}
+
+		if (latest >= 1 && !isFinish) {
+			setIsFinish(true)
+		} else if (latest < 1 && isFinish) {
+			setIsFinish(false)
 		}
 	})
 
 	return (
 		<div ref={containerRef} className={s.heroCardContainer}>
 			<motion.div
-				className={clsx(s.heroCard, isShowed && s.showed, isExpanded && s.finish)}
-				style={prefersReducedMotion ? {} : { maxWidth: cardMaxWidth }}
-				animate={!prefersReducedMotion && isExpanded ? { maxWidth: 1440 } : {}}
-				transition={{ duration: 0.6, ease: [0.42, 0, 0.58, 1] }}
+				className={clsx(s.heroCard, isShowed && s.showed, isFinish && s.finish, isExpanded && s.expanded)}
 			>
 				<div className={s.heroCardInner}>
 					<motion.div
@@ -132,20 +132,41 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 							not an endless scroll.
 						</p>
 					</motion.div>
-					<div className={s.heroCardItems}>
+					<div 
+						ref={cardsRef} 
+						className={s.heroCardItems}
+						style={{ overflow: isExpanded ? 'visible' : 'hidden' }}
+					>
 						<HeroCardList data={imagesData} start={0} end={8} />
 					</div>
-					{/*v1*/}
 					<div className={s.heroCardItemsText}>
-						<h3>
+						<TrailText 
+							as="h3" 
+							show={isExpanded}
+							mode={"hide"}
+							className={s.heroCardItemsTextTitle}
+							delay={2}
+							trailDirection={"left"}
+							containerDirection={"bottom"}
+						>
 							With MovieMe there are <br/>
 							no monthly fees
-						</h3>
-						<em>
+						</TrailText>
+						<TrailText 
+							as="em"
+							show={isExpanded}
+							delay={0.5}
+							className={s.heroCardItemsTextSubtitle}
+							trailDirection={"right"}
+							containerDirection={"bottom"}
+						>
 							Just pay for the <br/> movies you watch.
-						</em>
+						</TrailText>
 					</div>
-					<div className={s.heroCardItems}>
+					<div 
+						className={s.heroCardItems}
+						style={{ overflow: isExpanded ? 'visible' : 'hidden' }}
+					>
 						<HeroCardList data={imagesData} start={8} end={16} />
 					</div>
 				</div>
