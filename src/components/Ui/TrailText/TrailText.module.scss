@@ -1,0 +1,29 @@
+@use "@/scss/variables/colors" as v;
+
+.trailWrapper {
+	display: inline-block;
+
+	.trailText {
+		position: relative;
+		display: inline-block;
+
+		&.highlighted {
+			color: v.$c-violet;
+		}
+	}
+
+	.trailGhost {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: max-content;
+		color: v.$c-white;
+		pointer-events: none;
+		white-space: pre-line;
+	}
+
+	.trailContent {
+		position: relative;
+		white-space: pre-line;
+	}
+}
