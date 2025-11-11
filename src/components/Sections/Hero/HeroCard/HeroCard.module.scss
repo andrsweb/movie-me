@@ -7,14 +7,16 @@
 	left: 0;
 	top: 10vh;
 	width: 100%;
+	max-width: 912px;
 	padding: 10px;
 	background: v.$c-dark;
 	border: 2px solid v.$c-blue;
 	border-radius: 5px;
 	margin: 0 auto;
 	opacity: 0;
+	overflow: hidden;
 	visibility: hidden;
-	transition: opacity 1s ease-in-out, visibility 1s, max-width ease-in v.$tr,
+	transition: opacity 1s ease-in-out, visibility 1s, max-width ease-in 1s,
 				border-color ease v.$tr;
 
 	&.showed {
@@ -22,8 +24,17 @@
 		visibility: visible;
 	}
 
+	&.expanded {
+		max-width: 1540px;
+		transition: max-width ease-in 0.5s;
+	}
+
 	&.finish {
 		border-color: transparent;
+
+		.heroCardItems {
+			transform: translateX(0);
+		}
 	}
 
 	&Container {
@@ -124,6 +135,8 @@
 		position: relative;
 		min-height: 226px;
 		justify-content: flex-start;
+		transform: translateX(100px);
+		transition: transform ease-in-out 1s;
 
 		&Text {
 			width: 100%;
@@ -134,23 +147,10 @@
 			padding: 20px;
 			margin: 0 auto;
 
-			h3 {
-				text-align: center;
-				transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out;
-				@include t.text-xl;
-			}
-
-			em {
+			&Title,
+			&Subtitle {
 				text-align: center;
 				@include t.text-xl;
-			}
-
-			&.textShown {
-				h3 {
-					opacity: 1;
-					max-height: 200px;
-					overflow: visible;
-				}
 			}
 		}
 	}
