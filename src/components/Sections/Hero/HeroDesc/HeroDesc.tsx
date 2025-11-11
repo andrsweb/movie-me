@@ -8,28 +8,42 @@ import s from "./HeroDesc.module.scss";
 export default function HeroDesc() {
 	const ref = useRef<HTMLDivElement>(null)
 	const [hideText, setHideText] = useState(false)
+	const [isFullyHidden, setIsFullyHidden] = useState(false)
 
 	const { scrollYProgress } = useScroll({
 		target: ref,
 		offset: ["start start", "30vh start"]
 	})
 
-	const x = useTransform(scrollYProgress, [0.1, 1], [0, 100])
-	const y = useTransform(scrollYProgress, [0.1, 1], [0, 100])
+	const x = useTransform(scrollYProgress, [0.1, 1], [0, 50])
+	const y = useTransform(scrollYProgress, [0.1, 1], [0, 50])
 
 	useMotionValueEvent(scrollYProgress, "change", (latest) => {
 		if (latest >= 0.3 && !hideText) {
 			setHideText(true)
 		} else if (latest < 0.3 && hideText) {
 			setHideText(false)
+			setIsFullyHidden(false)
 		}
 	})
+
+	const handleAnimationComplete = () => {
+		if (hideText) {
+			setIsFullyHidden(true)
+		}
+	}
 
 	return (
 		<motion.div
 			ref={ref}
 			className={s.heroDesc}
-			style={{ x, y }}
+			style={{ 
+				x, 
+				y,
+				zIndex: isFullyHidden ? -100 : 50,
+				pointerEvents: isFullyHidden ? 'none' : 'auto'
+			}}
+			onAnimationComplete={handleAnimationComplete}
 		>
 			<TrailText 
 				as="p"
