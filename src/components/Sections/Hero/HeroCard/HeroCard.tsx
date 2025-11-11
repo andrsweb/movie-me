@@ -2,7 +2,6 @@
 
 import { useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useMotionValueEvent, useReducedMotion } from 'framer-motion'
-import { maskTextVariants, maskTransition } from '@/lib/animations';
 import clsx from 'clsx'
 import s from "./HeroCard.module.scss";
 import Image from "next/image";
@@ -10,6 +9,7 @@ import Link from "next/link";
 import { imagesData } from "@/data/data";
 import Button from "@/components/Ui/Button/Button";
 import TrailText from "@/components/Ui/TrailText/TrailText";
+import MaskText from "@/components/Ui/MaskText/MaskText";
 
 function HeroCardList({ data, start, end }: { data: typeof imagesData; start: number; end: number }) {
 	return data.slice(start, end).map(item => (
@@ -106,24 +106,12 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 						style={prefersReducedMotion ? {} : { height: imgHeight }}
 					>
 						<Image src="/img/hero-bg.jpg" width={906} height={514} alt="Hero image"/>
-						<motion.div
-							className={s.heroCardDesc}
-							initial="hidden"
-							animate={showDesc ? "visible" : "hidden"}
-							variants={prefersReducedMotion ? {} : maskTextVariants}
-							transition={prefersReducedMotion ? {} : maskTransition}
-						>
+						<MaskText show={showDesc} className={s.heroCardDesc}>
 							<h2>Hating Game</h2>
 							<Button color="violet" type="button">Play <b>Me</b></Button>
-						</motion.div>
+						</MaskText>
 					</motion.div>
-					<motion.div
-						className={s.heroCardText}
-						initial="hidden"
-						animate={showText ? "visible" : "hidden"}
-						variants={prefersReducedMotion ? {} : maskTextVariants}
-						transition={prefersReducedMotion ? {} : maskTransition}
-					>
+					<MaskText show={showText} className={s.heroCardText}>
 						<h3>
 							MovieMe is the  <em>un-subscription</em>
 						</h3>
@@ -131,7 +119,7 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 							Handpicked films,
 							not an endless scroll.
 						</p>
-					</motion.div>
+					</MaskText>
 					<div 
 						ref={cardsRef} 
 						className={s.heroCardItems}
