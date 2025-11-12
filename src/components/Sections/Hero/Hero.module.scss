@@ -14,7 +14,7 @@
 	&Wrapper {
 		width: 100%;
 		max-width: 1440px;
-		height: calc(100dvh - 110px);
+		height: calc(80dvh - 91px);
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
@@ -23,15 +23,23 @@
 		padding-bottom: 5%;
 		position: relative;
 
+		@media(min-width: v.$md) {
+			height: calc(100dvh - 110px);
+		}
+
 		.heroBg {
 			position: fixed;
 			top: 0;
 			left: 0;
 			width: 100%;
-			height: 100%;
+			height: 80%;
 			z-index: -1;
 			opacity: 1;
 			transition: opacity 1s ease-in-out;
+
+			@media(min-width: v.$md) {
+				height: 100%;
+			}
 
 			&.heroBgHidden {
 				opacity: 0;

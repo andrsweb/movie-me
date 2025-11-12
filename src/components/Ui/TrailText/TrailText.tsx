@@ -2,7 +2,8 @@
 
 import React from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { getTrailContainerVariants, getTrailContentVariants, getTrailGhostVariants, trailTransition, trailContentDelayOffset, type TrailDirection } from '@/lib/animations'
+import { getTrailContainerVariants, getTrailContentVariants, getTrailGhostVariants, trailTransition,
+	trailContentDelayOffset, type TrailDirection } from '@/lib/animations'
 import s from './TrailText.module.scss'
 
 interface TrailTextProps {

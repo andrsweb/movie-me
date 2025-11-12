@@ -1,0 +1,7 @@
+@use "@/scss/typography/mixins" as t;
+
+.maskText {
+	em {
+		@include t.text-em
+	}
+}

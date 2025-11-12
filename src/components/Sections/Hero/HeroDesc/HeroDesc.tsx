@@ -42,25 +42,38 @@ export default function HeroDesc() {
 				pointerEvents: isFullyHidden ? 'none' : 'auto'
 			}}
 		>
-			<TrailText 
-				as="p"
-				show={hideText}
-				mode="hide"
-				trailDirection="right"
-				containerDirection="bottom"
-			>
-				Subscriptions are a trap
-			</TrailText>
-			<TrailText 
-				as="h2"
-				show={hideText}
-				mode="hide"
-				delay={0.1}
-				trailDirection="right"
-				containerDirection="right"
-			>
-				Curated cinema, <br/> on your terms
-			</TrailText>
+			<div className={s.m}>
+				<TrailText
+					as="p"
+					show={hideText}
+					mode="hide"
+					trailDirection="right"
+					containerDirection="bottom"
+				>
+					You don’t need <br/> one more subscription
+				</TrailText>
+			</div>
+			<div className={s.d}>
+				<TrailText
+					as="p"
+					show={hideText}
+					mode="hide"
+					trailDirection="right"
+					containerDirection="bottom"
+				>
+					Subscriptions are a trap
+				</TrailText>
+				<TrailText
+					as="h2"
+					show={hideText}
+					mode="hide"
+					delay={0.1}
+					trailDirection="right"
+					containerDirection="right"
+				>
+					Curated cinema, <br/> on your terms
+				</TrailText>
+			</div>
 		</motion.div>
 	)
 }

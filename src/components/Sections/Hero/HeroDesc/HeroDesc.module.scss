@@ -23,4 +23,20 @@
 	h2 {
 		@include t.text-xl
 	}
+
+	.d {
+		display: none;
+
+		@media(min-width: v.$md) {
+			display: block;
+		}
+	}
+
+	.m {
+		display: block;
+
+		@media(min-width: v.$md) {
+			display: none;
+		}
+	}
 }

@@ -128,11 +128,15 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 						style={prefersReducedMotion ? {} : { height: imgHeight }}
 					>
 						<Image src="/img/hero-bg.jpg" width={906} height={514} alt="Hero image"/>
-						<MaskText show={showDesc} className={s.heroCardDesc}>
+						<MaskText show={showDesc} className={s.heroCardDescD}>
 							<h2>Hating Game</h2>
 							<Button color="violet" type="button">Play <b>Me</b></Button>
 						</MaskText>
 					</motion.div>
+					<MaskText show={showDesc} className={s.heroCardDescM}>
+						<h2>Hating Game</h2>
+						<Button color="violet" type="button">Play <b>Me</b></Button>
+					</MaskText>
 					<MaskText show={showText} className={s.heroCardText}>
 						<h3>
 							MovieMe is the  <em>un-subscription</em>
