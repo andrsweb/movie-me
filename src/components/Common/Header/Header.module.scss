@@ -14,4 +14,35 @@
 		justify-content: space-between;
 		gap: 30px;
 	}
+
+	.headerLink {
+		display: none;
+
+		@media (min-width: v.$xl) {
+			display: flex;
+		}
+	}
+
+	.headerButton {
+		display: flex;
+		position: fixed;
+		right: 20px;
+		bottom: calc(100% - 76px);
+		transition: all ease-in-out v.$tr;
+
+		@media (min-width: v.$md) {
+			right: 50px;
+		}
+
+		@media (min-width: v.$xl) {
+			display: none;
+		}
+
+		&.scrolled {
+			right: 50%;
+			bottom: 30px;
+			transform: translateX(50%);
+		}
+	}
+
 }
