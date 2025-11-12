@@ -29,20 +29,26 @@
 	position: relative;
 	z-index: 1;
 	animation: textColorAnim forwards 4s ease-in;
+	animation-delay: 2s;
 
 	&:after {
 		content: '';
 		position: absolute;
 		left: 50%;
 		transform: translateX(-50%);
-		bottom: 15%;
+		bottom: 5%;
 		display: block;
 		width: 101%;
-		height: 20%;
+		height: 15%;
 		opacity: 0;
 		background-color: v.$c-blue;
 		z-index: -1;
 		animation: afterFadeIn 6s forwards ease-in;
+
+		@media(min-width: v.$md) {
+			height: 20%;
+			bottom: 15%;
+		}
 	}
 
 	@keyframes textColorAnim {

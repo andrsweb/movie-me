@@ -169,24 +169,32 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 						<TrailText 
 							as="h3" 
 							show={isExpanded}
-							mode={"hide"}
+							mode={"show"}
 							className={s.heroCardItemsTextTitle}
 							delay={2}
 							trailDirection={"left"}
 							containerDirection={"bottom"}
 						>
 							With MovieMe there are <br/>
-							no monthly fees
+							<em>
+								no monthly fees
+							</em>
 						</TrailText>
 						<TrailText 
-							as="em"
+							as="h3"
 							show={isExpanded}
 							delay={0.5}
 							className={s.heroCardItemsTextSubtitle}
 							trailDirection={"right"}
 							containerDirection={"bottom"}
 						>
-							Just pay for the <br/> movies you watch.
+							<strong>
+								Just pay for the
+							</strong>
+							<br/>
+							<strong>
+								movies you watch.
+							</strong>
 						</TrailText>
 					</motion.div>
 					<motion.div 
