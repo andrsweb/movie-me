@@ -30,6 +30,7 @@ body {
 body {
 	color: v.$c-white;
 	background: v.$c-dark;
+	overflow-x: clip;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale
 }
