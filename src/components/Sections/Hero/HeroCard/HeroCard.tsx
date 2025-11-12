@@ -1,21 +1,22 @@
 "use client"
 
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform, useMotionValueEvent, useReducedMotion } from 'framer-motion'
 import clsx from 'clsx'
+import type { Movie } from '@/types/movie'
+import { fetchMovies } from '@/lib/api/movies'
 import s from "./HeroCard.module.scss";
 import Image from "next/image";
 import Link from "next/link";
-import { imagesData } from "@/data/data";
 import Button from "@/components/Ui/Button/Button";
 import TrailText from "@/components/Ui/TrailText/TrailText";
 import MaskText from "@/components/Ui/MaskText/MaskText";
 
-function HeroCardList({ data, start, end }: { data: typeof imagesData; start: number; end: number }) {
+function HeroCardList({ data, start, end }: { data: Movie[]; start: number; end: number }) {
 	return data.slice(start, end).map(item => (
-		<div key={item.src} className={s.heroCardItem}>
-			<Link href="#">
-				<Image src={item.src} width={150} height={226} alt="Film cover" />
+		<div key={item.id} className={s.heroCardItem}>
+			<Link href={`/movie/${item.id}`}>
+				<Image src={item.src} width={150} height={226} alt={item.title} />
 				<div className={s.itemPrice}><span>Less than ${item.price}</span></div>
 			</Link>
 		</div>
@@ -34,7 +35,16 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 	const [showText, setShowText] = useState(false)
 	const [isExpanded, setIsExpanded] = useState(false)
 	const [isFinish, setIsFinish] = useState(false)
+	const [movies, setMovies] = useState<Movie[]>([])
 	const prefersReducedMotion = useReducedMotion()
+
+	useEffect(() => {
+		const loadMovies = async () => {
+			const data = await fetchMovies(48)
+			setMovies(data)
+		}
+		void loadMovies()
+	}, [])
 
 	const { scrollYProgress } = useScroll({
 		target: containerRef,
@@ -43,12 +53,12 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 
 	const { scrollYProgress: shrinkProgress } = useScroll({
 		target: containerRef,
-		offset: ["start 20vh", "start -300vh"]
+		offset: ["start 20vh", "end end"]
 	})
 
 	const { scrollYProgress: cardsProgress } = useScroll({
 		target: cardsRef,
-		offset: ["start end", "start start"]
+		offset: ["start end", "start center"]
 	})
 
 	useMotionValueEvent(scrollYProgress, "change", (latest) => {
@@ -65,6 +75,18 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 		shrinkProgress,
 		[0, 1],
 		[700, 510]
+	)
+
+	const cardsTranslateX1 = useTransform(
+		shrinkProgress,
+		[0, 1],
+		[0, -300]
+	)
+
+	const cardsTranslateX2 = useTransform(
+		shrinkProgress,
+		[0, 1],
+		[0, 400]
 	)
 
 	useMotionValueEvent(shrinkProgress, "change", (latest) => {
@@ -120,14 +142,26 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 							not an endless scroll.
 						</p>
 					</MaskText>
-					<div 
+					<motion.div 
 						ref={cardsRef} 
 						className={s.heroCardItems}
-						style={{ overflow: isExpanded ? 'visible' : 'hidden' }}
+						style={{ 
+							x: cardsTranslateX1
+						}}
+						animate={{
+							x: isExpanded ? undefined : 0
+						}}
+						transition={{ type: "spring", stiffness: 80, damping: 20 }}
 					>
-						<HeroCardList data={imagesData} start={0} end={8} />
-					</div>
-					<div className={s.heroCardItemsText}>
+						{movies.length > 0 && <HeroCardList data={movies} start={0} end={24} />}
+					</motion.div>
+					<motion.div 
+						className={s.heroCardItemsText}
+						initial={{ opacity: 0, y: 30 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						viewport={{ once: true, margin: "0px 0px -200px 0px" }}
+						transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+					>
 						<TrailText 
 							as="h3" 
 							show={isExpanded}
@@ -150,13 +184,19 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 						>
 							Just pay for the <br/> movies you watch.
 						</TrailText>
-					</div>
-					<div 
+					</motion.div>
+					<motion.div 
 						className={s.heroCardItems}
-						style={{ overflow: isExpanded ? 'visible' : 'hidden' }}
+						style={{ 
+							x: cardsTranslateX2
+						}}
+						animate={{
+							x: isExpanded ? undefined : 0
+						}}
+						transition={{ type: "spring", stiffness: 80, damping: 20 }}
 					>
-						<HeroCardList data={imagesData} start={8} end={16} />
-					</div>
+						{movies.length > 0 && <HeroCardList data={movies} start={24} end={48} />}
+					</motion.div>
 				</div>
 			</motion.div>
 		</div>

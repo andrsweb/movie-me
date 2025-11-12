@@ -1,7 +1,7 @@
 "use client"
 
-import { useRef, useState } from 'react'
-import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
 import TrailText from '@/components/Ui/TrailText/TrailText'
 import s from "./HeroDesc.module.scss";
 
@@ -12,11 +12,8 @@ export default function HeroDesc() {
 
 	const { scrollYProgress } = useScroll({
 		target: ref,
-		offset: ["start start", "30vh start"]
+		offset: ["center center", "center center"]
 	})
-
-	const x = useTransform(scrollYProgress, [0.1, 1], [0, 50])
-	const y = useTransform(scrollYProgress, [0.1, 1], [0, 50])
 
 	useMotionValueEvent(scrollYProgress, "change", (latest) => {
 		if (latest >= 0.3 && !hideText) {
@@ -27,23 +24,23 @@ export default function HeroDesc() {
 		}
 	})
 
-	const handleAnimationComplete = () => {
-		if (hideText) {
-			setIsFullyHidden(true)
+	useEffect(() => {
+		if (hideText && !isFullyHidden) {
+			const timer = setTimeout(() => {
+				setIsFullyHidden(true)
+			}, 1500)
+			return () => clearTimeout(timer)
 		}
-	}
+	}, [hideText, isFullyHidden])
 
 	return (
 		<motion.div
 			ref={ref}
 			className={s.heroDesc}
 			style={{ 
-				x, 
-				y,
 				zIndex: isFullyHidden ? -100 : 50,
 				pointerEvents: isFullyHidden ? 'none' : 'auto'
 			}}
-			onAnimationComplete={handleAnimationComplete}
 		>
 			<TrailText 
 				as="p"
@@ -59,8 +56,8 @@ export default function HeroDesc() {
 				show={hideText}
 				mode="hide"
 				delay={0.1}
-				trailDirection="left"
-				containerDirection="bottom"
+				trailDirection="right"
+				containerDirection="right"
 			>
 				Curated cinema, <br/> on your terms
 			</TrailText>

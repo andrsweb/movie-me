@@ -16,7 +16,7 @@
 	overflow: hidden;
 	visibility: hidden;
 	transition: opacity 1s ease-in-out, visibility 1s, max-width ease-in 1s,
-				border-color ease v.$tr;
+				border-color ease v.$tr, overflow 0s 1.5s;
 
 	@media(min-width: v.$md) {
 		padding: 10px;
@@ -31,7 +31,12 @@
 
 	&.expanded {
 		max-width: 1540px;
-		transition: max-width ease-in 0.5s;
+		overflow: visible;
+		transition: max-width ease-in 0.5s, border-color ease-in v.$tr, overflow 0s 0s;
+
+		.heroCardItems {
+			opacity: 1;
+		}
 	}
 
 	&.finish {
@@ -130,18 +135,18 @@
 	}
 
 	&Items {
-		width: 100%;
+		width: 100vw;
+		margin-left: calc(50% - 50vw);
 		padding: 20px;
 		display: flex;
 		align-items: stretch;
 		gap: 20px;
+		opacity: 0;
 		white-space: nowrap;
-		overflow: hidden;
 		position: relative;
 		min-height: 226px;
-		justify-content: flex-start;
-		transform: translateX(100px);
-		transition: transform ease-in-out 1s;
+		justify-content: center;
+		transition: transform ease-in-out 1s, opacity ease-in-out 1s;
 
 		&Text {
 			width: 100%;
