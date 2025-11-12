@@ -30,11 +30,11 @@ export default function Header()
 		<header className={s.header}>
 			<Container maxWidth={1540}>
 				<div className={s.headerWrapper}>
-					<Link href="/">
+					<Link className={s.headerLogo} href="/">
 						<Image src="/img/svg/logo.svg" width={176} height={50} alt="Vector logotype MovieMe"/>
 					</Link>
 					<div className={clsx(s.headerButton, isScrolled && s.scrolled)}>
-						<Button color="violet" href="/download">Download</Button>
+						<Button color="violet" href="/download">Download App</Button>
 					</div>
 					<Button className={s.headerLink} color="violet" type="button">Sign in</Button>
 				</div>
