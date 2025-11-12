@@ -190,5 +190,197 @@
 		"price": 5.99,
 		"year": 2012,
 		"genre": "Western"
+	},
+	{
+		"id": 25,
+		"title": "The Hating Game",
+		"src": "/img/frames/t9.jpg",
+		"price": 4.99,
+		"year": 2021,
+		"genre": "Romance"
+	},
+	{
+		"id": 26,
+		"title": "Inception",
+		"src": "/img/frames/t10.jpg",
+		"price": 3.99,
+		"year": 2010,
+		"genre": "Sci-Fi"
+	},
+	{
+		"id": 27,
+		"title": "The Shawshank Redemption",
+		"src": "/img/frames/t11.jpg",
+		"price": 5.49,
+		"year": 1994,
+		"genre": "Drama"
+	},
+	{
+		"id": 28,
+		"title": "Pulp Fiction",
+		"src": "/img/frames/t12.jpg",
+		"price": 2.99,
+		"year": 1994,
+		"genre": "Crime"
+	},
+	{
+		"id": 29,
+		"title": "The Dark Knight",
+		"src": "/img/frames/t13.jpg",
+		"price": 6.99,
+		"year": 2008,
+		"genre": "Action"
+	},
+	{
+		"id": 30,
+		"title": "Forrest Gump",
+		"src": "/img/frames/t14.jpg",
+		"price": 4.49,
+		"year": 1994,
+		"genre": "Drama"
+	},
+	{
+		"id": 31,
+		"title": "Fight Club",
+		"src": "/img/frames/t15.jpg",
+		"price": 3.49,
+		"year": 1999,
+		"genre": "Drama"
+	},
+	{
+		"id": 32,
+		"title": "The Matrix",
+		"src": "/img/frames/t16.jpg",
+		"price": 5.99,
+		"year": 1999,
+		"genre": "Sci-Fi"
+	},
+	{
+		"id": 33,
+		"title": "Goodfellas",
+		"src": "/img/frames/t1.jpg",
+		"price": 4.79,
+		"year": 1990,
+		"genre": "Crime"
+	},
+	{
+		"id": 34,
+		"title": "The Silence of the Lambs",
+		"src": "/img/frames/t2.jpg",
+		"price": 3.29,
+		"year": 1991,
+		"genre": "Thriller"
+	},
+	{
+		"id": 35,
+		"title": "Interstellar",
+		"src": "/img/frames/t3.jpg",
+		"price": 6.49,
+		"year": 2014,
+		"genre": "Sci-Fi"
+	},
+	{
+		"id": 36,
+		"title": "Parasite",
+		"src": "/img/frames/t4.jpg",
+		"price": 7.99,
+		"year": 2019,
+		"genre": "Thriller"
+	},
+	{
+		"id": 37,
+		"title": "The Godfather",
+		"src": "/img/frames/t5.jpg",
+		"price": 2.49,
+		"year": 1972,
+		"genre": "Crime"
+	},
+	{
+		"id": 38,
+		"title": "Schindler's List",
+		"src": "/img/frames/t6.jpg",
+		"price": 4.29,
+		"year": 1993,
+		"genre": "Drama"
+	},
+	{
+		"id": 39,
+		"title": "The Lord of the Rings",
+		"src": "/img/frames/t7.jpg",
+		"price": 5.79,
+		"year": 2001,
+		"genre": "Fantasy"
+	},
+	{
+		"id": 40,
+		"title": "Star Wars",
+		"src": "/img/frames/t8.jpg",
+		"price": 3.99,
+		"year": 1977,
+		"genre": "Sci-Fi"
+	},
+	{
+		"id": 41,
+		"title": "Casablanca",
+		"src": "/img/frames/t9.jpg",
+		"price": 4.99,
+		"year": 1942,
+		"genre": "Romance"
+	},
+	{
+		"id": 42,
+		"title": "The Prestige",
+		"src": "/img/frames/t10.jpg",
+		"price": 3.99,
+		"year": 2006,
+		"genre": "Mystery"
+	},
+	{
+		"id": 43,
+		"title": "Gladiator",
+		"src": "/img/frames/t11.jpg",
+		"price": 5.49,
+		"year": 2000,
+		"genre": "Action"
+	},
+	{
+		"id": 44,
+		"title": "The Departed",
+		"src": "/img/frames/t12.jpg",
+		"price": 2.99,
+		"year": 2006,
+		"genre": "Crime"
+	},
+	{
+		"id": 45,
+		"title": "Whiplash",
+		"src": "/img/frames/t13.jpg",
+		"price": 6.99,
+		"year": 2014,
+		"genre": "Drama"
+	},
+	{
+		"id": 46,
+		"title": "The Green Mile",
+		"src": "/img/frames/t14.jpg",
+		"price": 4.49,
+		"year": 1999,
+		"genre": "Drama"
+	},
+	{
+		"id": 47,
+		"title": "The Usual Suspects",
+		"src": "/img/frames/t15.jpg",
+		"price": 3.49,
+		"year": 1995,
+		"genre": "Crime"
+	},
+	{
+		"id": 48,
+		"title": "Django Unchained",
+		"src": "/img/frames/t16.jpg",
+		"price": 5.99,
+		"year": 2012,
+		"genre": "Western"
 	}
 ]
