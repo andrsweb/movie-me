@@ -83,14 +83,10 @@
 
 	&Bottom {
 		width: 100%;
-		display: none;
+		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
 		gap: 60px;
-
-		@media(min-width: v.$md) {
-			display: flex;
-		}
 
 		&Up {
 			width: 100%;
@@ -99,8 +95,13 @@
 		&Down {
 			width: 100%;
 			display: flex;
+			flex-direction: column;
 			align-items: flex-start;
 			gap: 40px;
+
+			@media(min-width: v.$md) {
+				flex-direction: row;
+			}
 
 			.downInfo {
 				width: 100%;
