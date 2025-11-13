@@ -30,7 +30,7 @@ export default function About() {
 			}}
 		>
 			<h2 className="sr-only">Think of it like ordering pizza, you only pay for the slices you eat.</h2>
-			<Container maxWidth={846}>
+			<Container maxWidth={1046}>
 				<div className={s.aboutWrapper}>
 					<div className={s.aboutTop}>
 						<div className={s.aboutTopLeft}>

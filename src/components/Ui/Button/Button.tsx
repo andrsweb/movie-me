@@ -10,7 +10,7 @@ interface ButtonProps {
 	className?: string
 	href?: string
 	onClick?: () => void
-	color: 'violet' | 'transparent'
+	color: 'violet' | 'transparent' | "border"
 	type?: 'button' | 'submit' | 'reset'
 }
 

@@ -10,7 +10,7 @@
 	margin: 0;
 	background-color: transparent;
 	cursor: pointer;
-	border: none;
+	border: 1px solid transparent;
 	outline: none;
 	appearance: none;
 	user-select: none;
@@ -32,13 +32,33 @@
 	}
 
 	&.violet {
-		padding: 9px 22px;
+		padding: 8px 21px;
 		background-color: v.$c-violet;
 		font-family: v.$ff;
 		font-weight: 400;
 		font-size: 18px;
 		line-height: 22px;
 		color: v.$c-dark-blue;
+		border-radius: 5px;
+
+		@media(min-width: v.$md) {
+			padding: 10px 50px;
+		}
+
+		@include ui.hover {
+			background-color: v.$c-violet-dark;
+		}
+	}
+
+	&.border {
+		padding: 8px 21px;
+		background-color: transparent;
+		border: 1px solid v.$c-violet;
+		font-family: v.$ff;
+		font-weight: 400;
+		font-size: 18px;
+		line-height: 22px;
+		color: v.$c-violet;
 		border-radius: 5px;
 
 		@media(min-width: v.$md) {
