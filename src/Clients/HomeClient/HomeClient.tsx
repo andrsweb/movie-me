@@ -1,5 +1,6 @@
 import Hero from "@/components/Sections/Hero/Hero";
 import MoviePreview from "@/components/Sections/MoviePreview/MoviePreview";
+import About from "@/components/Sections/About/About";
 import s from './HomeClient.module.scss'
 
 export default function HomeClient() {
@@ -7,6 +8,7 @@ export default function HomeClient() {
 		<div className={s.page}>
 			<Hero/>
 			<MoviePreview/>
+			<About/>
 		</div>
 	)
 }
