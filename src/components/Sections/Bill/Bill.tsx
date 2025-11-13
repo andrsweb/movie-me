@@ -1,12 +1,33 @@
+"use client"
+
+import { useRef } from "react"
+import { motion, useScroll, useTransform } from "framer-motion"
 import s from './Bill.module.scss'
 import Image from 'next/image'
-import Container from "@/components/Common/Container/Container";
-import MaskText from "@/components/Ui/MaskText/MaskText";
-import Button from "@/components/Ui/Button/Button";
+import Container from "@/components/Common/Container/Container"
+import MaskText from "@/components/Ui/MaskText/MaskText"
+import Button from "@/components/Ui/Button/Button"
 
 export default function Bill() {
+	const sectionRef = useRef<HTMLElement>(null)
+
+	const { scrollYProgress } = useScroll({
+		target: sectionRef,
+		offset: ["start end", "end start"]
+	})
+	
+	const sectionOpacity = useTransform(scrollYProgress, [0, 0.4], [0, 1])
+	const sectionY = useTransform(scrollYProgress, [0, 0.6], [200, 0])
+
 	return (
-		<section className={s.bill}>
+		<motion.section 
+			ref={sectionRef}
+			className={s.bill}
+			style={{ 
+				opacity: sectionOpacity,
+				y: sectionY
+			}}
+		>
 			<Container maxWidth={1520}>
 				<h2 className="sr-only">Freedom and Control You decide your bill.</h2>
 				<div className={s.billWrapper}>
@@ -62,6 +83,6 @@ export default function Bill() {
 					</div>
 				</div>
 			</Container>
-		</section>
+		</motion.section>
 		)
 }

@@ -4,6 +4,10 @@
 .bill {
 	width: 100%;
 	padding: 100px 0;
+	position: relative;
+	margin-top: -30vh;
+	background-color: v.$c-dark;
+	z-index: 60;
 
 	&Wrapper {
 		width: 100%;
@@ -142,6 +146,7 @@
 		&Buttons {
 			width: 100%;
 			display: flex;
+			white-space: nowrap;
 			flex-direction: column;
 			align-items: center;
 			justify-content: flex-start;
