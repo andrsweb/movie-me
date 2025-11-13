@@ -24,6 +24,7 @@ export default function About() {
 							</h3>
 						</div>
 						<div className={s.aboutTopRight}>
+								{/*If you want to change delay - please * or / proportionally */}
 							<PieChart
 								size="sm"
 								sliceAngle={55}
@@ -81,8 +82,6 @@ export default function About() {
 					</div>
 				</div>
 			</Container>
-			{/*If you want to change delay - please * or / proportionally */}
-
 		</section>
 	)
 }
