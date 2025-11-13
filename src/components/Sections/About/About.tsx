@@ -14,11 +14,11 @@ export default function About() {
 
 	const { scrollYProgress } = useScroll({
 		target: sectionRef,
-		offset: ["start end", "center center"]
+		offset: ["start end", "end start"]
 	})
 	
-	const sectionOpacity = useTransform(scrollYProgress, [0, 1], [0, 1])
-	const sectionY = useTransform(scrollYProgress, [0, 1], [30, 0])
+	const sectionOpacity = useTransform(scrollYProgress, [0, 0.4], [0, 1])
+	const sectionY = useTransform(scrollYProgress, [0, 0.6], [200, 0])
 
 	return (
 		<motion.section 
