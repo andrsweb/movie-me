@@ -1,0 +1,59 @@
+@use "@/scss/variables/variables" as v;
+@use "@/scss/typography/mixins" as t;
+
+.paymentInfo {
+	position: absolute;
+	bottom: 100%;
+	left: 50%;
+	transform: translateX(-30%) !important;
+	margin-bottom: 20px;
+	z-index: 10;
+	
+	@media(min-width: v.$md) {
+		margin-bottom: 16px;
+		transform: translateX(-50%) !important;
+	}
+
+	.paymentContent {
+		background: v.$c-dark;
+		border-radius: 20px;
+		padding: 16px;
+		width: 300px;
+
+		@media(min-width: v.$md) {
+			padding: 20px;
+			width: 436px;
+		}
+
+	}
+
+	.paymentQuestion {
+		font-family: v.$ff;
+		font-weight: 400;
+		font-size: 16px;
+		line-height: 20px;
+		color: v.$c-white;
+		margin-bottom: 4px;
+
+		@media(min-width: v.$md) {
+			font-size: 22px;
+			line-height: 30px;
+		}
+	}
+
+	.paymentAnswer {
+		font-family: v.$ff;
+		font-weight: 700;
+		font-size: 22px;
+		line-height: 30px;
+		color: v.$c-white;
+
+		@media(min-width: v.$md) {
+			font-size: 32px;
+			line-height: 48px;
+		}
+	}
+}
+
+
+
