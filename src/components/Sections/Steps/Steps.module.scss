@@ -1,0 +1,147 @@
+@use '@/scss/variables/variables' as v;
+@use "@/scss/helpers/mixins" as m;
+
+.steps {
+	width: 100%;
+	padding: 100px 0;
+	background-color: v.$c-dark;
+	z-index: 65;
+
+	&Wrapper {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 30px;
+
+		@media(min-width: v.$lg) {
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			gap: 60px;
+		}
+	}
+
+	&Items {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+
+		@media(min-width: v.$lg) {
+			width: 50%;
+			max-width: 650px;
+		}
+	}
+
+	&Item {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 12px 30px;
+		border-radius: 50px;
+		background-color: #162542;
+		gap: 20px;
+		transition: background-color ease-in-out v.$tr, transform ease-in-out 0.5s;
+		cursor: pointer;
+
+		@media(min-width: v.$xl) {
+			padding: 20px 40px;
+		}
+
+		@include m.hover {
+			background-color: v.$c-blue;
+			transform: translateY(-2px);
+		}
+
+		&:active {
+			background-color: v.$c-blue;
+			transform: translateY(-1px);
+		}
+
+		&.active {
+			background-color: v.$c-blue;
+			transform: translateY(-2px);
+		}
+
+		h3 {
+			font-family: v.$ff;
+			font-weight: 400;
+			color: v.$c-white;
+			font-size: 18px;
+			line-height: 24px;
+			max-width: 80%;
+
+			@media(min-width: v.$xl) {
+				font-size: 32px;
+				line-height: 48px;
+			}
+		}
+	}
+
+	&Arrow {
+		display: flex;
+		align-items: center;
+		transition: transform ease 0.7s;
+
+		img {
+			width: auto;
+			height: 12px;
+
+			@media(min-width: v.$xl) {
+				height: 17px;
+			}
+		}
+
+		.active & {
+			transform: rotate(-90deg);
+		}
+	}
+
+	&Images {
+		position: relative;
+		width: 100%;
+		max-width: 350px;
+		height: 440px;
+		margin-top: 20px;
+
+		@media(min-width: v.$md) {
+			max-width: 400px;
+			height: 500px;
+		}
+
+		@media(min-width: v.$xl) {
+			width: 50%;
+			max-width: 466px;
+			height: 588px;
+			margin-top: 0;
+		}
+	}
+
+
+	&Image {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity ease-in-out 1s, visibility linear 1s;
+		pointer-events: none;
+
+		&.active {
+			opacity: 1;
+			z-index: 2;
+			visibility: visible;
+			transition: opacity ease-in-out 1s;
+		}
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+		}
+	}
+}

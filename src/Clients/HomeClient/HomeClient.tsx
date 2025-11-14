@@ -3,6 +3,7 @@ import MoviePreview from "@/components/Sections/MoviePreview/MoviePreview";
 import About from "@/components/Sections/About/About";
 import Bill from "@/components/Sections/Bill/Bill";
 import Fly from "@/components/Sections/Fly/Fly";
+import Steps from "@/components/Sections/Steps/Steps";
 import s from './HomeClient.module.scss'
 
 export default function HomeClient() {
@@ -13,6 +14,7 @@ export default function HomeClient() {
 			<About/>
 			<Bill/>
 			<Fly />
+			<Steps />
 		</div>
 	)
 }
