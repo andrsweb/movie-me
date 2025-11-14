@@ -97,3 +97,34 @@ export const trailTransition = {
 }
 
 export const trailContentDelayOffset = 0.4
+
+export type AnimatedTextDirection = 'left' | 'right' | 'top' | 'bottom'
+
+export const getAnimatedTextVariants = (direction: AnimatedTextDirection = 'left') => {
+	const distance = 100
+	const offsets = {
+		left: { x: -distance, y: 0 },
+		right: { x: distance, y: 0 },
+		top: { x: 0, y: -distance },
+		bottom: { x: 0, y: distance }
+	}
+	
+	return {
+		hidden: {
+			opacity: 0,
+			scale: 0.8,
+			...offsets[direction]
+		},
+		visible: {
+			opacity: 1,
+			scale: 1,
+			x: 0,
+			y: 0
+		}
+	}
+}
+
+export const animatedTextTransition = {
+	duration: 1.4,
+	ease: [0.25, 0.46, 0.45, 0.94] as const
+}

@@ -6,6 +6,7 @@ import Fly from "@/components/Sections/Fly/Fly";
 import Steps from "@/components/Sections/Steps/Steps";
 import Dropdowns from "@/components/Sections/Dropdowns/Dropdowns";
 import Cta from "@/components/Sections/Cta/Cta";
+import AnimatedText from "@/components/Sections/AnimatedText/AnimatedText";
 import s from './HomeClient.module.scss'
 
 export default function HomeClient() {
@@ -19,6 +20,7 @@ export default function HomeClient() {
 			<Steps />
 			<Dropdowns />
 			<Cta />
+			<AnimatedText />
 		</div>
 	)
 }
