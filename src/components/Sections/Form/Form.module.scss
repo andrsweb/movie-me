@@ -1,0 +1,257 @@
+@use '@/scss/variables/variables' as v;
+@use "@/scss/helpers/mixins" as m;
+
+.form {
+	width: 100%;
+	padding: 100px 0;
+	background-color: v.$c-dark;
+
+	&Wrapper {
+		width: 100%;
+		max-width: 707px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 30px;
+		text-align: center;
+		margin: 0 auto;
+
+		@media(min-width: v.$md) {
+			gap: 70px;
+		}
+
+		.browseLink {
+			width: 100%;
+			max-width: 350px;
+			font-family: v.$ff;
+			font-weight: 700;
+			font-size: 18px;
+			line-height: 22px;
+			padding: 15px 30px;
+			border: 1px solid #4F77C5;
+			color: #4F77C5;
+			margin-right: auto;
+			border-radius: 5px;
+			transition: color v.$tr ease, border-color v.$tr ease;
+			cursor: pointer;
+
+			@include m.hover {
+				color: v.$c-violet;
+				border-color: v.$c-violet;
+			}
+
+			@media(min-width: v.$md) {
+				padding: 20px 30px;
+			}
+		}
+	}
+
+	&Desc {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+
+		h3 {
+			display: flex;
+			flex-direction: column;
+			font-family: v.$ff;
+			font-weight: 700;
+			font-size: 32px;
+			line-height: 48px;
+			color: v.$c-white;
+
+			@media(min-width: v.$md) {
+				font-size: 60px;
+				line-height: 60px;
+			}
+
+			em {
+				position: relative;
+				z-index: 1;
+
+				&:after {
+					content: '';
+					position: absolute;
+					left: 50%;
+					transform: translateX(-50%);
+					bottom: 5%;
+					display: block;
+					width: 105%;
+					height: 15%;
+					opacity: 1;
+					background-color: v.$c-blue;
+					z-index: -1;
+
+					@media(min-width: v.$md) {
+						height: 20%;
+						bottom: 15%;
+					}
+				}
+			}
+		}
+
+		p {
+			font-family: v.$ff;
+			font-weight: 400;
+			font-size: 16px;
+			line-height: 20px;
+			color: v.$c-white;
+
+			@media(min-width: v.$md) {
+				font-size: 22px;
+				line-height: 30px;
+			}
+		}
+	}
+
+	&Container {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 30px;
+		margin-right: auto;
+
+		.tabsContainer {
+			position: relative;
+			display: flex;
+			border-radius: 5px;
+			max-width: 152px;
+
+			&:after {
+				content: '';
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				width: calc(100% - 1px);
+				height: calc(100% - 1px);
+				border-radius: 5px;
+				outline: 1px solid #29406D;
+			}
+
+			.tabBackground {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 50%;
+				height: calc(100% + 1px);
+				background-color: v.$c-violet;
+				border-radius: 8px;
+				z-index: 2;
+			}
+		}
+
+		.formButton {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			position: relative;
+			padding: 10px 20px;
+			background: transparent;
+			border-radius: 5px;
+			width: 76px;
+			border: 0;
+			min-height: 40px;
+			font-family: v.$ff;
+			font-weight: 600;
+			font-size: 14px;
+			line-height: 18px;
+			color: #7A7A7A;
+			cursor: pointer;
+			transition: color v.$tr ease;
+			z-index: 2;
+
+			@media(min-width: v.$md) {
+				font-size: 14px;
+				line-height: 18px;
+			}
+
+			@include m.hover {
+				color: v.$c-white;
+			}
+
+			&Active {
+				color: v.$c-black;
+				border-color: transparent;
+			}
+		}
+
+		.inputContainer {
+			position: relative;
+			max-width: 350px;
+
+			.inputWrapper {
+				display: flex;
+				flex-direction: column;
+				gap: 12px;
+			}
+
+			.inputLabel {
+				font-family: v.$ff;
+				font-weight: 400;
+				font-size: 14px;
+				line-height: 18px;
+				color: v.$c-white;
+				text-align: left;
+			}
+
+			.inputGroup {
+				position: relative;
+				display: flex;
+				align-items: center;
+			}
+
+			.input {
+				width: 100%;
+				padding: 16px 60px 10px 20px;
+				background-color: transparent;
+				border: 0;
+				border-bottom: 1px solid v.$c-white;
+				font-family: v.$ff;
+				font-size: 16px;
+				color: v.$c-white;
+				backdrop-filter: blur(10px);
+				transition: all v.$tr ease;
+
+				&::placeholder {
+					color: v.$c-white;
+					opacity: 0.7;
+				}
+
+				&:focus {
+					outline: none;
+					border-color: v.$c-violet;
+					background-color: rgba(255, 255, 255, 0.10);
+					border-radius: 5px;
+				}
+			}
+
+			.submitButton {
+				position: absolute;
+				right: 0;
+				top: 50%;
+				transform: translateY(-50%);
+				width: 40px;
+				height: 40px;
+				background-color: v.$c-violet;
+				border: none;
+				border-radius: 8px;
+				color: v.$c-black;
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: all v.$tr ease;
+
+				@include m.hover {
+					background-color: v.$c-violet-dark;
+					transform: translateY(-50%) scale(1.05);
+				}
+
+				svg {
+					width: 20px;
+					height: 20px;
+				}
+			}
+		}
+	}
+}
