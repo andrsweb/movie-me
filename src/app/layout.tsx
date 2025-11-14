@@ -2,6 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 import { Instrument_Sans } from "next/font/google";
 import Header from "@/components/Common/Header/Header";
+import Footer from "@/components/Common/Footer/Footer";
 import "../scss/main.scss";
 
 const instrumentSans = Instrument_Sans({
@@ -26,6 +27,7 @@ export default function RootLayout({
 		<body className={`${instrumentSans.variable}`}>
 		<Header/>
 		{children}
+		<Footer/>
 		</body>
 		</html>
 	);
