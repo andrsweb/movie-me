@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from 'framer-motion';
-import React,{ useEffect, useState } from 'react';
+import { motion, useReducedMotion, useInView } from 'framer-motion';
+import React,{ useEffect, useState, useRef } from 'react';
 import s from './PieChart.module.scss';
 
 type PieChartSize = 'sm' | 'md' | 'lg';
@@ -45,6 +45,8 @@ export default function PieChart({
 	sliceDistance1 = 15,
 	sliceDistance2 = 30
 }: PieChartProps) {
+	const chartRef = useRef<HTMLDivElement>(null);
+	const isInView = useInView(chartRef, { margin: "0px 0px -100px 0px" });
 	const [showHole, setShowHole] = useState(false);
 	const [animationStep, setAnimationStep] = useState(0);
 	const prefersReducedMotion = useReducedMotion();
@@ -80,8 +82,9 @@ export default function PieChart({
 	`;
 
 	useEffect(() => {
+		if (!isInView || prefersReducedMotion) return;
+		
 		const startAnimation = () => {
-			
 			setTimeout(() => {
 				setShowHole(true);
 				setAnimationStep(1);
@@ -100,8 +103,10 @@ export default function PieChart({
 		};
 
 		const timeout = setTimeout(startAnimation, initialDelay);
-		return () => clearTimeout(timeout);
-	}, [animationDuration, step1Duration, step2Duration, returnDelay, cyclePause, initialDelay]);
+		return () => {
+			clearTimeout(timeout);
+		};
+	}, [animationDuration, step1Duration, step2Duration, returnDelay, cyclePause, initialDelay, isInView, prefersReducedMotion]);
 
 	const sizeClass = typeof size === 'string' ? s[`size${size.toUpperCase()}`] : s.sizeMD;
 
@@ -135,9 +140,10 @@ export default function PieChart({
 	const circleOffset = getCircleOffset();
 
 	return (
-		<div className={`${s.pieChart} ${className}`}>
+		<div ref={chartRef} className={`${s.pieChart} ${className}`}>
 			<svg className={`${s.svg} ${sizeClass}`} viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
 				<motion.g
+					style={{ willChange: 'transform' }}
 					animate={{ y: circleOffset }}
 					transition={{
 						duration: prefersReducedMotion ? 0.1 : returnDuration / 1000,
@@ -162,6 +168,7 @@ export default function PieChart({
 
 				<motion.path
 					d={slicePath}
+					style={{ willChange: 'transform, fill' }}
 					animate={{
 						fill: animationStep > 0 ? sliceColor : mainColor,
 						x: slicePos.x,

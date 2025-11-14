@@ -89,6 +89,7 @@
 		aspect-ratio: 1;
 		z-index: 1;
 		pointer-events: none;
+		will-change: transform, opacity;
 
 		@media(min-width: v.$md) {
 			width: 40px;

@@ -7,6 +7,7 @@
 	bottom: 0;
 	left: 0;
 	padding: 20px 0;
+	will-change: transform, opacity;
 
 	@media(min-width: v.$md) {
 		padding: 32px 40px;
@@ -52,6 +53,7 @@
 		background: rgba(v.$c-gold, 0.6);
 		border-radius: inherit;
 		transition: width 0.2s ease;
+		will-change: width;
 	}
 	
 	&Fill {
@@ -61,11 +63,13 @@
 		height: 100%;
 		border-radius: 10px;
 		background-color: v.$c-gold;
+		will-change: width;
 	}
 	
 	&Thumb {
 		position: absolute;
 		top: 50%;
+		will-change: transform;
 		width: 16px;
 		height: 16px;
 		background-color: v.$c-gold;

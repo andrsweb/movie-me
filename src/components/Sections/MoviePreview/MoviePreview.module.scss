@@ -9,6 +9,7 @@
 	height: 100dvh;
 	z-index: 51;
 	padding: 82px 20px;
+	will-change: transform, opacity;
 
 	@media(min-width: v.$md) {
 		padding: 50px 50px;

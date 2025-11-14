@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useState } from "react"
-import { motion, useScroll, useMotionValueEvent, useTransform } from "framer-motion"
+import { motion, useScroll, useMotionValueEvent, useTransform, useInView } from "framer-motion"
 import Image from "next/image"
 import s from './Fly.module.scss'
 import Container from "@/components/Common/Container/Container"
@@ -24,6 +24,7 @@ const logoPositions = [
 export default function Fly() {
 	const sectionRef = useRef<HTMLElement>(null)
 	const [isAnimated, setIsAnimated] = useState(false)
+	const isInView = useInView(sectionRef, { margin: "0px 0px -200px 0px" })
 
 	const { scrollYProgress } = useScroll({
 		target: sectionRef,
@@ -64,10 +65,14 @@ export default function Fly() {
 						opacity: 0,
 						rotate: 0
 					}}
-					animate={isAnimated ? {
+					animate={isAnimated && isInView ? {
 						y: [0, -10, 0],
 						opacity: 1,
 						rotate: [0, 5, -5, 0]
+					} : isAnimated ? {
+						y: 0,
+						opacity: 1,
+						rotate: 0
 					} : {
 						y: -200,
 						opacity: 0
@@ -75,15 +80,19 @@ export default function Fly() {
 					transition={{
 						delay: logo.id * 0.1,
 						duration: 0.8,
-						y: {
+						y: isInView ? {
 							repeat: Infinity,
 							repeatType: "reverse",
 							duration: 2 + (logo.id % 3) * 0.5
+						} : {
+							duration: 0.3
 						},
-						rotate: {
+						rotate: isInView ? {
 							repeat: Infinity,
 							repeatType: "reverse",
 							duration: 3 + (logo.id % 4) * 0.3
+						} : {
+							duration: 0.3
 						}
 					}}
 				>

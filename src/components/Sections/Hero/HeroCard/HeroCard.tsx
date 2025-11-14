@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 import { motion, useScroll, useTransform, useMotionValueEvent, useReducedMotion } from 'framer-motion'
 import clsx from 'clsx'
 import type { Movie } from '@/types/movie'
@@ -61,15 +61,45 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 		offset: ["start end", "start center"]
 	})
 
-	useMotionValueEvent(scrollYProgress, "change", (latest) => {
-		if (latest >= 1 && !isShowed) {
+	const handleScrollEffects = useCallback(() => {
+		const scrollValue = scrollYProgress.get()
+		const shrinkValue = shrinkProgress.get()
+		const cardsValue = cardsProgress.get()
+		
+		if (scrollValue >= 1 && !isShowed) {
 			setIsShowed(true)
 			onShowChange?.(true)
-		} else if (latest < 1 && isShowed) {
+		} else if (scrollValue < 1 && isShowed) {
 			setIsShowed(false)
 			onShowChange?.(false)
 		}
-	})
+		
+		if (shrinkValue >= 0.3 && !showDesc) {
+			setShowDesc(true)
+		} else if (shrinkValue < 0.3 && showDesc) {
+			setShowDesc(false)
+		}
+		
+		if (shrinkValue >= 0.5 && !showText) {
+			setShowText(true)
+		} else if (shrinkValue < 0.5 && showText) {
+			setShowText(false)
+		}
+		
+		if (cardsValue >= 1 && !isExpanded) {
+			setIsExpanded(true)
+		} else if (cardsValue < 1 && isExpanded) {
+			setIsExpanded(false)
+		}
+		
+		if (cardsValue >= 1 && !isFinish) {
+			setIsFinish(true)
+		} else if (cardsValue < 1 && isFinish) {
+			setIsFinish(false)
+		}
+	}, [scrollYProgress, shrinkProgress, cardsProgress, isShowed, showDesc, showText, isExpanded, isFinish, onShowChange])
+	
+	useMotionValueEvent(scrollYProgress, "change", handleScrollEffects)
 
 	const imgHeight = useTransform(
 		shrinkProgress,
@@ -89,33 +119,9 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 		[0, 400]
 	)
 
-	useMotionValueEvent(shrinkProgress, "change", (latest) => {
-		if (latest >= 0.3 && !showDesc) {
-			setShowDesc(true)
-		} else if (latest < 0.3 && showDesc) {
-			setShowDesc(false)
-		}
+	useMotionValueEvent(shrinkProgress, "change", handleScrollEffects)
 
-		if (latest >= 0.5 && !showText) {
-			setShowText(true)
-		} else if (latest < 0.5 && showText) {
-			setShowText(false)
-		}
-	})
-
-	useMotionValueEvent(cardsProgress, "change", (latest) => {
-		if (latest >= 1 && !isExpanded) {
-			setIsExpanded(true)
-		} else if (latest < 1 && isExpanded) {
-			setIsExpanded(false)
-		}
-
-		if (latest >= 1 && !isFinish) {
-			setIsFinish(true)
-		} else if (latest < 1 && isFinish) {
-			setIsFinish(false)
-		}
-	})
+	useMotionValueEvent(cardsProgress, "change", handleScrollEffects)
 
 	return (
 		<div ref={containerRef} className={s.heroCardContainer}>

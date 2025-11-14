@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useRef, useEffect } from 'react'
-import { useInView } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { motion, useInView, useMotionValue, useReducedMotion, useSpring, useTransform } from 'framer-motion'
 import clsx from 'clsx'
 import PaymentInfo from '../PaymentInfo/PaymentInfo'
 import { formatTime } from '@/lib/utils'
@@ -16,64 +16,63 @@ export default function Track({ totalTime, className }: TrackProps) {
 	const trackRef = useRef<HTMLDivElement>(null)
 	const isInView = useInView(trackRef, { once: true })
 	const [showPayment, setShowPayment] = useState(false)
-	const [animatedTime, setAnimatedTime] = useState(0)
+	const [currentTime, setCurrentTime] = useState(0)
+	const prefersReducedMotion = useReducedMotion()
+	
+	const animatedTime = useMotionValue(0)
+	const springTime = useSpring(animatedTime, { 
+		stiffness: 50, 
+		damping: 30,
+		duration: prefersReducedMotion ? 0.1 : 3
+	})
+	const progressWidth = useTransform(springTime, (value) => `${(value / totalTime) * 100}%`)
+
+	useEffect(() => {
+		return springTime.on( "change", ( latest ) => {
+			setCurrentTime( Math.round( latest ) )
+		} )
+	}, [springTime])
 
 	useEffect(() => {
 		if (isInView) {
-			const duration = 3000
-			const startTime = Date.now()
+			const targetTime = 1800
+			animatedTime.set(targetTime)
 			
-			const animate = () => {
-				const elapsed = Date.now() - startTime
-				const progress = Math.min(elapsed / duration, 1)
-				const currentTime = progress * 1800
-				
-				setAnimatedTime(currentTime)
-				
-				if (progress < 1) {
-					requestAnimationFrame(animate)
-				} else {
-					setShowPayment(true)
-				}
-			}
+			const timer = setTimeout(() => {
+				setShowPayment(true)
+			}, prefersReducedMotion ? 100 : 3000)
 			
-			animate()
+			return () => clearTimeout(timer)
 		}
-	}, [isInView])
+	}, [isInView, animatedTime, prefersReducedMotion])
 
 	return (
 		<div ref={trackRef} className={clsx(s.track, className)}>
 			<div className={s.trackProgress}>
 				<div className={s.trackBar}>
-					<div 
+					<motion.div 
 						className={s.trackWatched}
-						style={{ 
-							width: `${(animatedTime / totalTime) * 100}%`
-						}}
+						style={{ width: progressWidth }}
 					/>
-					<div 
+					<motion.div 
 						className={s.trackFill}
-						style={{ 
-							width: `${(animatedTime / totalTime) * 100}%`
-						}}
+						style={{ width: progressWidth }}
 					/>
-					<div 
+					<motion.div 
 						className={s.trackThumb}
-						style={{ 
-							left: `${(animatedTime / totalTime) * 100}%`
-						}}
+						style={{ left: progressWidth }}
 					>
 						<PaymentInfo 
 							isVisible={showPayment}
 							watchedMinutes={30}
 							pricePerMinute={0.15}
 						/>
-					</div>
+					</motion.div>
 				</div>
 				
 				<div className={s.trackTime}>
 					<span className={s.trackCurrent}>
-						{formatTime(Math.round(animatedTime))}
+						{formatTime(currentTime)}
 					</span>
 					<span className={s.trackTotal}>{formatTime(totalTime)}</span>
 				</div>

@@ -8,6 +8,7 @@
 	margin-top: -20vh;
 	background-color: v.$c-dark;
 	z-index: 60;
+	will-change: transform, opacity;
 
 	&Wrapper {
 		width: 100%;
