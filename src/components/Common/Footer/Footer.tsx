@@ -139,6 +139,7 @@ export default function Footer() {
 							</div>
 						</div>
 					</div>
+					<Image className={s.movie} src="/img/svg/movie-me.svg" width={1400} height={256} alt="MovieMe" />
 				</div>
 			</Container>
 		</footer>
