@@ -5,6 +5,7 @@ import Bill from "@/components/Sections/Bill/Bill";
 import Fly from "@/components/Sections/Fly/Fly";
 import Steps from "@/components/Sections/Steps/Steps";
 import Dropdowns from "@/components/Sections/Dropdowns/Dropdowns";
+import Cta from "@/components/Sections/Cta/Cta";
 import s from './HomeClient.module.scss'
 
 export default function HomeClient() {
@@ -17,6 +18,7 @@ export default function HomeClient() {
 			<Fly />
 			<Steps />
 			<Dropdowns />
+			<Cta />
 		</div>
 	)
 }
