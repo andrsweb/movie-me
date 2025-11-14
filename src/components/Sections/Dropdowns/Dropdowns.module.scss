@@ -1,0 +1,131 @@
+@use "@/scss/variables/variables" as v;
+@use "@/scss/helpers/mixins" as m;
+
+.dropdowns {
+	width: 100%;
+	padding: 80px 0;
+	background-color: v.$c-dark;
+
+	&Items {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 2px;
+		max-width: 900px;
+		margin: 0 auto;
+
+	}
+
+	&Item {
+		width: 100%;
+		background-color: v.$c-dark;
+		position: relative;
+
+		&.active {
+			h3 {
+				color: v.$c-violet;
+			}
+		}
+
+		&:after {
+			content: '';
+			position: absolute;
+			bottom: 0;
+			width: 100vw;
+			margin-left: calc(50% - 50vw);
+			height: 1px;
+			background-color: #162542;
+			left: 0;
+		}
+	}
+
+	&Header {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		gap: 20px;
+		padding: 24px 0;
+		background-color: transparent;
+		border: none;
+		cursor: pointer;
+		text-align: left;
+		transition: all ease v.$tr;
+
+		@include m.hover {
+			color: v.$c-violet;
+		}
+
+		h3 {
+			font-family: v.$ff;
+			font-weight: 400;
+			color: v.$c-white;
+			font-size: 18px;
+			line-height: 24px;
+			transition: color ease v.$tr;
+
+			@media(min-width: v.$md) {
+				font-size: 24px;
+				line-height: 32px;
+			}
+
+			@media(min-width: v.$xl) {
+				font-size: 32px;
+				line-height: 48px;
+			}
+		}
+	}
+
+	&Arrow {
+		width: 40px;
+		height: 40px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: background-color ease 0.7s;
+
+		img {
+			width: auto;
+			height: 10px;
+			transition: transform ease 0.7s;
+
+			@media(min-width: v.$xl) {
+				height: 14px;
+			}
+		}
+
+		.active & {
+			background-color: v.$c-blue;
+
+			img {
+				transform: rotate(-90deg);
+			}
+		}
+	}
+
+	&Content {
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height ease 0.4s;
+
+		.active & {
+			max-height: 2000px;
+		}
+	}
+
+	&Text {
+		font-family: v.$ff;
+		font-weight: 400;
+		color: #d1d5db;
+		font-size: 16px;
+		line-height: 24px;
+		white-space: pre-line;
+		padding-bottom: 32px;
+
+		@media(min-width: v.$md) {
+			font-size: 18px;
+			line-height: 28px;
+		}
+	}
+}

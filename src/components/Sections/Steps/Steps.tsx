@@ -4,6 +4,7 @@ import { useState } from 'react'
 import s from './Steps.module.scss'
 import Image from "next/image"
 import Container from "@/components/Common/Container/Container"
+import clsx from 'clsx'
 
 const steps = [
 	{ id: 1, title: "Add your card. ₹0 now.", imageUrl: "/img/s4.png" },
@@ -24,7 +25,9 @@ export default function Steps() {
 						{steps.map((step) => (
 							<div 
 								key={step.id}
-								className={`${s.stepsItem} ${activeStep === step.id ? s.active : ''}`}
+								className={clsx(s.stepsItem, {
+									[s.active]: activeStep === step.id
+								})}
 								onMouseEnter={() => setActiveStep(step.id)}
 								onClick={() => setActiveStep(step.id)}
 							>
@@ -44,7 +47,9 @@ export default function Steps() {
 						{steps.map((step) => (
 							<div 
 								key={step.id}
-								className={`${s.stepsImage} ${activeStep === step.id ? s.active : ''}`}
+								className={clsx(s.stepsImage, {
+									[s.active]: activeStep === step.id
+								})}
 							>
 								<Image 
 									src={step.imageUrl} 
