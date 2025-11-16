@@ -1,5 +1,5 @@
-@forward 'colors';
-@forward 'fonts';
-@forward 'grid';
-@forward 'animations';
-@forward 'other';
+@forward '@/scss/variables/colors';
+@forward '@/scss/variables/fonts';
+@forward '@/scss/variables/grid';
+@forward '@/scss/variables/animations';
+@forward '@/scss/variables/other';
