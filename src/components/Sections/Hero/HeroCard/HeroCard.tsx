@@ -9,7 +9,6 @@ import s from "./HeroCard.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "@/components/Ui/Button/Button";
-import TrailText from "@/components/Ui/TrailText/TrailText";
 import MaskText from "@/components/Ui/MaskText/MaskText";
 
 function HeroCardList({ data, start, end }: { data: Movie[]; start: number; end: number }) {
@@ -172,36 +171,31 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 						viewport={{ once: true, margin: "0px 0px -200px 0px" }}
 						transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
 					>
-						<TrailText 
+						<MaskText 
 							as="h3" 
 							show={isExpanded}
-							mode={"show"}
 							className={s.heroCardItemsTextTitle}
-							delay={2}
-							trailDirection={"left"}
-							containerDirection={"bottom"}
 						>
 							With MovieMe there are <br/>
 							<span>
 								no monthly fees
 							</span>
-						</TrailText>
-						<TrailText 
+						</MaskText>
+						<MaskText 
 							as="h3"
 							show={isExpanded}
-							delay={0.5}
 							className={s.heroCardItemsTextSubtitle}
-							trailDirection={"right"}
-							containerDirection={"bottom"}
+							delay={1}
 						>
-							<strong>
-								Just pay for the
-							</strong>
 							<br/>
-							<strong>
+							<em>
+								Just pay for the
+							</em>
+							<br/>
+							<em>
 								movies you watch.
-							</strong>
-						</TrailText>
+							</em>
+						</MaskText>
 					</motion.div>
 					<motion.div 
 						className={s.heroCardItems}
