@@ -33,6 +33,7 @@ export default function Fly() {
 
 	const sectionOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1])
 	const sectionY = useTransform(scrollYProgress, [0, 0.5], [100, 0])
+	const itemsScrollY = useTransform(scrollYProgress, [0, 1], [0, -320])
 
 	useMotionValueEvent(scrollYProgress, "change", (latest) => {
 		if (latest >= 0.2 && !isAnimated) {
@@ -49,61 +50,72 @@ export default function Fly() {
 				y: sectionY
 			}}
 		>
-			{logoPositions.map((logo) => (
-				<motion.div
-					key={logo.id}
-					className={s.flyLogo}
-					style={{
-						position: 'absolute',
-						top: logo.top,
-						left: logo.left,
-						right: logo.right,
-						bottom: logo.bottom
-					}}
-					initial={{ 
-						y: -200, 
-						opacity: 0,
-						rotate: 0
-					}}
-					animate={isAnimated && isInView ? {
-						y: [0, -10, 0],
-						opacity: 1,
-						rotate: [0, 5, -5, 0]
-					} : isAnimated ? {
-						y: 0,
-						opacity: 1,
-						rotate: 0
-					} : {
-						y: -200,
-						opacity: 0
-					}}
-					transition={{
-						delay: logo.id * 0.1,
-						duration: 0.8,
-						y: isInView ? {
-							repeat: Infinity,
-							repeatType: "reverse",
-							duration: 2 + (logo.id % 3) * 0.5
+			<motion.div
+				style={{
+					position: 'absolute',
+					top: 0,
+					left: 0,
+					width: '100%',
+					height: '100%',
+					y: itemsScrollY
+				}}
+			>
+				{logoPositions.map((logo) => (
+					<motion.div
+						key={logo.id}
+						className={s.flyLogo}
+						style={{
+							position: 'absolute',
+							top: logo.top,
+							left: logo.left,
+							right: logo.right,
+							bottom: logo.bottom
+						}}
+						initial={{ 
+							y: -200, 
+							opacity: 0,
+							rotate: 0
+						}}
+						animate={isAnimated && isInView ? {
+							y: [0, -10, 0],
+							opacity: 1,
+							rotate: [0, 5, -5, 0]
+						} : isAnimated ? {
+							y: 0,
+							opacity: 1,
+							rotate: 0
 						} : {
-							duration: 0.3
-						},
-						rotate: isInView ? {
-							repeat: Infinity,
-							repeatType: "reverse",
-							duration: 3 + (logo.id % 4) * 0.3
-						} : {
-							duration: 0.3
-						}
-					}}
-				>
-					<Image 
-						src={`/img/svg/${logo.id}.svg`} 
-						width={40} 
-						height={40} 
-						alt={`Logo ${logo.id}`}
-					/>
-				</motion.div>
-			))}
+							y: -200,
+							opacity: 0
+						}}
+						transition={{
+							delay: logo.id * 0.1,
+							duration: 0.8,
+							y: isInView ? {
+								repeat: Infinity,
+								repeatType: "reverse",
+								duration: 2 + (logo.id % 3) * 0.5
+							} : {
+								duration: 0.3
+							},
+							rotate: isInView ? {
+								repeat: Infinity,
+								repeatType: "reverse",
+								duration: 3 + (logo.id % 4) * 0.3
+							} : {
+								duration: 0.3
+							}
+						}}
+					>
+						<Image 
+							src={`/img/svg/${logo.id}.svg`} 
+							width={40} 
+							height={40} 
+							alt={`Logo ${logo.id}`}
+						/>
+					</motion.div>
+				))}
+			</motion.div>
 
 			<Container maxWidth={1540}>
 				<h2 className="sr-only">
