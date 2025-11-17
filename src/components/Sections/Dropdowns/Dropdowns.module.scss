@@ -26,6 +26,12 @@
 			h3 {
 				color: v.$c-violet;
 			}
+
+			.dropdownsHeader {
+				&:before {
+					opacity: 1;
+				}
+			}
 		}
 
 		&:after {
@@ -37,6 +43,14 @@
 			height: 1px;
 			background-color: #162542;
 			left: 0;
+		}
+
+		@include m.hover {
+			.dropdownsHeader {
+				&:before {
+					opacity: 1;
+				}
+			}
 		}
 	}
 
@@ -52,6 +66,20 @@
 		cursor: pointer;
 		text-align: left;
 		transition: all ease v.$tr;
+		position: relative;
+
+		&:before {
+			content: '';
+			position: absolute;
+			top: -2px;
+			width: 100vw;
+			opacity: 0;
+			margin-left: calc(50% - 50vw);
+			height: 100%;
+			background-color: #162542;
+			left: 0;
+			transition: opacity ease v.$tr;
+		}
 
 		@include m.hover {
 			color: v.$c-violet;
@@ -64,6 +92,8 @@
 			font-size: 18px;
 			line-height: 24px;
 			transition: color ease v.$tr;
+			position: relative;
+			z-index: 1;
 
 			@media(min-width: v.$md) {
 				font-size: 24px;
@@ -84,6 +114,8 @@
 		align-items: center;
 		justify-content: center;
 		transition: background-color ease 0.7s;
+		position: relative;
+		z-index: 1;
 
 		img {
 			width: auto;
