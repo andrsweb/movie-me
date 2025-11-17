@@ -17,6 +17,10 @@
 		@include t.text-em
 	}
 
+	span span {
+		color: v.$c-violet;
+	}
+
 	.trailGhost {
 		position: absolute;
 		left: 0;

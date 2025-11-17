@@ -182,9 +182,9 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 							containerDirection={"bottom"}
 						>
 							With MovieMe there are <br/>
-							<em>
+							<span>
 								no monthly fees
-							</em>
+							</span>
 						</TrailText>
 						<TrailText 
 							as="h3"

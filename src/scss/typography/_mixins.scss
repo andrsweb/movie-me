@@ -28,8 +28,6 @@
 @mixin text-em() {
 	position: relative;
 	z-index: 1;
-	animation: textColorAnim forwards 4s ease-in;
-	animation-delay: 2s;
 
 	&:after {
 		content: '';
@@ -40,25 +38,13 @@
 		display: block;
 		width: 101%;
 		height: 15%;
-		opacity: 0;
+		opacity: 1;
 		background-color: v.$c-blue;
 		z-index: -1;
-		animation: afterFadeIn 6s forwards ease-in;
 
 		@media(min-width: v.$md) {
 			height: 20%;
 			bottom: 15%;
 		}
-	}
-
-	@keyframes textColorAnim {
-		0% { color: v.$c-white; }
-		100% { color: v.$c-violet; }
-	}
-
-	@keyframes afterFadeIn {
-		0% { opacity: 0; }
-		20% { opacity: 1; }
-		100% { opacity: 0; }
 	}
 }
