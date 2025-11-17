@@ -103,13 +103,13 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 	const imgHeight = useTransform(
 		shrinkProgress,
 		[0, 1],
-		[700, 510]
+		["80vh", "30vh"]
 	)
 
 	const cardsTranslateX1 = useTransform(
 		shrinkProgress,
 		[0, 1],
-		[0, -300]
+		[0, 300]
 	)
 
 	const cardsTranslateX2 = useTransform(

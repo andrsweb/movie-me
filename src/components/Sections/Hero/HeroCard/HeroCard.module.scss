@@ -67,7 +67,7 @@
 		width: 100%;
 		padding: 20px;
 		position: relative;
-		will-change: height;
+		aspect-ratio: 16 / 9;
 
 		img {
 			position: absolute;
