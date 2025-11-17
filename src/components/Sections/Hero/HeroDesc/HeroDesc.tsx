@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
-import TrailText from '@/components/Ui/TrailText/TrailText'
+import MaskText from '@/components/Ui/MaskText/MaskText'
 import s from "./HeroDesc.module.scss";
 
 export default function HeroDesc() {
@@ -43,36 +43,26 @@ export default function HeroDesc() {
 			}}
 		>
 			<div className={s.m}>
-				<TrailText
+				<MaskText
 					as="p"
-					show={hideText}
-					mode="hide"
-					trailDirection="right"
-					containerDirection="bottom"
+					show={!hideText}
 				>
 					You don’t need <br/> one more subscription
-				</TrailText>
+				</MaskText>
 			</div>
 			<div className={s.d}>
-				<TrailText
+				<MaskText
 					as="p"
-					show={hideText}
-					mode="hide"
-					trailDirection="right"
-					containerDirection="bottom"
+					show={!hideText}
 				>
 					Subscriptions are a trap
-				</TrailText>
-				<TrailText
+				</MaskText>
+				<MaskText
 					as="h2"
-					show={hideText}
-					mode="hide"
-					delay={0.1}
-					trailDirection="right"
-					containerDirection="right"
+					show={!hideText}
 				>
 					Curated cinema, <br/> on your terms
-				</TrailText>
+				</MaskText>
 			</div>
 		</motion.div>
 	)
