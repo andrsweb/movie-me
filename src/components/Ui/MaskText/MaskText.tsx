@@ -11,9 +11,10 @@ interface MaskTextProps {
 	show: boolean
 	as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div'
 	className?: string
+	delay?: number
 }
 
-export default function MaskText({ children, show, as = 'div', className }: MaskTextProps) {
+export default function MaskText({ children, show, as = 'div', className, delay = 0 }: MaskTextProps) {
 	const prefersReducedMotion = useReducedMotion()
 	const Component = motion[as]
 
@@ -23,7 +24,7 @@ export default function MaskText({ children, show, as = 'div', className }: Mask
 			initial="hidden"
 			animate={show ? "visible" : "hidden"}
 			variants={prefersReducedMotion ? {} : maskTextVariants}
-			transition={prefersReducedMotion ? {} : maskTransition}
+			transition={prefersReducedMotion ? {} : { ...maskTransition, delay }}
 		>
 			{children}
 		</Component>
