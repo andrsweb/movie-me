@@ -4,10 +4,7 @@ import { motion, useReducedMotion, useInView } from 'framer-motion';
 import React,{ useEffect, useState, useRef } from 'react';
 import s from './PieChart.module.scss';
 
-type PieChartSize = 'sm' | 'md' | 'lg';
-
 interface PieChartProps {
-	size?: number | PieChartSize;
 	sliceAngle?: number;
 	mainColor?: string;
 	sliceColor?: string;
@@ -27,7 +24,6 @@ interface PieChartProps {
 }
 
 export default function PieChart({
-	size = 'md',
 	sliceAngle = 60,
 	mainColor = '#3C588F',
 	sliceColor = '#29406D',
@@ -51,8 +47,8 @@ export default function PieChart({
 	const [animationStep, setAnimationStep] = useState(0);
 	const prefersReducedMotion = useReducedMotion();
 
-	const radius = 50;
-	const center = radius;
+	const radius = 100;
+	const center = 150;
 
 	const startAngle = flyAngle;
 	const endAngle = startAngle + sliceAngle;
@@ -84,31 +80,38 @@ export default function PieChart({
 	useEffect(() => {
 		if (!isInView || prefersReducedMotion) return;
 		
+		const timeouts: NodeJS.Timeout[] = [];
+		
 		const startAnimation = () => {
-			setTimeout(() => {
+			const t1 = setTimeout(() => {
 				setShowHole(true);
 				setAnimationStep(1);
 			}, step1Duration);
+			timeouts.push(t1);
 			
-			setTimeout(() => setAnimationStep(2), step2Duration);
+			const t2 = setTimeout(() => setAnimationStep(2), step2Duration);
+			timeouts.push(t2);
 			
-			setTimeout(() => {
+			const t3 = setTimeout(() => {
 				setAnimationStep(0);
 			}, returnDelay);
+			timeouts.push(t3);
 			
-			setTimeout(() => {
+			const t4 = setTimeout(() => {
 				setShowHole(false);
-				setTimeout(startAnimation, cyclePause);
+				const t5 = setTimeout(startAnimation, cyclePause);
+				timeouts.push(t5);
 			}, animationDuration);
+			timeouts.push(t4);
 		};
 
 		const timeout = setTimeout(startAnimation, initialDelay);
+		timeouts.push(timeout);
+		
 		return () => {
-			clearTimeout(timeout);
+			timeouts.forEach(t => clearTimeout(t));
 		};
 	}, [animationDuration, step1Duration, step2Duration, returnDelay, cyclePause, initialDelay, isInView, prefersReducedMotion]);
-
-	const sizeClass = typeof size === 'string' ? s[`size${size.toUpperCase()}`] : s.sizeMD;
 
 	const getSlicePosition = () => {
 		const circleOffset = getCircleOffset();
@@ -141,26 +144,27 @@ export default function PieChart({
 
 	return (
 		<div ref={chartRef} className={`${s.pieChart} ${className}`}>
-			<svg className={`${s.svg} ${sizeClass}`} viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+			<svg className={s.svg} viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet" shapeRendering="crispEdges" overflow="visible">
 				<motion.g
 					style={{ willChange: 'transform' }}
 					animate={{ y: circleOffset }}
 					transition={{
 						duration: prefersReducedMotion ? 0.1 : returnDuration / 1000,
-						ease: [0.42, 0, 0.58, 1]
+						ease: [0.42, 0, 0.58, 1],
+						type: 'tween'
 					}}
 				>
-					{showHole && (
-						<path
-							d={mainPath}
-							fill={mainColor}
-						/>
-					)}
 					{!showHole && (
 						<circle
 							cx={center}
 							cy={center}
 							r={radius}
+							fill={mainColor}
+						/>
+					)}
+					{showHole && (
+						<path
+							d={mainPath}
 							fill={mainColor}
 						/>
 					)}
@@ -176,7 +180,8 @@ export default function PieChart({
 					}}
 					transition={{
 						duration: prefersReducedMotion ? 0.1 : returnDuration / 1000,
-						ease: [0.42, 0, 0.58, 1]
+						ease: [0.42, 0, 0.58, 1],
+						type: 'tween'
 					}}
 				/>
 			</svg>
