@@ -235,6 +235,10 @@
 		}
 	}
 
+	.heroMovies {
+		width: 100%;
+	}
+
 	&Items {
 		width: 100vw;
 		margin-left: calc(50% - 50vw);
@@ -247,8 +251,6 @@
 		position: relative;
 		min-height: 139px;
 		justify-content: center;
-		will-change: transform, opacity;
-		transition: transform ease-in-out 1s, opacity ease-in-out 1s;
 
 		@media(min-width: v.$md) {
 			min-height: 226px;
