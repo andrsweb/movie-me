@@ -1,10 +1,10 @@
 "use client"
 
-import { useRef, useState, useEffect, useLayoutEffect } from 'react'
-import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
-import Container from "@/components/Common/Container/Container";
-import MaskText from '@/components/Ui/MaskText/MaskText'
-import s from "./HeroDesc.module.scss";
+import {useRef, useState, useEffect, useLayoutEffect} from "react"
+import { motion, useScroll, useMotionValueEvent } from "framer-motion"
+import Container from "@/components/Common/Container/Container"
+import MaskText from "@/components/Ui/MaskText/MaskText"
+import s from "./HeroDesc.module.scss"
 
 export default function HeroDesc() {
 	const ref = useRef<HTMLDivElement>(null)
@@ -19,16 +19,16 @@ export default function HeroDesc() {
 	const { scrollY } = useScroll()
 
 	useLayoutEffect(() => {
-		if (window.scrollY > 0) {
-			setHideText(true)
-			setIsFullyHidden(true)
-		}
+		queueMicrotask(() => {
+			if (window.scrollY > 0) {
+				setHideText(true)
+				setIsFullyHidden(true)
+			}
+		})
 	}, [])
 
 	useMotionValueEvent(scrollYProgress, "change", (latest) => {
-		if (scrollY.get() === 0) {
-			return
-		}
+		if (scrollY.get() === 0) return
 
 		if (latest >= 0.3 && !hideText) {
 			setHideText(true)
@@ -55,26 +55,24 @@ export default function HeroDesc() {
 	}, [hideText, isFullyHidden])
 
 	return (
-		<Container maxWidth={1540} className={s.heroDescContainer}>
+		<Container
+			maxWidth={1540}
+			className={`${s.heroDescContainer} ${isFullyHidden && s.hidden}`}
+		>
 			<motion.div
 				ref={ref}
 				className={s.heroDesc}
 				style={{
 					zIndex: isFullyHidden ? -100 : 50,
-					pointerEvents: isFullyHidden ? 'none' : 'auto'
+					pointerEvents: isFullyHidden ? "none" : "auto"
 				}}
 			>
-				<MaskText
-					as="p"
-					show={!hideText}
-				>
+				<MaskText as="p" show={!hideText}>
 					Subscriptions are a trap
 				</MaskText>
-				<MaskText
-					as="h2"
-					show={!hideText}
-				>
-					Curated cinema, <br/> on your terms
+				<MaskText as="h2" show={!hideText}>
+					Curated cinema, <br />
+					on your terms
 				</MaskText>
 			</motion.div>
 		</Container>
