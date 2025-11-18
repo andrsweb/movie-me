@@ -56,7 +56,7 @@ export default function HeroCard() {
 	})
 
 	const { scrollYProgress: cardsProgress } = useScroll({
-		target: containerRef,
+		target: cardsRef,
 
 		offset: ["start end", "start center"]
 	})
