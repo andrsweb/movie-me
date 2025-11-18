@@ -1,7 +1,8 @@
 "use client"
 
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useLayoutEffect } from 'react'
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
+import Container from "@/components/Common/Container/Container";
 import MaskText from '@/components/Ui/MaskText/MaskText'
 import s from "./HeroDesc.module.scss";
 
@@ -16,6 +17,13 @@ export default function HeroDesc() {
 	})
 
 	const { scrollY } = useScroll()
+
+	useLayoutEffect(() => {
+		if (window.scrollY > 0) {
+			setHideText(true)
+			setIsFullyHidden(true)
+		}
+	}, [])
 
 	useMotionValueEvent(scrollYProgress, "change", (latest) => {
 		if (scrollY.get() === 0) {
@@ -47,14 +55,15 @@ export default function HeroDesc() {
 	}, [hideText, isFullyHidden])
 
 	return (
-		<motion.div
-			ref={ref}
-			className={s.heroDesc}
-			style={{ 
-				zIndex: isFullyHidden ? -100 : 50,
-				pointerEvents: isFullyHidden ? 'none' : 'auto'
-			}}
-		>
+		<Container maxWidth={1540} className={s.heroDescContainer}>
+			<motion.div
+				ref={ref}
+				className={s.heroDesc}
+				style={{
+					zIndex: isFullyHidden ? -100 : 50,
+					pointerEvents: isFullyHidden ? 'none' : 'auto'
+				}}
+			>
 				<MaskText
 					as="p"
 					show={!hideText}
@@ -67,6 +76,7 @@ export default function HeroDesc() {
 				>
 					Curated cinema, <br/> on your terms
 				</MaskText>
-		</motion.div>
+			</motion.div>
+		</Container>
 	)
 }
