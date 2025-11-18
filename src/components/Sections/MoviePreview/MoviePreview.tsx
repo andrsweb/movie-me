@@ -76,17 +76,19 @@ export default function MoviePreview() {
 					y: isShowed ? 0 : entranceY
 				}}
 			>
-				<h2 className="sr-only">
-					Watch More, Pay Less - Only for What You Watch
-				</h2>
-				<div className={s.moviePreviewBg}>
-					<Image src="/img/movie--bg.jpg" width={1540} height={500} alt="Movie preview"/>
-				</div>
-				<h3>Lamborghini</h3>
-				<div className={s.moviePreviewInner}>
-					<Track 
-						totalTime={5067}
-					/>
+				<div className={s.moviePreviewWrapper}>
+					<h2 className="sr-only">
+						Watch More, Pay Less - Only for What You Watch
+					</h2>
+					<div className={s.moviePreviewBg}>
+						<Image src="/img/movie--bg.jpg" width={1540} height={500} alt="Movie preview"/>
+					</div>
+					<h3>Lamborghini</h3>
+					<div className={s.moviePreviewInner}>
+						<Track
+							totalTime={5067}
+						/>
+					</div>
 				</div>
 			</motion.section>
 		</div>
