@@ -9,26 +9,15 @@ import type { Movie } from '@/types/movie'
 import { fetchMovies } from '@/lib/api/movies'
 import s from "./HeroCard.module.scss";
 import Image from "next/image";
-import Link from "next/link";
 import Button from "@/components/Ui/Button/Button";
 import HeroDesc from "@/components/Sections/Hero/HeroDesc/HeroDesc";
 import MaskText from "@/components/Ui/MaskText/MaskText";
-
-function HeroCardList({ data, start, end }: { data: Movie[]; start: number; end: number }) {
-	return data.slice(start, end).map(item => (
-		<div key={item.id} className={s.heroCardItem}>
-			<Link href={`/movie/${item.id}`}>
-				<Image src={item.src} width={150} height={226} alt={item.title} />
-				<div className={s.itemPrice}><span>Less than ${item.price}</span></div>
-			</Link>
-		</div>
-	))
-}
+import HeroCardMovies from "./HeroCardMovies";
 
 export default function HeroCard() {
-	const containerRef = useRef<HTMLDivElement>(null)
-	const heroBgRef = useRef<HTMLDivElement>(null)
-	const cardsRef = useRef<HTMLDivElement>(null)
+	const containerRef = useRef<HTMLDivElement | null>(null)
+	const heroBgRef = useRef<HTMLDivElement | null>(null)
+	const cardsRef = useRef<HTMLDivElement | null>(null)
 	const [isStart, setIsStart] = useState(false)
 	const [showDesc, setShowDesc] = useState(false)
 	const [showText, setShowText] = useState(false)
@@ -62,11 +51,13 @@ export default function HeroCard() {
 
 	const { scrollYProgress: shrinkProgress } = useScroll({
 		target: containerRef,
+
 		offset: ["start 20vh", "end end"]
 	})
 
 	const { scrollYProgress: cardsProgress } = useScroll({
-		target: cardsRef,
+		target: containerRef,
+
 		offset: ["start end", "start center"]
 	})
 
@@ -119,6 +110,7 @@ export default function HeroCard() {
 
 	return (
 		<div ref={containerRef} className={s.heroCardContainer}>
+
 			<motion.div
 				ref={heroBgRef}
 				className={clsx(s.heroCardBg, isExpanded && s.heroCardBgHidden)}
@@ -153,7 +145,7 @@ export default function HeroCard() {
 						<Button color="violet" type="button">Play <b>Me</b></Button>
 					</MaskText>
 				</motion.div>
-				<div className={s.heroCardInner}>
+				<div ref={cardsRef} className={s.heroCardInner}>
 					<MaskText show={showDesc} className={s.heroCardDescM}>
 						<h2>Hating Game</h2>
 						<Button color="violet" type="button">Play <b>Me</b></Button>
@@ -167,50 +159,11 @@ export default function HeroCard() {
 							not an endless scroll.
 						</p>
 					</MaskText>
-					<motion.div 
-						ref={cardsRef} 
-						className={s.heroCardItems}
-					>
-						{movies.length > 0 && <HeroCardList data={movies} start={0} end={24} />}
-					</motion.div>
-					<motion.div 
-						className={s.heroCardItemsText}
-						initial={{ opacity: 0, y: 30 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true, margin: "0px 0px -200px 0px" }}
-						transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-					>
-						<MaskText 
-							as="h3" 
-							show={isExpanded}
-							className={s.heroCardItemsTextTitle}
-						>
-							With MovieMe there are <br/>
-							<span>
-								no monthly fees
-							</span>
-						</MaskText>
-						<MaskText 
-							as="h3"
-							show={isExpanded}
-							className={s.heroCardItemsTextSubtitle}
-							delay={1}
-						>
-							<br/>
-							<em>
-								Just pay for the
-							</em>
-							<br/>
-							<em>
-								movies you watch.
-							</em>
-						</MaskText>
-					</motion.div>
-					<motion.div 
-						className={s.heroCardItems}
-					>
-						{movies.length > 0 && <HeroCardList data={movies} start={24} end={48} />}
-					</motion.div>
+					<HeroCardMovies
+						movies={movies}
+						isExpanded={isExpanded}
+						cardsRef={cardsRef}
+					/>
 				</div>
 			</motion.div>
 		</div>
