@@ -1,7 +1,9 @@
 "use client"
 
-import { useRef, useState, useEffect, useCallback } from 'react'
+import { useRef, useState, useEffect, useCallback, useLayoutEffect } from 'react'
+
 import { motion, useScroll, useTransform, useMotionValueEvent, useReducedMotion } from 'framer-motion'
+
 import clsx from 'clsx'
 import type { Movie } from '@/types/movie'
 import { fetchMovies } from '@/lib/api/movies'
@@ -9,6 +11,7 @@ import s from "./HeroCard.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "@/components/Ui/Button/Button";
+import HeroDesc from "@/components/Sections/Hero/HeroDesc/HeroDesc";
 import MaskText from "@/components/Ui/MaskText/MaskText";
 
 function HeroCardList({ data, start, end }: { data: Movie[]; start: number; end: number }) {
@@ -22,19 +25,19 @@ function HeroCardList({ data, start, end }: { data: Movie[]; start: number; end:
 	))
 }
 
-interface HeroCardProps {
-	onShowChange?: (isShowed: boolean) => void
-}
-
-export default function HeroCard({ onShowChange }: HeroCardProps) {
+export default function HeroCard() {
 	const containerRef = useRef<HTMLDivElement>(null)
+	const heroBgRef = useRef<HTMLDivElement>(null)
 	const cardsRef = useRef<HTMLDivElement>(null)
-	const [isShowed, setIsShowed] = useState(false)
+	const [isStart, setIsStart] = useState(false)
 	const [showDesc, setShowDesc] = useState(false)
 	const [showText, setShowText] = useState(false)
 	const [isExpanded, setIsExpanded] = useState(false)
 	const [isFinish, setIsFinish] = useState(false)
 	const [movies, setMovies] = useState<Movie[]>([])
+	const imgBlockRef = useRef<HTMLDivElement | null>(null)
+	const [imgScaleX, setImgScaleX] = useState(1)
+
 	const prefersReducedMotion = useReducedMotion()
 
 	useEffect(() => {
@@ -45,10 +48,17 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 		void loadMovies()
 	}, [])
 
-	const { scrollYProgress } = useScroll({
-		target: containerRef,
-		offset: ["start end", "start 20vh"]
-	})
+	useEffect(() => {
+		if (!imgBlockRef.current) return
+
+		const targetWidth = imgBlockRef.current.offsetWidth
+		const fullWidth = window.innerWidth
+
+		if (targetWidth === 0) return
+
+		const scale = fullWidth / targetWidth
+		setImgScaleX(scale)
+	}, [])
 
 	const { scrollYProgress: shrinkProgress } = useScroll({
 		target: containerRef,
@@ -60,51 +70,52 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 		offset: ["start end", "start center"]
 	})
 
+	const { scrollY } = useScroll()
+
+	useLayoutEffect(() => {
+		if (window.scrollY > 0 && heroBgRef.current) {
+			heroBgRef.current.classList.add(s.heroCardBgHidden)
+		}
+	}, [])
+
 	const handleScrollEffects = useCallback(() => {
-		const scrollValue = scrollYProgress.get()
 		const shrinkValue = shrinkProgress.get()
 		const cardsValue = cardsProgress.get()
-		
-		if (scrollValue >= 1 && !isShowed) {
-			setIsShowed(true)
-			onShowChange?.(true)
-		} else if (scrollValue < 1 && isShowed) {
-			setIsShowed(false)
-			onShowChange?.(false)
-		}
-		
+
 		if (shrinkValue >= 0.3 && !showDesc) {
 			setShowDesc(true)
 		} else if (shrinkValue < 0.3 && showDesc) {
 			setShowDesc(false)
 		}
-		
+
 		if (shrinkValue >= 0.5 && !showText) {
 			setShowText(true)
 		} else if (shrinkValue < 0.5 && showText) {
 			setShowText(false)
 		}
-		
+
 		if (cardsValue >= 1 && !isExpanded) {
 			setIsExpanded(true)
 		} else if (cardsValue < 1 && isExpanded) {
 			setIsExpanded(false)
 		}
-		
+
 		if (cardsValue >= 1 && !isFinish) {
 			setIsFinish(true)
 		} else if (cardsValue < 1 && isFinish) {
 			setIsFinish(false)
 		}
-	}, [scrollYProgress, shrinkProgress, cardsProgress, isShowed, showDesc, showText, isExpanded, isFinish, onShowChange])
-	
-	useMotionValueEvent(scrollYProgress, "change", handleScrollEffects)
+	}, [shrinkProgress, cardsProgress, showDesc, showText, isExpanded, isFinish])
 
-	const imgHeight = useTransform(
-		shrinkProgress,
-		[0, 1],
-		["80vh", "30vh"]
-	)
+	useMotionValueEvent(shrinkProgress, "change", handleScrollEffects)
+
+	useMotionValueEvent(scrollY, "change", (latest) => {
+		if (latest === 0) {
+			setIsStart(false)
+		} else {
+			setIsStart(true)
+		}
+	})
 
 	const cardsTranslateX1 = useTransform(
 		shrinkProgress,
@@ -118,26 +129,43 @@ export default function HeroCard({ onShowChange }: HeroCardProps) {
 		[0, 400]
 	)
 
-	useMotionValueEvent(shrinkProgress, "change", handleScrollEffects)
-
-	useMotionValueEvent(cardsProgress, "change", handleScrollEffects)
-
 	return (
 		<div ref={containerRef} className={s.heroCardContainer}>
 			<motion.div
-				className={clsx(s.heroCard, isShowed && s.showed, isFinish && s.finish, isExpanded && s.expanded)}
+				ref={heroBgRef}
+				className={clsx(s.heroCardBg, isExpanded && s.heroCardBgHidden)}
 			>
+				<Image
+					src="/img/hero-bg.png"
+					width={1440}
+					height={785}
+					alt="Hero image"
+				/>
+			</motion.div>
+			<HeroDesc />
+			<motion.div
+				className={clsx(
+					s.heroCard,
+					isStart && s.heroCardStart,
+					isFinish && s.finish,
+					isExpanded && s.expanded
+				)}
+			>
+				<motion.div
+					ref={imgBlockRef}
+					className={s.heroCardImg}
+					style={prefersReducedMotion ? {} : {
+						transform: `scaleX(${isStart ? 1 : imgScaleX})`,
+						transformOrigin: 'center center',
+					}}
+				>
+					<Image src="/img/hero-bg.jpg" width={906} height={514} alt="Hero image"/>
+					<MaskText show={showDesc} className={s.heroCardDescD}>
+						<h2>Hating Game</h2>
+						<Button color="violet" type="button">Play <b>Me</b></Button>
+					</MaskText>
+				</motion.div>
 				<div className={s.heroCardInner}>
-					<motion.div
-						className={s.heroCardImg}
-						style={prefersReducedMotion ? {} : { height: imgHeight }}
-					>
-						<Image src="/img/hero-bg.jpg" width={906} height={514} alt="Hero image"/>
-						<MaskText show={showDesc} className={s.heroCardDescD}>
-							<h2>Hating Game</h2>
-							<Button color="violet" type="button">Play <b>Me</b></Button>
-						</MaskText>
-					</motion.div>
 					<MaskText show={showDesc} className={s.heroCardDescM}>
 						<h2>Hating Game</h2>
 						<Button color="violet" type="button">Play <b>Me</b></Button>

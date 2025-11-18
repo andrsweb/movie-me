@@ -7,36 +7,96 @@
 	left: 0;
 	top: 0;
 	width: 100%;
-	max-width: 912px;
 	background: v.$c-dark;
 	border: 2px solid transparent;
 	border-radius: 5px;
 	margin: 0 auto;
-	opacity: 0;
-	overflow: hidden;
-	visibility: hidden;
-	will-change: opacity, max-width;
-	transition: opacity 1s ease-in-out, visibility 1s, max-width ease-in 1s,
-				border-color ease v.$tr, overflow 0s 1.5s;
+	visibility: visible;
+	will-change: opacity;
+	transition: width ease 1s, top ease 1s, padding ease 1s, top ease 1s, max-width ease 1s;
 
-	@media(min-width: v.$md) {
-		padding: 10px;
-		border-color: v.$c-blue;
-		top: 10vh;
+	&Start {
+		overflow: hidden;
+		width: 100%;
+
+		@media(min-width: v.$md) {
+			top: 10vh;
+			width: 912px;
+			border-color: v.$c-blue;
+			padding: 10px;
+		}
+
+		.heroCardImg {
+			width: 100%;
+			height: 100%;
+			margin-left: auto;
+
+			img {
+				border-radius: 5px;
+			}
+		}
+
+		.heroCardBg {
+			display: none;
+		}
 	}
 
-	&.showed {
+	&Hidden {
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	&Bg {
+		display: block;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 80%;
+		z-index: -1;
 		opacity: 1;
-		visibility: visible;
+		transition: opacity ease-in-out v.$tr, visibility v.$tr ease-in-out;
+
+		@media(min-width: v.$md) {
+			height: 100%;
+		}
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		&:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: v.$dark-gradient;
+			z-index: 1;
+		}
+	}
+
+	&BgHidden {
+		opacity: 0;
+		visibility: hidden;
+		z-index: -100;
+		transition: opacity ease-in-out v.$tr, visibility v.$tr ease-in-out, z-index v.$tr ease-in-out;
 	}
 
 	&.expanded {
+		width: 100%;
 		max-width: 1540px;
 		overflow: visible;
-		transition: max-width ease-in 0.5s, border-color ease-in v.$tr, overflow 0s 0s;
 
 		.heroCardItems {
 			opacity: 1;
+		}
+
+		.heroCardInner {
+			max-width: 1540px;
 		}
 	}
 
@@ -57,15 +117,18 @@
 	&Inner {
 		width: 100%;
 		height: 100%;
+		max-width: 992px;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
 		gap: 20px;
+		margin: 0 auto;
+		transition: max-width ease v.$tr;
 	}
 
 	&Img {
 		width: 100%;
-		padding: 20px;
+		height: calc(100% - 110px);
 		position: relative;
 		aspect-ratio: 16 / 9;
 
@@ -75,7 +138,6 @@
 			left: 0;
 			width: 100%;
 			height: 100%;
-			border-radius: 5px;
 			object-fit: cover;
 		}
 
@@ -218,8 +280,6 @@
 		position: relative;
 
 		@include m.hover {
-			transform: scale(1.05);
-
 			.itemPrice {
 				opacity: 1;
 			}
