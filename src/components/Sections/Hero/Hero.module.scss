@@ -5,16 +5,17 @@
 	position: relative;
 	z-index: 50;
 	width: 100%;
-	padding: 80px 0;
+	background-color: v.$c-dark;
+	padding-bottom: 80px;
 
 	@media(min-width: v.$md) {
-		padding: 110px 0;
+		padding-bottom: 110px;
 	}
 
 	&Wrapper {
 		width: 100%;
 		max-width: 1440px;
-		height: calc(80dvh - 91px);
+		height: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
@@ -22,47 +23,5 @@
 		margin: 0 auto;
 		padding-bottom: 5%;
 		position: relative;
-
-		@media(min-width: v.$md) {
-			height: calc(100dvh - 110px);
-		}
-
-		.heroBg {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 80%;
-			z-index: -1;
-			opacity: 1;
-			transition: opacity ease-in-out 1s, visibility 1s ease-in-out;
-
-			@media(min-width: v.$md) {
-				height: 100%;
-			}
-
-			&.heroBgHidden {
-				opacity: 0;
-				z-index: -1000;
-				visibility: hidden;
-			}
-
-			img {
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
-			}
-
-			&:before {
-				content: '';
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				background: v.$dark-gradient;
-				z-index: 1;
-			}
-		}
 	}
 }
