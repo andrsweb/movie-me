@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect, useCallback, useLayoutEffect } from 'react'
 
-import { motion, useScroll, useTransform, useMotionValueEvent, useReducedMotion } from 'framer-motion'
+import { motion, useScroll, useMotionValueEvent, useReducedMotion } from 'framer-motion'
 
 import clsx from 'clsx'
 import type { Movie } from '@/types/movie'
@@ -117,18 +117,6 @@ export default function HeroCard() {
 		}
 	})
 
-	const cardsTranslateX1 = useTransform(
-		shrinkProgress,
-		[0, 1],
-		[0, 300]
-	)
-
-	const cardsTranslateX2 = useTransform(
-		shrinkProgress,
-		[0, 1],
-		[0, 400]
-	)
-
 	return (
 		<div ref={containerRef} className={s.heroCardContainer}>
 			<motion.div
@@ -182,13 +170,6 @@ export default function HeroCard() {
 					<motion.div 
 						ref={cardsRef} 
 						className={s.heroCardItems}
-						style={{ 
-							x: cardsTranslateX1
-						}}
-						animate={{
-							x: isExpanded ? undefined : 0
-						}}
-						transition={{ type: "spring", stiffness: 80, damping: 20 }}
 					>
 						{movies.length > 0 && <HeroCardList data={movies} start={0} end={24} />}
 					</motion.div>
@@ -227,13 +208,6 @@ export default function HeroCard() {
 					</motion.div>
 					<motion.div 
 						className={s.heroCardItems}
-						style={{ 
-							x: cardsTranslateX2
-						}}
-						animate={{
-							x: isExpanded ? undefined : 0
-						}}
-						transition={{ type: "spring", stiffness: 80, damping: 20 }}
 					>
 						{movies.length > 0 && <HeroCardList data={movies} start={24} end={48} />}
 					</motion.div>
