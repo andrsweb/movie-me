@@ -12,13 +12,26 @@ export default function HeroDesc() {
 
 	const { scrollYProgress } = useScroll({
 		target: ref,
-		offset: ["center center", "center center"]
+		offset: ["start end", "start center"]
 	})
 
+	const { scrollY } = useScroll()
+
 	useMotionValueEvent(scrollYProgress, "change", (latest) => {
+		if (scrollY.get() === 0) {
+			return
+		}
+
 		if (latest >= 0.3 && !hideText) {
 			setHideText(true)
 		} else if (latest < 0.3 && hideText) {
+			setHideText(false)
+			setIsFullyHidden(false)
+		}
+	})
+
+	useMotionValueEvent(scrollY, "change", (latest) => {
+		if (latest === 0) {
 			setHideText(false)
 			setIsFullyHidden(false)
 		}
@@ -42,15 +55,6 @@ export default function HeroDesc() {
 				pointerEvents: isFullyHidden ? 'none' : 'auto'
 			}}
 		>
-			<div className={s.m}>
-				<MaskText
-					as="p"
-					show={!hideText}
-				>
-					You don’t need <br/> one more subscription
-				</MaskText>
-			</div>
-			<div className={s.d}>
 				<MaskText
 					as="p"
 					show={!hideText}
@@ -63,7 +67,6 @@ export default function HeroDesc() {
 				>
 					Curated cinema, <br/> on your terms
 				</MaskText>
-			</div>
 		</motion.div>
 	)
 }
