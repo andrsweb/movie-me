@@ -35,7 +35,7 @@ export default function AnimatedText() {
 						variants={getAnimatedTextVariants('left')}
 						initial="hidden"
 						animate={showText ? "visible" : "hidden"}
-						transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+						transition={{ duration: 2.2, ease: [0.22, 1, 0.36, 1] }}
 					>
 						For Cinephiles
 					</motion.h3>
@@ -43,7 +43,7 @@ export default function AnimatedText() {
 						variants={getAnimatedTextVariants('right')}
 						initial="hidden"
 						animate={showText ? "visible" : "hidden"}
-						transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+						transition={{ duration: 2.2, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
 					>
 						By Cinephiles
 					</motion.h3>
