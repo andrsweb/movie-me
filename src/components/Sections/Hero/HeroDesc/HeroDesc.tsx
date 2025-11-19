@@ -63,7 +63,7 @@ export default function HeroDesc() {
 					className={s.heroDesc}
 					style={{
 						zIndex: isFullyHidden ? -100 : 50,
-						pointerEvents: isFullyHidden ? "none" : "auto"
+						pointerEvents: "none"
 					}}
 				>
 					<MaskText as="p" show={!hideText}>

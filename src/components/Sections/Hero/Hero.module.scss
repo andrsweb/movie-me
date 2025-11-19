@@ -6,11 +6,6 @@
 	z-index: 50;
 	width: 100%;
 	background-color: v.$c-dark;
-	padding-bottom: 80px;
-
-	@media(min-width: v.$md) {
-		padding-bottom: 110px;
-	}
 
 	&Wrapper {
 		width: 100%;
@@ -20,7 +15,6 @@
 		align-items: flex-start;
 		justify-content: flex-end;
 		margin: 0 auto;
-		padding-bottom: 5%;
 		position: relative;
 	}
 }

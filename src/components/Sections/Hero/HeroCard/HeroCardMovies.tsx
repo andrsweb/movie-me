@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 import MaskText from "@/components/Ui/MaskText/MaskText"
-import { getStaggerContainerVariants, getStaggerItemVariants } from "@/lib/animations"
+import { getStaggerContainerVariants } from "@/lib/animations"
 import type { Movie } from "@/types/movie"
 import s from "./HeroCard.module.scss"
 
@@ -20,7 +20,6 @@ function HeroCardList({ data, start, end }: { data: Movie[]; start: number; end:
 		<motion.div
 			key={item.id}
 			className={s.heroCardItem}
-			variants={getStaggerItemVariants("right")}
 		>
 			<Link href={`/movie/${item.id}`}>
 				<Image src={item.src} width={150} height={226} alt={item.title} />
@@ -75,15 +74,6 @@ export default function HeroCardMovies({ movies, isExpanded, cardsRef }: HeroCar
 						movies you watch.
 					</em>
 				</MaskText>
-			</motion.div>
-			<motion.div
-				className={`${s.heroCardItems} ${s.secondRow}`}
-				variants={getStaggerContainerVariants("right")}
-				initial="hidden"
-				whileInView="visible"
-				viewport={{ amount: 0.2, once: false }}
-			>
-				{movies.length > 0 && <HeroCardList data={movies} start={24} end={48} />}
 			</motion.div>
 		</div>
 	)

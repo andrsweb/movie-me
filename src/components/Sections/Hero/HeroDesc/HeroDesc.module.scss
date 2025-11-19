@@ -26,8 +26,7 @@
 		width: 100%;
 		height: 100vh;
 		z-index: 2;
-		pointer-events: auto;
-		transition: pointer-events 0s 1.5s;
+		pointer-events: none;
 
 		&.hidden {
 			pointer-events: none;

@@ -275,9 +275,9 @@
 	}
 
 	&Item {
-		flex: 1;
-		width: calc(100% / 8);
-		min-width: 92px;
+		flex: 0 0 auto;
+		width: 92px;
+		height: 140px;
 		transition: transform ease-in-out v.$tr;
 		position: relative;
 
@@ -288,7 +288,8 @@
 		}
 
 		@media(min-width: v.$md) {
-			min-width: 150px;
+			width: 150px;
+			height: 226px;
 		}
 
 		a {
