@@ -51,6 +51,7 @@ export default function MoviePreview() {
 	const trackOpacity = useTransform(shrinkProgress, [0.6, 0.9], [0, 1])
 	const mergedCardRotateY = useTransform(shrinkProgress, [0.2, 0.55], [0, 180])
 	const mergedCardScale = useTransform(shrinkProgress, [0.55, 0.95], [1, 4.5])
+	const sectionScale = useTransform(shrinkProgress, [0.8, 1], [1, 0.75])
 
 	useMotionValueEvent(shrinkProgress, "change", (latest) => {
 		if (latest >= 0.2 && !isFinish) {
@@ -80,6 +81,7 @@ export default function MoviePreview() {
 			<motion.section
 				ref={sectionRef}
 				className={clsx(s.moviePreview, isShowed && s.showed, isFinish && s.finish)}
+				style={{ scale: sectionScale }}
 			>
 				<div className={s.secondRowCards}>
 					<motion.div
