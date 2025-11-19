@@ -18,7 +18,7 @@ export default function About() {
 	})
 	
 	const sectionOpacity = useTransform(scrollYProgress, [0, 0.4], [0, 1])
-	const sectionY = useTransform(scrollYProgress, [0, 0.6], [200, 0])
+	const sectionY = useTransform(scrollYProgress, [0, 0.6], [700, 0])
 
 	return (
 		<motion.section 
