@@ -34,7 +34,7 @@ export default function MoviePreview() {
 		if (isMerged) {
 			const timer = setTimeout(() => {
 				setIsStacked(true);
-			}, 3000);
+			}, 2000);
 			return () => clearTimeout(timer);
 		} else {
 			queueMicrotask(() => {
