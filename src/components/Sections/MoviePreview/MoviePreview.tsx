@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState, useEffect, useLayoutEffect, useMemo } from "react"
+import { useRef, useState, useEffect, useLayoutEffect, useMemo, useCallback } from "react"
 import { motion, useScroll, useTransform, useMotionValueEvent, Variants } from "framer-motion"
 import clsx from "clsx"
 import Image from "next/image"
@@ -51,30 +51,28 @@ export default function MoviePreview() {
 		void loadMovies()
 	}, [])
 
-	useLayoutEffect(() => {
-		if (!isMerged || !mergedCardRef.current) {
-			return;
-		};
+	const calculateCardOffsets = useCallback(() => {
+		requestAnimationFrame(() => {
+			if (!mergedCardRef.current) return;
 
-		const mergedCardRect = mergedCardRef.current.getBoundingClientRect();
-		if (mergedCardRect.width === 0 || mergedCardRect.height === 0) {
-			return;
-		}
+			const mergedCardRect = mergedCardRef.current.getBoundingClientRect();
+			if (mergedCardRect.width === 0 || mergedCardRect.height === 0) return;
 
-		const newOffsets = cardRefs.current.map(cardEl => {
-			if (!cardEl) return { x: 0, y: 0 };
+			const newOffsets = cardRefs.current.map(cardEl => {
+				if (!cardEl) return { x: 0, y: 0 };
 
-			const cardRect = cardEl.getBoundingClientRect();
-			if (cardRect.width === 0 || cardRect.height === 0) return { x: 0, y: 0 };
-			
-			const x = (mergedCardRect.left + mergedCardRect.width / 2) - (cardRect.left + cardRect.width / 2);
-			const y = (mergedCardRect.top + mergedCardRect.height / 2) - (cardRect.top + cardRect.height / 2);
+				const cardRect = cardEl.getBoundingClientRect();
+				if (cardRect.width === 0 || cardRect.height === 0) return { x: 0, y: 0 };
+				
+				const x = (mergedCardRect.left + mergedCardRect.width / 2) - (cardRect.left + cardRect.width / 2);
+				const y = (mergedCardRect.top + mergedCardRect.height / 2) - (cardRect.top + cardRect.height / 2);
 
-			return { x, y };
+				return { x, y };
+			});
+
+			setCardOffsets(newOffsets);
 		});
-
-		setCardOffsets(newOffsets);
-	}, [isMerged]);
+	}, []);
 
 	const { scrollYProgress } = useScroll({
 		target: containerRef,
@@ -96,6 +94,7 @@ export default function MoviePreview() {
 		if (latest >= 0.9 && !isFinish) {
 			setIsFinish(true)
 			setIsMerged(true)
+			calculateCardOffsets()
 		} else if (latest < 0.9 && isFinish) {
 			setIsFinish(false)
 			setIsMerged(false)
