@@ -57,11 +57,15 @@ export default function MoviePreview() {
 		};
 
 		const mergedCardRect = mergedCardRef.current.getBoundingClientRect();
+		if (mergedCardRect.width === 0 || mergedCardRect.height === 0) {
+			return;
+		}
 
 		const newOffsets = cardRefs.current.map(cardEl => {
 			if (!cardEl) return { x: 0, y: 0 };
 
 			const cardRect = cardEl.getBoundingClientRect();
+			if (cardRect.width === 0 || cardRect.height === 0) return { x: 0, y: 0 };
 			
 			const x = (mergedCardRect.left + mergedCardRect.width / 2) - (cardRect.left + cardRect.width / 2);
 			const y = (mergedCardRect.top + mergedCardRect.height / 2) - (cardRect.top + cardRect.height / 2);
@@ -70,7 +74,7 @@ export default function MoviePreview() {
 		});
 
 		setCardOffsets(newOffsets);
-	}, [isMerged, moviesToShow]);
+	}, [isMerged]);
 
 	const { scrollYProgress } = useScroll({
 		target: containerRef,
