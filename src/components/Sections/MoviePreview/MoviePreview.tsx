@@ -1,7 +1,7 @@
 "use client"
 
-import { useRef, useState, useEffect } from "react"
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion"
+import { useRef, useState, useEffect, useLayoutEffect, useMemo } from "react"
+import { motion, useScroll, useTransform, useMotionValueEvent, Variants } from "framer-motion"
 import clsx from "clsx"
 import Image from "next/image"
 import Link from "next/link"
@@ -13,12 +13,35 @@ import s from './MoviePreview.module.scss'
 export default function MoviePreview() {
 	const containerRef = useRef<HTMLDivElement>(null)
 	const sectionRef = useRef<HTMLElement>(null)
+	const secondRowRef = useRef<HTMLDivElement>(null)
+	const mergedCardRef = useRef<HTMLDivElement>(null)
 
 	const [isShowed, setIsShowed] = useState(false)
 	const [isFinish, setIsFinish] = useState(false)
 	const [isMerged, setIsMerged] = useState(false)
 	const [mergedState, setMergedState] = useState(1)
+	const [isStacked, setIsStacked] = useState(false)
 	const [movies, setMovies] = useState<Movie[]>([])
+	const [cardOffsets, setCardOffsets] = useState<{ x: number; y: number }[]>([]);
+	const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+	const moviesToShow = useMemo(() => movies.slice(24, 48), [movies]);
+
+	useEffect(() => {
+		cardRefs.current = Array(moviesToShow.length).fill(null);
+	}, [moviesToShow.length]);
+
+	useLayoutEffect(() => {
+		if (isMerged) {
+			const timer = setTimeout(() => {
+				setIsStacked(true);
+			}, 3000);
+			return () => clearTimeout(timer);
+		} else {
+			queueMicrotask(() => {
+				setIsStacked(false);
+			});
+		}
+	}, [isMerged]);
 
 	useEffect(() => {
 		const loadMovies = async () => {
@@ -27,6 +50,27 @@ export default function MoviePreview() {
 		}
 		void loadMovies()
 	}, [])
+
+	useLayoutEffect(() => {
+		if (!isMerged || !mergedCardRef.current) {
+			return;
+		};
+
+		const mergedCardRect = mergedCardRef.current.getBoundingClientRect();
+
+		const newOffsets = cardRefs.current.map(cardEl => {
+			if (!cardEl) return { x: 0, y: 0 };
+
+			const cardRect = cardEl.getBoundingClientRect();
+			
+			const x = (mergedCardRect.left + mergedCardRect.width / 2) - (cardRect.left + cardRect.width / 2);
+			const y = (mergedCardRect.top + mergedCardRect.height / 2) - (cardRect.top + cardRect.height / 2);
+
+			return { x, y };
+		});
+
+		setCardOffsets(newOffsets);
+	}, [isMerged, moviesToShow]);
 
 	const { scrollYProgress } = useScroll({
 		target: containerRef,
@@ -44,9 +88,18 @@ export default function MoviePreview() {
 		} else if (latest < 1 && isShowed) {
 			setIsShowed(false)
 		}
+
+		if (latest >= 0.9 && !isFinish) {
+			setIsFinish(true)
+			setIsMerged(true)
+		} else if (latest < 0.9 && isFinish) {
+			setIsFinish(false)
+			setIsMerged(false)
+			if (cardOffsets.length > 0) setCardOffsets([]);
+		}
 	})
 
-	const cardsContainerY = useTransform(shrinkProgress, [0.1, 0.15], ["5%", "100%"])
+	const cardsContainerY = useTransform(shrinkProgress, [0, 1], [0, 0])
 	const cardsOpacity = useTransform(shrinkProgress, [0.5, 0.7], [1, 0])
 	const trackOpacity = useTransform(shrinkProgress, [0.6, 0.9], [0, 1])
 	const mergedCardRotateY = useTransform(shrinkProgress, [0.2, 0.55], [0, 180])
@@ -54,14 +107,6 @@ export default function MoviePreview() {
 	const sectionScale = useTransform(shrinkProgress, [0.8, 1], [1, 0.75])
 
 	useMotionValueEvent(shrinkProgress, "change", (latest) => {
-		if (latest >= 0.2 && !isFinish) {
-			setIsFinish(true)
-			setIsMerged(true)
-		} else if (latest < 0.2 && isFinish) {
-			setIsFinish(false)
-			setIsMerged(false)
-		}
-
 		let nextState = 1
 		if (latest >= 0.55 && latest < 0.6) {
 			nextState = 2
@@ -85,36 +130,54 @@ export default function MoviePreview() {
 			>
 				<div className={s.secondRowCards}>
 					<motion.div
+						ref={secondRowRef}
 						className={s.secondRowCardsInner}
 						style={{ y: cardsContainerY, opacity: mergedState >= 2 ? cardsOpacity : 1 }}
 					>
-						{movies.length > 0 && movies.slice(24, 48).map((item, i) => {
-							const centerIndex = 11.5
-							const offsetIndex = i - centerIndex
-							const stackX = offsetIndex * 160
-							
+						{moviesToShow.map((item, i) => {
+							const cardVariants: Variants = {
+								initial: {
+									x: 0,
+									y: 0,
+									scale: 1,
+									opacity: 1,
+									rotate: 0,
+									transition: { type: "spring", stiffness: 300, damping: 30 }
+								},
+								merged: {
+									x: cardOffsets[i]?.x ?? 0,
+									y: cardOffsets[i]?.y ?? 0,
+									scale: 0.5 + (i % 5) * 0.1,
+									opacity: 1,
+									rotate: (i - 15.5) * 4 + (i % 3 - 1) * 2,
+									transition: {
+										type: "spring",
+										stiffness: 120,
+										damping: 30,
+										delay: i * 0.04
+									}
+								},
+								stacked: {
+									x: cardOffsets[i]?.x ?? 0,
+									y: cardOffsets[i]?.y ?? 0,
+									scale: 0.4,
+									opacity: 0,
+									rotate: 0,
+									transition: {
+										type: "spring",
+										stiffness: 200,
+										damping: 30
+									}
+								}
+							}
+
 							return (
 								<motion.div
 									key={item.id}
+									ref={el => { cardRefs.current[i] = el }}
 									className={s.secondRowCard}
-									initial="normal"
-									animate={isMerged ? "merged" : "normal"}
-									variants={{
-										normal: {
-											x: 0,
-											y: 0,
-											scale: 1,
-											opacity: 1,
-											transition: { duration: 0.4, ease: "easeOut" }
-										},
-										merged: {
-											x: -stackX,
-											y: 0,
-											scale: 0.5,
-											opacity: 0,
-											transition: { duration: 0.5, ease: "easeInOut", delay: i * 0.015 }
-										}
-									}}
+									variants={cardVariants}
+									animate={isStacked ? "stacked" : isMerged ? "merged" : "initial"}
 								>
 									<Link href={`/movie/${item.id}`}>
 										<Image src={item.src} width={150} height={226} alt={item.title} />
@@ -133,6 +196,7 @@ export default function MoviePreview() {
 								)}
 							>
 								<motion.div
+									ref={mergedCardRef}
 									className={s.mergedCard}
 									initial={{ opacity: 0 }}
 									animate={{ opacity: 1 }}
