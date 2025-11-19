@@ -133,3 +133,25 @@ export const getAnimatedTextVariants = (direction: AnimatedTextDirection = 'left
 		}
 	}
 }
+
+export type StaggerAxisDirection = 'left' | 'right'
+
+export const getStaggerContainerVariants = (direction: StaggerAxisDirection = 'left') => {
+	const offset = direction === 'left' ? -30 : 30
+	return {
+		hidden: {
+			opacity: 0,
+			x: offset
+		},
+		visible: {
+			opacity: 1,
+			x: 0,
+			transition: {
+				staggerChildren: 0.03,
+				delayChildren: 0.05,
+				staggerDirection: direction === 'left' ? 1 : -1,
+				ease: [1,1,1,1] as const
+			}
+		}
+	}
+}
