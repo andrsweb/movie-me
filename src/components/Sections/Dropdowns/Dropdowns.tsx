@@ -41,6 +41,14 @@ export default function Dropdowns() {
 		}
 	}
 
+	const handleMouseEnter = (id: number) => {
+		setActiveDropdown(id)
+	}
+
+	const handleMouseLeave = () => {
+		setActiveDropdown(null)
+	}
+
 	return (
 		<section className={s.dropdowns}>
 			<Container maxWidth={1400}>
@@ -48,13 +56,15 @@ export default function Dropdowns() {
 					{dropdownItems.map((item) => (
 						<div 
 							key={item.id}
+							onClick={() => toggleDropdown(item.id)}
+							onMouseEnter={() => handleMouseEnter(item.id)}
+							onMouseLeave={handleMouseLeave}
 							className={clsx(s.dropdownsItem, {
 								[s.active]: activeDropdown === item.id
 							})}
 						>
 							<button 
 								className={s.dropdownsHeader}
-								onClick={() => toggleDropdown(item.id)}
 							>
 								<div className={s.dropdownsArrow}>
 									<Image
