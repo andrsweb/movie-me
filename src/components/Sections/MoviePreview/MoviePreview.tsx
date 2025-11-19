@@ -23,6 +23,7 @@ export default function MoviePreview() {
 	const [isStacked, setIsStacked] = useState(false)
 	const [movies, setMovies] = useState<Movie[]>([])
 	const [cardOffsets, setCardOffsets] = useState<{ x: number; y: number }[]>([]);
+	const cardOffsetsRef = useRef<{ x: number; y: number }[]>([]);
 	const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 	const moviesToShow = useMemo(() => movies.slice(24, 48), [movies]);
 
@@ -30,8 +31,33 @@ export default function MoviePreview() {
 		cardRefs.current = Array(moviesToShow.length).fill(null);
 	}, [moviesToShow.length]);
 
+	const calculateCardOffsets = useCallback(() => {
+		if (!mergedCardRef.current) return;
+
+		const mergedCardRect = mergedCardRef.current.getBoundingClientRect();
+		if (mergedCardRect.width === 0 || mergedCardRect.height === 0) return;
+
+		const newOffsets = cardRefs.current.map(cardEl => {
+			if (!cardEl) return { x: 0, y: 0 };
+
+			const cardRect = cardEl.getBoundingClientRect();
+			if (cardRect.width === 0 || cardRect.height === 0) return { x: 0, y: 0 };
+			
+			const x = (mergedCardRect.left + mergedCardRect.width / 2) - (cardRect.left + cardRect.width / 2);
+			const y = (mergedCardRect.top + mergedCardRect.height / 2) - (cardRect.top + cardRect.height / 2);
+
+			return { x, y };
+		});
+
+		cardOffsetsRef.current = newOffsets;
+		setCardOffsets(newOffsets);
+	}, []);
+
 	useLayoutEffect(() => {
 		if (isMerged) {
+			requestAnimationFrame(() => {
+				calculateCardOffsets();
+			});
 			const timer = setTimeout(() => {
 				setIsStacked(true);
 			}, 2000);
@@ -41,7 +67,7 @@ export default function MoviePreview() {
 				setIsStacked(false);
 			});
 		}
-	}, [isMerged]);
+	}, [isMerged, calculateCardOffsets]);
 
 	useEffect(() => {
 		const loadMovies = async () => {
@@ -50,29 +76,6 @@ export default function MoviePreview() {
 		}
 		void loadMovies()
 	}, [])
-
-	const calculateCardOffsets = useCallback(() => {
-		requestAnimationFrame(() => {
-			if (!mergedCardRef.current) return;
-
-			const mergedCardRect = mergedCardRef.current.getBoundingClientRect();
-			if (mergedCardRect.width === 0 || mergedCardRect.height === 0) return;
-
-			const newOffsets = cardRefs.current.map(cardEl => {
-				if (!cardEl) return { x: 0, y: 0 };
-
-				const cardRect = cardEl.getBoundingClientRect();
-				if (cardRect.width === 0 || cardRect.height === 0) return { x: 0, y: 0 };
-				
-				const x = (mergedCardRect.left + mergedCardRect.width / 2) - (cardRect.left + cardRect.width / 2);
-				const y = (mergedCardRect.top + mergedCardRect.height / 2) - (cardRect.top + cardRect.height / 2);
-
-				return { x, y };
-			});
-
-			setCardOffsets(newOffsets);
-		});
-	}, []);
 
 	const { scrollYProgress } = useScroll({
 		target: containerRef,
@@ -94,7 +97,6 @@ export default function MoviePreview() {
 		if (latest >= 0.9 && !isFinish) {
 			setIsFinish(true)
 			setIsMerged(true)
-			calculateCardOffsets()
 		} else if (latest < 0.9 && isFinish) {
 			setIsFinish(false)
 			setIsMerged(false)
@@ -138,39 +140,29 @@ export default function MoviePreview() {
 						style={{ y: cardsContainerY, opacity: mergedState >= 2 ? cardsOpacity : 1 }}
 					>
 						{moviesToShow.map((item, i) => {
+							const offset = cardOffsets[i] || { x: 0, y: 0 };
+							
 							const cardVariants: Variants = {
 								initial: {
 									x: 0,
 									y: 0,
 									scale: 1,
 									opacity: 1,
-									rotate: 0,
-									transition: { type: "spring", stiffness: 300, damping: 30 }
+									rotate: 0
 								},
 								merged: {
-									x: cardOffsets[i]?.x ?? 0,
-									y: cardOffsets[i]?.y ?? 0,
+									x: offset.x,
+									y: offset.y,
 									scale: 0.5 + (i % 5) * 0.1,
 									opacity: 1,
-									rotate: (i - 15.5) * 4 + (i % 3 - 1) * 2,
-									transition: {
-										type: "spring",
-										stiffness: 120,
-										damping: 30,
-										delay: i * 0.04
-									}
+									rotate: (i - 15.5) * 4 + (i % 3 - 1) * 2
 								},
 								stacked: {
-									x: cardOffsets[i]?.x ?? 0,
-									y: cardOffsets[i]?.y ?? 0,
+									x: offset.x,
+									y: offset.y,
 									scale: 0.4,
 									opacity: 0,
-									rotate: 0,
-									transition: {
-										type: "spring",
-										stiffness: 200,
-										damping: 30
-									}
+									rotate: 0
 								}
 							}
 
@@ -181,6 +173,22 @@ export default function MoviePreview() {
 									className={s.secondRowCard}
 									variants={cardVariants}
 									animate={isStacked ? "stacked" : isMerged ? "merged" : "initial"}
+									transition={
+										isStacked ? {
+											type: "spring",
+											stiffness: 200,
+											damping: 30
+										} : isMerged ? {
+											type: "spring",
+											stiffness: 120,
+											damping: 30,
+											delay: i * 0.04
+										} : {
+											type: "spring",
+											stiffness: 300,
+											damping: 30
+										}
+									}
 								>
 									<Link href={`/movie/${item.id}`}>
 										<Image src={item.src} width={150} height={226} alt={item.title} />
