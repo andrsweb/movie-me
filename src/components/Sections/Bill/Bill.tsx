@@ -83,7 +83,6 @@ export default function Bill() {
 					</div>
 				</div>
 			</Container>
-		{/*	test commit*/}
 		</motion.section>
 		)
 }
