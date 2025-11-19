@@ -32,8 +32,8 @@ export default function Bill() {
 				<h2 className="sr-only">Freedom and Control You decide your bill.</h2>
 				<div className={s.billWrapper}>
 					<MaskText as="div" show={true} className={s.billHeading}>
-						<h3><em>Freedom and Control</em></h3>
-						<span><em>You decide your bill.</em></span>
+						<h3>Freedom and Control</h3>
+						<span>You decide your bill.</span>
 					</MaskText>
 					<div className={s.billCards}>
 						<div className={s.billCard}>

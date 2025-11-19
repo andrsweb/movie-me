@@ -31,17 +31,22 @@
 
 		h3 {
 			@include t.text-xl;
+
+			& {
+				color: v.$c-violet;
+			}
 		}
 
 		span {
 			font-family: v.$ff;
 			font-weight: 400;
-			font-size: 40px;
-			line-height: 70px;
-			color: v.$c-white;
+			font-size: 28px;
+			line-height: 32px;
+			color: v.$c-violet;
 
 			@media(min-width: v.$md) {
-
+				font-size: 40px;
+				line-height: 70px;
 			}
 		}
 	}
