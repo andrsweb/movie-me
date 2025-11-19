@@ -1,7 +1,6 @@
 "use client"
 
 import { useRef } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
 import s from "./About.module.scss"
 import Image from "next/image"
 import PieChart from "@/components/Ui/PieChart/PieChart"
@@ -12,22 +11,10 @@ import ProgressSlider from "@/components/Ui/ProgressSlider/ProgressSlider"
 export default function About() {
 	const sectionRef = useRef<HTMLElement>(null)
 
-	const { scrollYProgress } = useScroll({
-		target: sectionRef,
-		offset: ["start end", "end start"]
-	})
-	
-	const sectionOpacity = useTransform(scrollYProgress, [0, 0.4], [0, 1])
-	const sectionY = useTransform(scrollYProgress, [0, 0.6], [700, 0])
-
 	return (
-		<motion.section 
+		<section 
 			ref={sectionRef}
 			className={s.about}
-			style={{ 
-				opacity: sectionOpacity,
-				y: sectionY
-			}}
 		>
 			<h2 className="sr-only">Think of it like ordering pizza, you only pay for the slices you eat.</h2>
 			<Container maxWidth={1046}>
@@ -100,6 +87,6 @@ export default function About() {
 					</div>
 				</div>
 			</Container>
-		</motion.section>
+		</section>
 	)
 }
