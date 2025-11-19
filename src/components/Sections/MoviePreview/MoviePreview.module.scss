@@ -20,10 +20,14 @@
 
 	&Container {
 		width: 100%;
-		min-height: 1500vh;
+		min-height: 800vh;
 		display: flex;
 		align-items: flex-start;
 		position: relative;
+
+		@media(min-width: v.$md) {
+			min-height: 1500vh;
+		}
 	}
 
 	&Wrapper {

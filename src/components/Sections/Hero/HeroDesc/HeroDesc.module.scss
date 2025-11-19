@@ -4,18 +4,20 @@
 .heroDesc {
 	position: absolute;
 	left: 0;
-	bottom: 10%;
+	bottom: 45%;
 	width: 100%;
 	max-width: 600px;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	gap: 20px;
+	gap: 10px;
 	padding-left: 20px;
 	z-index: 50;
 
 	@media(min-width: v.$md) {
 		padding-left: 50px;
+		bottom: 10%;
+		gap: 20px;
 	}
 
 	&Container {
@@ -28,6 +30,10 @@
 		z-index: 2;
 		pointer-events: none;
 
+		@media(min-width: v.$md) {
+			height: 100vh;
+		}
+
 		&.hidden {
 			pointer-events: none;
 			z-index: -100;
@@ -36,7 +42,17 @@
 	}
 
 	p {
-		@include t.text-base;
+		margin-bottom: 0;
+		font-family: v.$ff;
+		color: v.$c-white;
+		font-weight: 400;
+		font-size: 18px;
+		line-height: 22px;
+
+		@media(min-width: v.$md) {
+			font-size: 32px;
+			line-height: 48px;
+		}
 	}
 
 	h2 {
