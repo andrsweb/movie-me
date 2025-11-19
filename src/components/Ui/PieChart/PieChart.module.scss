@@ -1,12 +1,24 @@
 @use '@/scss/variables/variables' as v;
 
 .pieChart {
-	position: relative;
 	display: flex;
 	align-items: flex-start;
 	justify-content: center;
 	will-change: transform;
 	overflow: visible;
+	position: absolute;
+	right: 0;
+	top: 20%;
+
+	@media(min-width: v.$xs) {
+		top: 5%;
+	}
+
+	@media(min-width: v.$md) {
+		position: relative;
+		top: auto;
+		right: auto;
+	}
 }
 
 .svg {
