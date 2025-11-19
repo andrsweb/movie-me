@@ -12,11 +12,6 @@ export default function HeroDesc() {
 	const [hideText, setHideText] = useState(false)
 	const [isFullyHidden, setIsFullyHidden] = useState(false)
 
-	const { scrollYProgress } = useScroll({
-		target: ref,
-		offset: ["start end", "start center"]
-	})
-
 	const { scrollY } = useScroll()
 
 	useLayoutEffect(() => {
@@ -25,21 +20,15 @@ export default function HeroDesc() {
 		}
 	}, [])
 
-	useMotionValueEvent(scrollYProgress, "change", (latest) => {
-		if (scrollY.get() === 0) return
-
-		if (latest >= 0.3 && !hideText) {
-			setHideText(true)
-		} else if (latest < 0.3 && hideText) {
-			setHideText(false)
-			setIsFullyHidden(false)
-		}
-	})
-
 	useMotionValueEvent(scrollY, "change", (latest) => {
 		if (latest === 0) {
 			setHideText(false)
 			setIsFullyHidden(false)
+			return
+		}
+
+		if (latest > 0 && !hideText) {
+			setHideText(true)
 		}
 	})
 
