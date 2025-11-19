@@ -33,7 +33,7 @@ export default function Fly() {
 
 	const sectionOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1])
 	const sectionY = useTransform(scrollYProgress, [0, 0.5], [100, 0])
-	const itemsScrollY = useTransform(scrollYProgress, [0, 1], [0, -320])
+	const itemsScrollY = useTransform(scrollYProgress, [0, 1], [200, -320])
 
 	useMotionValueEvent(scrollYProgress, "change", (latest) => {
 		if (latest >= 0.2 && !isAnimated) {
@@ -72,7 +72,7 @@ export default function Fly() {
 							bottom: logo.bottom
 						}}
 						initial={{ 
-							y: -200, 
+							y: 0, 
 							opacity: 0,
 							rotate: 0
 						}}
@@ -85,7 +85,7 @@ export default function Fly() {
 							opacity: 1,
 							rotate: 0
 						} : {
-							y: -200,
+							y: 0,
 							opacity: 0
 						}}
 						transition={{
