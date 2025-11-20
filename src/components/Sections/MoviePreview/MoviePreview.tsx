@@ -20,55 +20,32 @@ export default function MoviePreview() {
 	const [isFinish, setIsFinish] = useState(false)
 	const [isMerged, setIsMerged] = useState(false)
 	const [mergedState, setMergedState] = useState(1)
-	const [isStacked, setIsStacked] = useState(false)
 	const [movies, setMovies] = useState<Movie[]>([])
-	const [cardOffsets, setCardOffsets] = useState<{ x: number; y: number }[]>([]);
-	const cardOffsetsRef = useRef<{ x: number; y: number }[]>([]);
 	const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 	const moviesToShow = useMemo(() => movies.slice(24, 48), [movies]);
 	const [enableWrapperShift, setEnableWrapperShift] = useState(false)
+	const [cardMergeOffsets, setCardMergeOffsets] = useState<{ x: number; y: number }[]>([])
+	const [mergedCardBegin, setMergedCardBegin] = useState(false)
 
 	useEffect(() => {
 		cardRefs.current = Array(moviesToShow.length).fill(null);
 	}, [moviesToShow.length]);
 
-	const calculateCardOffsets = useCallback(() => {
-		if (!mergedCardRef.current) return;
+	useEffect(() => {
+		let timer: ReturnType<typeof setTimeout> | null = null
 
-		const mergedCardRect = mergedCardRef.current.getBoundingClientRect();
-		if (mergedCardRect.width === 0 || mergedCardRect.height === 0) return;
-
-		const newOffsets = cardRefs.current.map(cardEl => {
-			if (!cardEl) return { x: 0, y: 0 };
-
-			const cardRect = cardEl.getBoundingClientRect();
-			if (cardRect.width === 0 || cardRect.height === 0) return { x: 0, y: 0 };
-			
-			const x = (mergedCardRect.left + mergedCardRect.width / 2) - (cardRect.left + cardRect.width / 2);
-			const y = (mergedCardRect.top + mergedCardRect.height / 2) - (cardRect.top + cardRect.height / 2);
-
-			return { x, y };
-		});
-
-		cardOffsetsRef.current = newOffsets;
-		setCardOffsets(newOffsets);
-	}, []);
-
-	useLayoutEffect(() => {
 		if (isMerged) {
-			requestAnimationFrame(() => {
-				calculateCardOffsets();
-			});
-			const timer = setTimeout(() => {
-				setIsStacked(true);
-			}, 2000);
-			return () => clearTimeout(timer);
+			timer = setTimeout(() => {
+				setMergedCardBegin(true)
+			}, 1200)
 		} else {
-			queueMicrotask(() => {
-				setIsStacked(false);
-			});
+			Promise.resolve().then(() => setMergedCardBegin(false))
 		}
-	}, [isMerged, calculateCardOffsets]);
+
+		return () => {
+			if (timer) clearTimeout(timer)
+		}
+	}, [isMerged])
 
 	useEffect(() => {
 		const loadMovies = async () => {
@@ -114,13 +91,38 @@ export default function MoviePreview() {
 			setIsShowed(false)
 		}
 
-		if (latest >= 0.9 && !isFinish) {
-			setIsFinish(true)
-			setIsMerged(true)
-		} else if (latest < 0.9 && isFinish) {
-			setIsFinish(false)
-			setIsMerged(false)
-			if (cardOffsets.length > 0) setCardOffsets([]);
+		if (latest >= 0.85 && latest < 0.9 && !isMerged && secondRowRef.current) {
+			requestAnimationFrame(() => {
+				const containerRect = secondRowRef.current!.getBoundingClientRect();
+				const containerCenterX = containerRect.left + containerRect.width / 2;
+				const containerCenterY = containerRect.top + containerRect.height / 2;
+				
+				const offsets = cardRefs.current.map((cardEl) => {
+					if (!cardEl) return { x: 0, y: 0 };
+					const cardRect = cardEl.getBoundingClientRect();
+					const cardCenterX = cardRect.left + cardRect.width / 2;
+					const cardCenterY = cardRect.top + cardRect.height / 2;
+					
+					return {
+						x: containerCenterX - cardCenterX,
+						y: containerCenterY - cardCenterY
+					};
+				});
+				
+				setCardMergeOffsets(offsets);
+			});
+		}
+
+		if (latest >= 0.9) {
+			if (!isFinish) setIsFinish(true)
+			if (!isMerged) {
+				setIsMerged(true)
+			}
+		} else {
+			if (isFinish) setIsFinish(false)
+			if (isMerged) {
+				setIsMerged(false)
+			}
 		}
 	})
 
@@ -158,98 +160,96 @@ export default function MoviePreview() {
 						className={s.secondRowCardsInner}
 						style={{ y: cardsContainerY, opacity: mergedState >= 2 ? cardsOpacity : 1 }}
 					>
-						{moviesToShow.map((item, i) => {
-							const offset = cardOffsets[i] || { x: 0, y: 0 };
-							
-							const cardVariants: Variants = {
-								initial: {
+					{moviesToShow.map((item, i) => {
+						const offset = cardMergeOffsets[i] || { x: 0, y: 0 };
+						
+						return (
+							<motion.div
+								key={item.id}
+								ref={el => { cardRefs.current[i] = el }}
+								className={s.secondRowCard}
+								animate={isMerged ? {
+									x: offset.x,
+									y: offset.y,
+									opacity: 0,
+									zIndex: -1
+								} : {
 									x: 0,
 									y: 0,
-									scale: 1,
 									opacity: 1,
-									rotate: 0
-								},
-								merged: {
-									x: offset.x,
-									y: offset.y,
-									scale: 0.5 + (i % 5) * 0.1,
-									opacity: 1,
-									rotate: (i - 15.5) * 4 + (i % 3 - 1) * 2
-								},
-								stacked: {
-									x: offset.x,
-									y: offset.y,
-									scale: 0.4,
-									opacity: 0,
-									rotate: 0
-								}
-							}
-
-							return (
-								<motion.div
-									key={item.id}
-									ref={el => { cardRefs.current[i] = el }}
-									className={s.secondRowCard}
-									variants={cardVariants}
-									animate={isStacked ? "stacked" : isMerged ? "merged" : "initial"}
-									transition={
-										isStacked ? {
-											type: "spring",
-											stiffness: 200,
-											damping: 30
-										} : isMerged ? {
-											type: "spring",
-											stiffness: 120,
-											damping: 30,
-											delay: i * 0.04
-										} : {
-											type: "spring",
-											stiffness: 300,
-											damping: 30
-										}
+									zIndex: 1
+								}}
+								transition={isMerged ? {
+									x: {
+										type: "spring",
+										stiffness: 150,
+										damping: 30,
+										delay: i * 0.02
+									},
+									y: {
+										type: "spring",
+										stiffness: 150,
+										damping: 30,
+										delay: i * 0.02
+									},
+									opacity: {
+										duration: 0.2,
+										delay: i * 0.02 + 0.8
+									},
+									zIndex: {
+										delay: i * 0.02 + 0.4
 									}
-								>
-									<Link href={`/movie/${item.id}`}>
-										<Image src={item.src} width={150} height={226} alt={item.title} />
-										<div className={s.secondRowCardPrice}><span>Less than ${item.price}</span></div>
-									</Link>
-								</motion.div>
-							)
-						})}
-						{isMerged && (
-							<div
-								className={clsx(
-									s.mergedCardWrapper,
-									mergedState === 1 && s.state1,
-									mergedState === 2 && s.state2,
-									mergedState === 3 && s.state3
-								)}
+								} : {
+									type: "spring",
+									stiffness: 300,
+									damping: 30
+								}}
 							>
-								<motion.div
-									ref={mergedCardRef}
-									className={s.mergedCard}
-									initial={{ opacity: 0 }}
-									animate={{ opacity: 1 }}
-									transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 }}
-									style={{ rotateY: mergedCardRotateY, scale: mergedCardScale }}
-								>
-									<div className={s.mergedCardFront}>
-										{movies.length > 0 && (
-											<Image src={movies[6].src} width={150} height={226} alt="Front" />
-										)}
+								<Link href={`/movie/${item.id}`}>
+									<Image src={item.src} width={150} height={226} alt={item.title} />
+									<div className={s.secondRowCardPrice}><span>Less than ${item.price}</span></div>
+								</Link>
+							</motion.div>
+						)
+					})}
+						<motion.div
+							className={clsx(
+								s.mergedCardWrapper,
+								mergedState === 1 && s.state1,
+								mergedState === 2 && s.state2,
+								mergedState === 3 && s.state3,
+								mergedCardBegin && s.begin
+							)}
+							ref={mergedCardRef}
+							animate={{
+								opacity: isMerged ? 1 : 0
+							}}
+							transition={{
+								duration: 0.6,
+								ease: "easeInOut",
+								delay: isMerged ? moviesToShow.length * 0.02 + 0.1 : 0
+							}}
+						>
+							<motion.div
+								className={s.mergedCard}
+								style={{ rotateY: mergedCardRotateY, scale: mergedCardScale }}
+							>
+								<div className={s.mergedCardFront}>
+									{movies.length > 0 && (
+										<Image src={movies[6].src} width={150} height={226} alt="Front" />
+									)}
+								</div>
+								<div className={s.mergedCardBack}>
+									<Image className={s.state} src="/img/svg/state1.svg" width={150} height={226} alt="Back" />
+								</div>
+								<div className={s.stateImage}>
+									<div className={s.stateItem}>
+										<Image className={s.keyb} src="/img/svg/keyb.svg" width={382} height={11} alt="Vector keyboard" />
+										<Image className={s.logo} src="/img/svg/logo-sm.svg" width={50} height={50} alt="Small movie-me vector logo" />
 									</div>
-									<div className={s.mergedCardBack}>
-										<Image className={s.state} src="/img/svg/state1.svg" width={150} height={226} alt="Back" />
-									</div>
-									<div className={s.stateImage}>
-										<div className={s.stateItem}>
-											<Image className={s.keyb} src="/img/svg/keyb.svg" width={382} height={11} alt="Vector keyboard" />
-											<Image className={s.logo} src="/img/svg/logo-sm.svg" width={50} height={50} alt="Small movie-me vector logo" />
-										</div>
-									</div>
-								</motion.div>
-							</div>
-						)}
+								</div>
+							</motion.div>
+						</motion.div>
 					</motion.div>
 				</div>
 

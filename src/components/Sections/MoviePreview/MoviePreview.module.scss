@@ -50,14 +50,25 @@
 	.mergedCardWrapper {
 		position: absolute;
 		left: 50%;
-		top: 50%;
-		transform: translate(-50%, -50%);
+		top: 5%;
+		transform: translateX(-50%);
+		flex: 0 0 auto;
 		z-index: 50;
 		pointer-events: none;
 		width: 92px;
 		height: 140px;
 		overflow: visible;
-		transition: height ease v.$tr, width ease-in-out v.$tr;
+		transition: height ease v.$tr, width ease-in-out v.$tr, top ease-in-out 1s,
+					transform ease-in-out 1s;
+
+		@media(min-width: v.$md) {
+			top: 0;
+		}
+
+		&.begin {
+			top: 40%;
+			transform: translate(-50%, -50%);
+		}
 
 		@media(min-width: v.$md) {
 			width: 150px;
