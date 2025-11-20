@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import s from './Dropdowns.module.scss'
 import Container from "@/components/Common/Container/Container"
 import Image from "next/image"
@@ -32,6 +32,8 @@ const dropdownItems: DropdownItem[] = [
 
 export default function Dropdowns() {
 	const [activeDropdown, setActiveDropdown] = useState<number | null>(null)
+	const contentRefs = useRef<(HTMLDivElement | null)[]>([])
+	const [contentHeights, setContentHeights] = useState<number[]>([])
 
 	const toggleDropdown = (id: number) => {
 		if (activeDropdown === id) {
@@ -40,6 +42,14 @@ export default function Dropdowns() {
 			setActiveDropdown(id)
 		}
 	}
+
+	useEffect(() => {
+		const nextHeights = dropdownItems.map((_, index) => {
+			const element = contentRefs.current[index]
+			return element ? element.scrollHeight : 0
+		})
+		setContentHeights(nextHeights)
+	}, [activeDropdown])
 
 	const handleMouseEnter = (id: number) => {
 		setActiveDropdown(id)
@@ -53,36 +63,52 @@ export default function Dropdowns() {
 		<section className={s.dropdowns}>
 			<Container maxWidth={1400}>
 				<div className={s.dropdownsItems}>
-					{dropdownItems.map((item) => (
-						<div 
-							key={item.id}
-							onClick={() => toggleDropdown(item.id)}
-							onMouseEnter={() => handleMouseEnter(item.id)}
-							onMouseLeave={handleMouseLeave}
-							className={clsx(s.dropdownsItem, {
-								[s.active]: activeDropdown === item.id
-							})}
-						>
-							<button 
-								className={s.dropdownsHeader}
+					{dropdownItems.map((item, index) => {
+						const isActive = activeDropdown === item.id
+						const contentRef = (element: HTMLDivElement | null) => {
+							contentRefs.current[index] = element
+						}
+						const contentHeight = isActive
+							? `${contentHeights[index] ?? 0}px`
+							: "0px"
+
+						return (
+							<div 
+								key={item.id}
+								onClick={() => toggleDropdown(item.id)}
+								onMouseEnter={() => handleMouseEnter(item.id)}
+								onMouseLeave={handleMouseLeave}
+								className={clsx(s.dropdownsItem, {
+									[s.active]: isActive
+								})}
 							>
-								<div className={s.dropdownsArrow}>
-									<Image
-										src="/img/svg/step-arrow.svg"
-										width={30}
-										height={15}
-										alt="Arrow"
-									/>
-								</div>
-								<h3>{item.title}</h3>
-							</button>
-							<div className={s.dropdownsContent}>
-								<div className={s.dropdownsText}>
-									{item.content}
+								<button 
+									className={s.dropdownsHeader}
+								>
+									<div className={s.dropdownsArrow}>
+										<Image
+											src="/img/svg/step-arrow.svg"
+											width={30}
+											height={15}
+											alt="Arrow"
+										/>
+									</div>
+									<h3>{item.title}</h3>
+								</button>
+								<div
+									className={s.dropdownsContent}
+									style={{ height: contentHeight }}
+								>
+									<div
+										ref={contentRef}
+										className={s.dropdownsText}
+									>
+										{item.content}
+									</div>
 								</div>
 							</div>
-						</div>
-					))}
+						)
+					})}
 				</div>
 			</Container>
 		</section>

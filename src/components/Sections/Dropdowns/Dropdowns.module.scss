@@ -137,12 +137,12 @@
 	}
 
 	&Content {
-		max-height: 0;
+		height: 0;
 		overflow: hidden;
-		transition: max-height ease 0.4s;
+		transition: height ease 1s;
 
 		.active & {
-			max-height: 2000px;
+			height: auto;
 		}
 	}
 
