@@ -49,8 +49,10 @@ export default function MoviePreview() {
 
 	useEffect(() => {
 		const loadMovies = async () => {
+			console.log("load imgs start")
 			const data = await fetchMovies(48)
 			setMovies(data)
+			console.log("load imgs done", { length: data.length })
 		}
 		void loadMovies()
 	}, [])
@@ -85,6 +87,9 @@ export default function MoviePreview() {
 	})
 
 	useMotionValueEvent(scrollYProgress, "change", (latest) => {
+		if (latest >= 0.8 && latest <= 1) {
+			console.log("scroll", latest)
+		}
 		if (latest >= 1 && !isShowed) {
 			setIsShowed(true)
 		} else if (latest < 1 && isShowed) {
@@ -93,6 +98,13 @@ export default function MoviePreview() {
 
 		if (latest >= 0.85 && latest < 0.9 && !isMerged && secondRowRef.current) {
 			requestAnimationFrame(() => {
+				console.log("computeOffsets trigger", {
+					latest,
+					moviesLength: movies.length,
+					moviesToShowLength: moviesToShow.length,
+					cardRefsLength: cardRefs.current.length,
+					hasSecondRow: Boolean(secondRowRef.current),
+				})
 				const containerRect = secondRowRef.current!.getBoundingClientRect()
 				const containerCenterX = containerRect.left + containerRect.width / 2
 				const containerCenterY = containerRect.top + containerRect.height / 2
@@ -109,6 +121,10 @@ export default function MoviePreview() {
 					}
 				})
 
+				console.log("offsets computed", {
+					count: offsets.length,
+					first: offsets[0] ?? null,
+				})
 				setCardMergeOffsets(offsets)
 			})
 		}
