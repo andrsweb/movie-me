@@ -41,6 +41,7 @@
 		position: fixed;
 		right: 20px;
 		bottom: calc(100% - 66px);
+		text-align: center;
 		transition: all ease-in-out v.$tr;
 
 		@media (min-width: v.$md) {
