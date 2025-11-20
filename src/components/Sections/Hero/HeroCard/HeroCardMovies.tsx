@@ -21,7 +21,7 @@ function HeroCardList({ data, start, end }: { data: Movie[]; start: number; end:
 			key={item.id}
 			className={s.heroCardItem}
 		>
-			<Link href={`/movie/${item.id}`}>
+			<Link href="#">
 				<Image src={item.src} width={150} height={226} alt={item.title} />
 				<div className={s.itemPrice}><span>Less than ${item.price}</span></div>
 			</Link>
