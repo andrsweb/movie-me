@@ -28,10 +28,6 @@ export default function MoviePreview() {
 	const [mergedCardBegin, setMergedCardBegin] = useState(false)
 
 	useEffect(() => {
-		cardRefs.current = Array(moviesToShow.length).fill(null)
-	}, [moviesToShow.length])
-
-	useEffect(() => {
 		let timer: ReturnType<typeof setTimeout> | null = null
 
 		if (isMerged) {
@@ -221,7 +217,7 @@ export default function MoviePreview() {
 									damping: 30
 								}}
 							>
-								<Link href={`/movie/${item.id}`}>
+								<Link href="#">
 									<Image src={item.src} width={150} height={226} alt={item.title} />
 									<div className={s.secondRowCardPrice}><span>Less than ${item.price}</span></div>
 								</Link>
