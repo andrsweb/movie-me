@@ -382,5 +382,77 @@
 		"price": 5.99,
 		"year": 2012,
 		"genre": "Western"
+	},
+	{
+		"id": 49,
+		"title": "Oppenheimer",
+		"src": "/img/frames/t17.jpg",
+		"price": 5.99,
+		"year": 2023,
+		"genre": "Drama"
+	},
+	{
+		"id": 50,
+		"title": "Barbie",
+		"src": "/img/frames/t18.jpg",
+		"price": 4.99,
+		"year": 2023,
+		"genre": "Comedy"
+	},
+	{
+		"id": 51,
+		"title": "Killers of the Flower Moon",
+		"src": "/img/frames/t19.jpg",
+		"price": 6.49,
+		"year": 2023,
+		"genre": "Drama"
+	},
+	{
+		"id": 52,
+		"title": "The Brutalist",
+		"src": "/img/frames/t20.jpg",
+		"price": 6.99,
+		"year": 2023,
+		"genre": "Drama"
+	},
+	{
+		"id": 53,
+		"title": "Past Lives",
+		"src": "/img/frames/t21.jpg",
+		"price": 4.49,
+		"year": 2023,
+		"genre": "Romance"
+	},
+	{
+		"id": 54,
+		"title": "The Iron Claw",
+		"src": "/img/frames/t22.jpg",
+		"price": 5.49,
+		"year": 2023,
+		"genre": "Drama"
+	},
+	{
+		"id": 55,
+		"title": "Dune: Part Two",
+		"src": "/img/frames/t23.jpg",
+		"price": 6.99,
+		"year": 2024,
+		"genre": "Sci-Fi"
+	},
+	{
+		"id": 56,
+		"title": "Godzilla x Kong",
+		"src": "/img/frames/t24.jpg",
+		"price": 5.99,
+		"year": 2024,
+		"genre": "Action"
+	},
+	{
+		"id": 57,
+		"title": "Inside Out 2",
+		"src": "/img/frames/t25.jpg",
+		"price": 4.99,
+		"year": 2024,
+		"genre": "Animation"
 	}
 ]
