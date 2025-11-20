@@ -19,7 +19,7 @@
 		overflow: hidden;
 		width: 100%;
 
-		@media(min-width: v.$md) {
+		@media(min-width: v.$lg) {
 			top: 10vh;
 			width: 912px;
 			border-color: v.$c-blue;

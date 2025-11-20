@@ -37,10 +37,14 @@
 		flex-direction: column;
 		align-items: flex-start;
 		justify-content: space-between;
-		gap: 100px;
+		gap: 40px;
 
 		@media(min-width: v.$md) {
 			flex-direction: row;
+		}
+
+		@media(min-width: v.$xl) {
+			gap: 100px;
 		}
 
 		.topLeft {
@@ -65,8 +69,12 @@
 				width: 100%;
 				display: flex;
 				align-items: stretch;
-				gap: 30px;
+				gap: 10px;
 				margin-bottom: 20px;
+
+				@media(min-width: v.$xl) {
+					gap: 30px;
+				}
 
 				a {
 					display: flex;
