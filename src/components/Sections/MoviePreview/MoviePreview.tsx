@@ -87,9 +87,16 @@ export default function MoviePreview() {
 			setIsShowed(false)
 		}
 
-		if (latest >= 0.85 && latest < 0.9 && !isMerged && secondRowRef.current) {
+		const allCardsRendered =
+			moviesToShow.length > 0 &&
+			cardRefs.current.filter(cardEl => cardEl !== null).length === moviesToShow.length
+		const offsetsNotComputed = cardMergeOffsets.length !== moviesToShow.length
+		const canComputeOffsets = !isMerged && secondRowRef.current && allCardsRendered && offsetsNotComputed
+
+		if (canComputeOffsets) {
 			requestAnimationFrame(() => {
-				const containerRect = secondRowRef.current!.getBoundingClientRect()
+				if (!secondRowRef.current) return
+				const containerRect = secondRowRef.current.getBoundingClientRect()
 				const containerCenterX = containerRect.left + containerRect.width / 2
 				const containerCenterY = containerRect.top + containerRect.height / 2
 
