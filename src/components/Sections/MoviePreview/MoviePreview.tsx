@@ -21,15 +21,42 @@ export default function MoviePreview() {
 	const [isMerged, setIsMerged] = useState(false)
 	const [mergedState, setMergedState] = useState(1)
 	const [movies, setMovies] = useState<Movie[]>([])
-	const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-	const moviesToShow = useMemo(() => movies.slice(24, 48), [movies]);
+	const cardRefs = useRef<(HTMLDivElement | null)[]>([])
+	const moviesToShow = useMemo(() => movies.slice(24, 48), [movies])
 	const [enableWrapperShift, setEnableWrapperShift] = useState(false)
 	const [cardMergeOffsets, setCardMergeOffsets] = useState<{ x: number; y: number }[]>([])
 	const [mergedCardBegin, setMergedCardBegin] = useState(false)
+	const scrollProgressRef = useRef(0)
+
+	const updateCardMergeOffsets = useCallback(() => {
+		if (!secondRowRef.current) {
+			return
+		}
+
+		const containerRect = secondRowRef.current.getBoundingClientRect()
+		const containerCenterX = containerRect.left + containerRect.width / 2
+		const containerCenterY = containerRect.top + containerRect.height / 2
+
+		const offsets = cardRefs.current.map((cardEl) => {
+			if (!cardEl) {
+				return { x: 0, y: 0 }
+			}
+			const cardRect = cardEl.getBoundingClientRect()
+			const cardCenterX = cardRect.left + cardRect.width / 2
+			const cardCenterY = cardRect.top + cardRect.height / 2
+
+			return {
+				x: containerCenterX - cardCenterX,
+				y: containerCenterY - cardCenterY,
+			}
+		})
+
+		setCardMergeOffsets(offsets)
+	}, [])
 
 	useEffect(() => {
-		cardRefs.current = Array(moviesToShow.length).fill(null);
-	}, [moviesToShow.length]);
+		cardRefs.current = Array(moviesToShow.length).fill(null)
+	}, [moviesToShow.length])
 
 	useEffect(() => {
 		let timer: ReturnType<typeof setTimeout> | null = null
@@ -85,32 +112,18 @@ export default function MoviePreview() {
 	})
 
 	useMotionValueEvent(scrollYProgress, "change", (latest) => {
+		scrollProgressRef.current = latest
+
 		if (latest >= 1 && !isShowed) {
 			setIsShowed(true)
 		} else if (latest < 1 && isShowed) {
 			setIsShowed(false)
 		}
 
-		if (latest >= 0.85 && latest < 0.9 && !isMerged && secondRowRef.current) {
+		if (latest >= 0.85 && latest < 0.9 && !isMerged && secondRowRef.current && moviesToShow.length > 0) {
 			requestAnimationFrame(() => {
-				const containerRect = secondRowRef.current!.getBoundingClientRect();
-				const containerCenterX = containerRect.left + containerRect.width / 2;
-				const containerCenterY = containerRect.top + containerRect.height / 2;
-				
-				const offsets = cardRefs.current.map((cardEl) => {
-					if (!cardEl) return { x: 0, y: 0 };
-					const cardRect = cardEl.getBoundingClientRect();
-					const cardCenterX = cardRect.left + cardRect.width / 2;
-					const cardCenterY = cardRect.top + cardRect.height / 2;
-					
-					return {
-						x: containerCenterX - cardCenterX,
-						y: containerCenterY - cardCenterY
-					};
-				});
-				
-				setCardMergeOffsets(offsets);
-			});
+				updateCardMergeOffsets()
+			})
 		}
 
 		if (latest >= 0.9) {
@@ -125,6 +138,20 @@ export default function MoviePreview() {
 			}
 		}
 	})
+
+	useEffect(() => {
+		if (moviesToShow.length === 0) {
+			return
+		}
+
+		const latest = scrollProgressRef.current
+
+		if (latest >= 0.85 && latest < 0.9 && !isMerged && secondRowRef.current) {
+			requestAnimationFrame(() => {
+				updateCardMergeOffsets()
+			})
+		}
+	}, [moviesToShow.length, isMerged, updateCardMergeOffsets])
 
 	const cardsContainerY = useTransform(shrinkProgress, [0, 1], [0, 0])
 	const cardsOpacity = useTransform(shrinkProgress, [0.5, 0.7], [1, 0])
