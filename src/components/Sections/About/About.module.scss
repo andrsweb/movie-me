@@ -8,6 +8,11 @@
 	margin-top: 0;
 	will-change: transform, opacity;
 
+	@media (max-width: v.$md) {
+		margin-top: -80px;
+		padding-top: 160px;
+	}
+
 	&Wrapper {
 		display: flex;
 		flex-direction: column;

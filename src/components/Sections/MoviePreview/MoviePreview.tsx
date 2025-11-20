@@ -26,6 +26,7 @@ export default function MoviePreview() {
 	const cardOffsetsRef = useRef<{ x: number; y: number }[]>([]);
 	const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 	const moviesToShow = useMemo(() => movies.slice(24, 48), [movies]);
+	const [enableWrapperShift, setEnableWrapperShift] = useState(false)
 
 	useEffect(() => {
 		cardRefs.current = Array(moviesToShow.length).fill(null);
@@ -77,6 +78,25 @@ export default function MoviePreview() {
 		void loadMovies()
 	}, [])
 
+	useEffect(() => {
+		const breakpoint = window.matchMedia('(max-width: 768px)')
+		const update = (event?: MediaQueryListEvent | MediaQueryList) => {
+			setEnableWrapperShift(event ? event.matches : breakpoint.matches)
+		}
+
+		update(breakpoint)
+
+		if (typeof breakpoint.addEventListener === 'function') {
+			breakpoint.addEventListener('change', update)
+			return () => breakpoint.removeEventListener('change', update)
+		}
+
+		breakpoint.onchange = update
+		return () => {
+			breakpoint.onchange = null
+		}
+	}, [])
+
 	const { scrollYProgress } = useScroll({
 		target: containerRef,
 		offset: ["start end", "start 20vh"]
@@ -109,7 +129,6 @@ export default function MoviePreview() {
 	const trackOpacity = useTransform(shrinkProgress, [0.6, 0.9], [0, 1])
 	const mergedCardRotateY = useTransform(shrinkProgress, [0.2, 0.55], [0, 180])
 	const mergedCardScale = useTransform(shrinkProgress, [0.55, 0.95], [1, 4.5])
-	const sectionScale = useTransform(shrinkProgress, [0.8, 1], [1, 0.75])
 
 	useMotionValueEvent(shrinkProgress, "change", (latest) => {
 		let nextState = 1
@@ -125,13 +144,13 @@ export default function MoviePreview() {
 	})
 
 	const wrapperOpacity = mergedState >= 2 ? trackOpacity : 0
+	const wrapperOffsetY = useTransform(shrinkProgress, [0.6, 1], [0, 120])
 
 	return (
 		<div ref={containerRef} className={s.moviePreviewContainer}>
 			<motion.section
 				ref={sectionRef}
 				className={clsx(s.moviePreview, isShowed && s.showed, isFinish && s.finish)}
-				style={{ scale: sectionScale }}
 			>
 				<div className={s.secondRowCards}>
 					<motion.div
@@ -236,7 +255,7 @@ export default function MoviePreview() {
 
 				<motion.div
 					className={s.moviePreviewWrapper}
-					style={{ opacity: wrapperOpacity }}
+					style={{ opacity: wrapperOpacity, y: enableWrapperShift ? wrapperOffsetY : 0 }}
 				>
 					<h2 className="sr-only">Watch More, Pay Less - Only for What You Watch</h2>
 					<div className={s.moviePreviewBg}>
