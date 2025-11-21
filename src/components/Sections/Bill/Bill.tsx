@@ -42,7 +42,7 @@ export default function Bill() {
 								</div>
 							</div>
 							<div className={s.billCardImg}>
-								<Image src="/img/svg/wallet.svg" width={210} height={182}  alt="Wallet" />
+								<Image src="/img/wallet.gif" unoptimized width={210} height={184}  alt="Wallet" />
 							</div>
 						</div>
 						<div className={s.billCard}>
@@ -64,7 +64,7 @@ export default function Bill() {
 								</div>
 							</div>
 							<div className={s.billCardImg}>
-								<Image src="/img/svg/laptop.svg" width={248} height={135} alt="Wallet" />
+								<Image src="/img/card.gif" unoptimized width={248} height={135} alt="Laptop" />
 							</div>
 						</div>
 					</div>

@@ -139,12 +139,25 @@
 
 		&Img {
 			position: absolute;
-			right: 20px;
+			right: 0;
 			top: 20px;
 			max-width: 150px;
 
+			@media(min-width: v.$xs) {
+				right: 20px;
+			}
+
 			@media(min-width: v.$sm) {
+				max-width: 230px;
+			}
+
+			@media(min-width: v.$md) {
 				max-width: 248px;
+			}
+
+			img {
+				width: 100%;
+				height: auto;
 			}
 		}
 
