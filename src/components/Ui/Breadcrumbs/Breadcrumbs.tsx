@@ -13,7 +13,7 @@ interface BreadcrumbsProps {
 
 export default function Breadcrumbs({ items }: BreadcrumbsProps) {
     return (
-        <nav className="w-full flex items-center justify-center flex-wrap space-x-2 text-md font-normal text-[var(--color-pop-corn)]">
+        <nav className="w-full flex items-center justify-center flex-wrap space-x-2 text-md font-normal text-[var(--color-pop-corn)] mb-[20px]">
             {items.map((item, index) => (
                 <div key={index} className="flex items-center">
                     {index > 0 && (
