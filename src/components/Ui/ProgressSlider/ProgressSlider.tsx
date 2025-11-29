@@ -1,7 +1,6 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
-import s from "./ProgressSlider.module.scss";
 
 interface ProgressSliderProps {
 	className?: string;
@@ -93,9 +92,9 @@ export default function ProgressSlider({ className = '' }: ProgressSliderProps) 
 	}, [updateProgress, progress]);
 	
 	return (
-		<div className={clsx(s.progressContainer, className)}>
+		<div className={clsx("w-full py-[30px]", className)}>
 			<div
-				className={s.progressBar}
+				className="relative h-1 bg-[var(--color-blue)] rounded-1 mb-[15px] cursor-pointer touch-none"
 				ref={barRef}
 				role="slider"
 				aria-valuemin={MIN_MINUTES}
@@ -109,27 +108,27 @@ export default function ProgressSlider({ className = '' }: ProgressSliderProps) 
 				onKeyDown={handleKeyDown}
 			>
 				<motion.div 
-					className={s.progressTrack} 
+					className="h-full bg-[var(--color-gold)] rounded-1" 
 					style={{ width: trackWidth }}
 				/>
 				<motion.div
-					className={s.progressDot}
-					style={{ left: trackWidth }}
+					className="absolute top-1/2 w-4 h-4 bg-[var(--color-gold)] rounded-full md:w-[13px] md:h-[13px]"
+					style={{ left: trackWidth, transform: 'translateY(-50%) translateX(-2px)' }}
 				/>
 			</div>
-			<div className={s.progressInfo}>
-				<div className={s.leftInfo}>
-					<p className={s.forEvery}>For every</p>
-					<div className={s.timeBlock}>
-						<span className={s.time}>
+			<div className="flex justify-between items-end text-white">
+				<div className="flex flex-col">
+					<p className="font-normal text-[14px] leading-[18px] text-[var(--color-violet)] mb-1">For every</p>
+					<div className="flex items-center gap-1">
+						<span className="font-bold text-[32px] leading-[48px] text-[var(--color-violet)]">
 							{displayedMinutes} mins
 						</span> 
-						<span className={s.youPlay}>you play</span>
+						<span className="font-normal text-[16px] leading-[20px] text-[var(--color-violet)]">you play</span>
 					</div>
 				</div>
-				<div className={s.rightInfo}>
-					<p className={s.youPay}>You only pay</p>
-					<span className={s.price}>{displayedPrice}</span>
+				<div className="flex flex-col">
+					<p className="font-normal text-[14px] leading-[18px] text-[var(--color-violet)] mb-1">You only pay</p>
+					<span className="font-bold text-[32px] leading-[48px] text-[var(--color-violet)]">{displayedPrice}</span>
 				</div>
 			</div>
 		</div>
