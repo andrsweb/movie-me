@@ -4,7 +4,6 @@ import React from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { maskTextVariants, maskTransition } from '@/lib/animations'
 import clsx from 'clsx'
-import s from './MaskText.module.scss'
 
 interface MaskTextProps {
 	children: React.ReactNode
@@ -20,7 +19,7 @@ export default function MaskText({ children, show, as = 'div', className, delay 
 
 	return (
 		<Component
-			className={clsx(s.maskText, className)}
+			className={clsx("mask-text [&_span]:text-[var(--color-violet)]", className)}
 			initial="hidden"
 			animate={show ? "visible" : "hidden"}
 			variants={prefersReducedMotion ? {} : maskTextVariants}

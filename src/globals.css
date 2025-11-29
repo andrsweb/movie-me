@@ -156,6 +156,32 @@
         font-style: normal;
     }
 
+    .mask-text em {
+        position: relative;
+        z-index: 1;
+    }
+
+    .mask-text em::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 5%;
+        display: block;
+        width: 101%;
+        height: 15%;
+        opacity: 1;
+        background-color: var(--color-blue);
+        z-index: -1;
+    }
+
+    @media (min-width: 768px) {
+        .mask-text em::after {
+            height: 20%;
+            bottom: 15%;
+        }
+    }
+
     p {
         margin: 0 0 1rem;
     }
