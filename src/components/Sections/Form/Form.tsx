@@ -44,6 +44,10 @@ export default function Form() {
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault()
 		const value = activeTab === 'email' ? emailValue : phoneValue
+		if (value.trim()) {
+			setEmailValue('')
+			setPhoneValue('')
+		}
 	}
 
 	return (
