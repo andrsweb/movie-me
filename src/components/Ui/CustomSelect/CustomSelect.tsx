@@ -4,7 +4,6 @@ import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import { useClickOutside } from '@/hooks/useClickOutside'
-import s from './CustomSelect.module.scss'
 
 interface CustomSelectProps {
 	options: string[]
@@ -44,27 +43,38 @@ export default function CustomSelect({ options, defaultValue, onSelect }: Custom
 	}
 
 	return (
-		<div className={s.customSelect} ref={selectRef}>
+		<div
+			className="relative inline-block"
+			ref={selectRef}
+		>
 			<button
-				className={s.selectButton}
+				className="flex min-w-[100px] cursor-pointer items-center justify-center gap-[12px] rounded-[10px] border-0 bg-[var(--color-blue)] px-[20px] py-[12px] text-[16px] leading-[20px] text-[var(--color-white)] backdrop-blur-[10px] transition-all duration-200 ease-in-out hover:opacity-[var(--opacity-base)] md:min-w-[140px] md:py-[16px] md:text-[18px] md:leading-[22px]"
 				onClick={() => setIsOpen(!isOpen)}
+				aria-haspopup="listbox"
+				aria-expanded={isOpen}
 				type="button"
 			>
-				<span className={s.selectedValue}>{selectedValue}</span>
+				<span className="text-left">{selectedValue}</span>
 				<motion.div
-					className={s.arrowWrapper}
+					className="flex h-[14px] w-[14px] items-center justify-center"
 					variants={arrowVariants}
 					animate={isOpen ? 'open' : 'closed'}
 					transition={{ duration: 0.2, ease: 'easeInOut' }}
 				>
-					<Image src="/img/svg/step-arrow.svg" alt="Arrow" width={20} height={20} />
+					<Image
+						className="h-full w-full"
+						src="/img/svg/step-arrow.svg"
+						alt="Arrow"
+						width={20}
+						height={20}
+					/>
 				</motion.div>
 			</button>
 
 			<AnimatePresence>
 				{isOpen && (
 					<motion.div
-						className={s.dropdown}
+						className="absolute left-0 right-0 top-[calc(100%+8px)] z-[1000] overflow-hidden rounded-[12px] border border-[rgba(255,255,255,0.2)] bg-[rgba(13,19,35,0.95)] backdrop-blur-[20px] shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
 						variants={dropdownVariants}
 						initial="hidden"
 						animate="visible"
@@ -74,7 +84,7 @@ export default function CustomSelect({ options, defaultValue, onSelect }: Custom
 						{options.map((option) => (
 							<button
 								key={option}
-								className={s.option}
+								className="w-full border-b border-b-[rgba(255,255,255,0.1)] bg-transparent px-[20px] py-[14px] text-left text-[16px] leading-[20px] text-[var(--color-white)] transition-all duration-150 ease-in-out last:border-b-0 hover:bg-[rgba(184,182,254,0.1)] hover:text-[var(--color-violet)]"
 								onClick={() => handleSelect(option)}
 								type="button"
 							>
