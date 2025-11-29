@@ -9,7 +9,7 @@ import type { Movie } from '@/types/movie'
 import { fetchMovies } from '@/lib/api/movies'
 import Image from "next/image";
 import Button from "@/components/Ui/Button/Button";
-import HeroDesc from "@/components/Sections/Hero/HeroDesc/HeroDesc";
+import HeroDesc from "@/components/Sections/Home/Hero/HeroDesc/HeroDesc";
 import MaskText from "@/components/Ui/MaskText/MaskText";
 import HeroCardMovies from "./HeroCardMovies";
 
