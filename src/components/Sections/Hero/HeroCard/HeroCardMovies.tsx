@@ -20,7 +20,7 @@ function HeroCardList({ data, start, end }: { data: Movie[]; start: number; end:
 			key={item.id}
 			className="flex-shrink-0 w-[92px] h-[140px] md:w-[150px] md:h-[226px] relative transition-transform ease-in-out duration-[200ms] group"
 		>
-			<Link href="#" className="w-full h-full block">
+			<Link href={`/movie/${item.slug}?id=${item.id}`} className="w-full h-full block">
 				<Image src={item.src} width={150} height={226} alt={item.title} className="w-full h-full object-cover rounded-[5px]" />
 				<div className="absolute top-0 left-0 w-full h-full flex items-end justify-center p-[10px_10px_20px_10px] opacity-0 group-hover:opacity-100 transition-opacity ease-in-out duration-[200ms]" style={{background: "linear-gradient(to top, rgb(13, 19, 15), rgba(13, 19, 40, 1), rgba(13, 19, 35, 0.8), rgba(13, 19, 35, 0.3), rgba(13, 19, 35, 0), rgba(13, 19, 35, 0))"}}>
 					<span className="font-bold text-[10px] leading-[18px] text-center text-[var(--color-gold)] md:text-[14px]">Less than ${item.price}</span>
