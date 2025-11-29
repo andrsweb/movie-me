@@ -5,7 +5,6 @@ import { motion, useInView, useMotionValue, useReducedMotion, useSpring, useTran
 import clsx from 'clsx'
 import PaymentInfo from '../PaymentInfo/PaymentInfo'
 import { formatTime } from '@/lib/utils'
-import s from './Track.module.scss'
 
 interface TrackProps {
 	totalTime: number
@@ -47,20 +46,20 @@ export default function Track({ totalTime, className }: TrackProps) {
 	}, [isInView, animatedTime, prefersReducedMotion])
 
 	return (
-		<div ref={trackRef} className={clsx(s.track, className)}>
-			<div className={s.trackProgress}>
-				<div className={s.trackBar}>
+		<div ref={trackRef} className={clsx("w-full absolute bottom-0 left-0 p-5 will-change-[transform,opacity] md:pb-[100px] md:px-5 md:pt-5 xl:p-8 xl:pb-8", className)}>
+			<div className="w-full">
+				<div className="relative w-full h-1 bg-[#0C1828] rounded-[10px] cursor-pointer mb-3 md:h-2 md:rounded-[3px] md:mb-4">
 					<motion.div 
-						className={s.trackWatched}
+						className="absolute top-0 left-0 h-full bg-[rgba(206,177,130,0.6)] rounded-[inherit] transition-[width] ease-in-out duration-200 will-change-width"
 						style={{ width: progressWidth }}
 					/>
 					<motion.div 
-						className={s.trackFill}
+						className="absolute top-0 left-0 h-full rounded-[10px] bg-[var(--color-gold)] will-change-width"
 						style={{ width: progressWidth }}
 					/>
 					<motion.div 
-						className={s.trackThumb}
-						style={{ left: progressWidth }}
+						className="absolute top-1/2 w-4 h-4 bg-[var(--color-gold)] rounded-full cursor-pointer opacity-100 will-change-transform md:w-[29px] md:h-[29px]"
+						style={{ left: progressWidth, transform: 'translateX(-100%) translateY(-50%)' }}
 					>
 						<PaymentInfo 
 							isVisible={showPayment}
@@ -70,11 +69,11 @@ export default function Track({ totalTime, className }: TrackProps) {
 					</motion.div>
 				</div>
 				
-				<div className={s.trackTime}>
-					<span className={s.trackCurrent}>
+				<div className="flex justify-between items-center font-normal text-[14px] leading-[18px] text-[var(--color-white)] md:text-[22px] md:leading-[30px]">
+					<span>
 						{formatTime(currentTime)}
 					</span>
-					<span className={s.trackTotal}>{formatTime(totalTime)}</span>
+					<span>{formatTime(totalTime)}</span>
 				</div>
 			</div>
 		</div>
