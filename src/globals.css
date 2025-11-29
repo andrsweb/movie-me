@@ -225,6 +225,10 @@
         width: 100%;
     }
 
+    button {
+        cursor: pointer;
+    }
+
     .isLoading {
         opacity: 0.5;
         pointer-events: none;
