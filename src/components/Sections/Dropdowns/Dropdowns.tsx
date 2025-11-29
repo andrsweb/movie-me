@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useRef, useState } from 'react'
-import s from './Dropdowns.module.scss'
 import Container from "@/components/Common/Container/Container"
 import Image from "next/image"
 import clsx from 'clsx'
@@ -60,9 +59,9 @@ export default function Dropdowns() {
 	}
 
 	return (
-		<section className={s.dropdowns}>
+		<section className="w-full py-[80px] bg-[var(--color-dark)]">
 			<Container maxWidth={1400}>
-				<div className={s.dropdownsItems}>
+				<div className="w-full flex flex-col items-start gap-[2px] max-w-[900px] mx-auto">
 					{dropdownItems.map((item, index) => {
 						const isActive = activeDropdown === item.id
 						const contentRef = (element: HTMLDivElement | null) => {
@@ -78,30 +77,38 @@ export default function Dropdowns() {
 								onClick={() => toggleDropdown(item.id)}
 								onMouseEnter={() => handleMouseEnter(item.id)}
 								onMouseLeave={handleMouseLeave}
-								className={clsx(s.dropdownsItem, {
-									[s.active]: isActive
-								})}
+								className="w-full bg-[var(--color-dark)] relative"
 							>
+								<div className="absolute bottom-0 left-0 w-screen h-[1px] bg-[#162542]" style={{ marginLeft: 'calc(50% - 50vw)' }} />
 								<button 
-									className={s.dropdownsHeader}
+									className="w-full flex items-center justify-start gap-[20px] py-[24px] bg-transparent border-none cursor-pointer text-left transition-all ease-in-out relative hover:text-[var(--color-violet)]"
+									style={{
+										position: 'relative'
+									}}
 								>
-									<div className={s.dropdownsArrow}>
+									<div className="absolute top-[-2px] left-0 w-screen h-full bg-[#162542] transition-opacity ease-in-out z-0 pointer-events-none" style={{ marginLeft: 'calc(50% - 50vw)', opacity: isActive ? 1 : 0 }} />
+									<div className="w-[40px] h-[40px] flex items-center justify-center transition-[background-color] ease-in-out duration-700 relative z-[1] flex-shrink-0" style={{ backgroundColor: isActive ? 'var(--color-blue)' : 'transparent' }}>
 										<Image
 											src="/img/svg/step-arrow.svg"
 											width={30}
 											height={15}
 											alt="Arrow"
+											className="w-auto h-[10px] transition-transform ease-in-out duration-700 xl:h-[14px]"
+											style={{ transform: isActive ? 'rotate(-90deg)' : 'rotate(0deg)' }}
 										/>
 									</div>
-									<h3>{item.title}</h3>
+									<h3 className={clsx("font-normal text-[18px] leading-[24px] transition-colors ease-in-out relative z-[1] md:text-[24px] md:leading-[32px] xl:text-[32px] xl:leading-[48px]", {
+										"text-[var(--color-violet)]": isActive,
+										"text-[var(--color-white)]": !isActive
+									})}>{item.title}</h3>
 								</button>
 								<div
-									className={s.dropdownsContent}
+									className="h-0 overflow-hidden transition-[height] ease-in-out duration-1000"
 									style={{ height: contentHeight }}
 								>
 									<div
 										ref={contentRef}
-										className={s.dropdownsText}
+										className="font-normal text-[#d1d5db] text-[16px] leading-[24px] whitespace-pre-line pb-[32px] md:text-[18px] md:leading-[28px]"
 									>
 										{item.content}
 									</div>
