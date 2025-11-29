@@ -3,7 +3,6 @@
 import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import Image from "next/image"
-import s from './Fly.module.scss'
 import Container from "@/components/Common/Container/Container"
 
 const logoPositions = [
@@ -29,7 +28,7 @@ export default function Fly() {
 	return (
 		<motion.section 
 			ref={sectionRef} 
-			className={s.fly}
+			className="relative w-full min-h-[400px] py-[50px] bg-[var(--color-dark)] overflow-visible z-[70] md:py-[100px] md:min-h-[641px]"
 			initial={{ opacity: 0, y: 50 }}
 			animate={hasAnimated ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
 			transition={{ duration: 0.6, ease: "easeOut" }}
@@ -46,7 +45,7 @@ export default function Fly() {
 				{logoPositions.map((logo) => (
 					<motion.div
 						key={logo.id}
-						className={s.flyLogo}
+						className="w-[20px] h-[20px] aspect-square z-[1] pointer-events-none will-change-[transform,opacity] md:w-[40px] md:h-[40px]"
 						style={{
 							position: 'absolute',
 							top: logo.top,
@@ -95,6 +94,8 @@ export default function Fly() {
 							width={40} 
 							height={40} 
 							alt={`Logo ${logo.id}`}
+							className="w-full h-full object-contain"
+							style={{ filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3))' }}
 						/>
 					</motion.div>
 				))}
@@ -104,11 +105,16 @@ export default function Fly() {
 				<h2 className="sr-only">
 					MovieMe shows you exactly where something is streaming
 				</h2>
-				<div className={s.flyWrapper}>
-					<div className={s.flyInfo}>
-						<h3>If it&#39;s out there, <br/> you&#39;ll find it here.</h3>
-						<p>
-							<em>MovieMe</em> shows you exactly <br/> where something is streaming
+				<div className="w-full h-full flex flex-col items-center relative z-[2] mx-auto">
+					<div className="w-full flex flex-col items-start gap-[30px] max-w-[800px]">
+						<h3 className="text-left mb-[20px] text-[32px] leading-[40px] font-bold text-[var(--color-violet)] md:text-[60px] md:leading-[70px]">If it&#39;s out there, <br/> you&#39;ll find it here.</h3>
+						<p className="max-w-[450px] font-normal text-[18px] leading-[28px] text-[#7183AA] ml-auto md:text-[24px] md:leading-[36px]">
+							<em className="text-[var(--color-violet)] not-italic font-semibold relative z-[1]" style={{
+								position: 'relative'
+							}}>
+								MovieMe
+								<span className="absolute left-1/2 bottom-[5%] block w-[101%] h-[15%] opacity-100 bg-[#29406D] z-[-1] md:h-[20%] md:bottom-[15%]" style={{ transform: 'translateX(-50%)' }} />
+							</em> shows you exactly <br/> where something is streaming
 						</p>
 					</div>
 				</div>
