@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Instrument_Sans } from "next/font/google";
 import Header from "@/components/Common/Header/Header";
 import Footer from "@/components/Common/Footer/Footer";
-import "../scss/main.scss";
+import "../globals.css";
 
 const instrumentSans = Instrument_Sans({
 	variable: "--ff-instrument-sans",
