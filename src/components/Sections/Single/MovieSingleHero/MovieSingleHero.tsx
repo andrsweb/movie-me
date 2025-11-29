@@ -29,6 +29,7 @@ export default function MovieSingleHero({ movie }: MovieSingleHeaderProps) {
         }
         handleChange(mediaQuery)
         mediaQuery.addEventListener('change', handleChange)
+
         return () => mediaQuery.removeEventListener('change', handleChange)
     }, [])
 
