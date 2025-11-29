@@ -7,3 +7,13 @@ export const formatTime = (seconds: number): string => {
 	}
 	return `${mins}:${secs.toString().padStart(2, '0')}`
 }
+
+export default function formatDuration(duration: number): string {
+    const hours = Math.floor(duration / 60)
+    const minutes = duration % 60
+    const parts: string[] = []
+
+    if (hours > 0) parts.push(`${hours}h`)
+    parts.push(`${minutes}m`)
+    return parts.join(' ')
+}
