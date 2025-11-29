@@ -7,7 +7,6 @@ import { motion, useScroll, useMotionValueEvent, useReducedMotion } from 'framer
 import clsx from 'clsx'
 import type { Movie } from '@/types/movie'
 import { fetchMovies } from '@/lib/api/movies'
-import s from "./HeroCard.module.scss";
 import Image from "next/image";
 import Button from "@/components/Ui/Button/Button";
 import HeroDesc from "@/components/Sections/Hero/HeroDesc/HeroDesc";
@@ -65,7 +64,7 @@ export default function HeroCard() {
 
 	useLayoutEffect(() => {
 		if (window.scrollY > 0 && heroBgRef.current) {
-			heroBgRef.current.classList.add(s.heroCardBgHidden)
+			heroBgRef.current.classList.add("opacity-0", "invisible", "-z-[100]")
 		}
 	}, [])
 
@@ -109,52 +108,61 @@ export default function HeroCard() {
 	})
 
 	return (
-		<div ref={containerRef} className={s.heroCardContainer}>
+		<div ref={containerRef} className="relative w-full min-h-[400vh]">
 
 			<motion.div
 				ref={heroBgRef}
-				className={clsx(s.heroCardBg, isExpanded && s.heroCardBgHidden)}
+				className={clsx(
+					"fixed top-0 left-0 w-full h-[80%] md:h-full -z-10 opacity-100 transition-opacity duration-[200ms] ease-in-out",
+					isExpanded && "opacity-0 invisible -z-[100]"
+				)}
 			>
 				<Image
 					src="/img/hero-bg.png"
 					width={1440}
 					height={785}
 					alt="Hero image"
+					className="w-full h-full object-cover"
 				/>
+				<div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[rgba(0,0,0,0.3)] to-[rgba(0,0,0,0.7)] z-[1]"></div>
 			</motion.div>
 			<HeroDesc />
 			<motion.div
 				className={clsx(
-					s.heroCard,
-					isStart && s.heroCardStart,
-					isFinish && s.finish,
-					isExpanded && s.expanded
+					"sticky left-0 top-0 w-full bg-[var(--color-dark)] border-2 border-transparent mx-auto rounded-[5px] visible will-change-[opacity]",
+					isStart && "overflow-hidden w-full lg:top-[10vh] lg:w-[912px] lg:border-[var(--color-blue)] lg:p-[10px]",
+					isFinish && "border-transparent",
+					isExpanded && "max-w-[1540px] overflow-visible mx-auto lg:border-transparent"
 				)}
+				style={{
+					transition: "width 1s ease, top 1s ease, padding 1s ease, max-width 1s ease"
+				}}
 			>
 				<motion.div
 					ref={imgBlockRef}
-					className={s.heroCardImg}
+					className="relative w-full aspect-[16/9] min-h-[500px] transition-[min-height] ease-linear"
 					style={prefersReducedMotion ? {} : {
 						transform: `scaleX(${isStart ? 1 : imgScaleX})`,
 						transformOrigin: 'center center',
 					}}
 				>
-					<Image src="/img/hero-bg.jpg" width={906} height={514} alt="Hero image"/>
-					<MaskText show={showDesc} className={s.heroCardDescD}>
-						<h2>Hating Game</h2>
+					<Image src="/img/hero-bg.jpg" width={906} height={514} alt="Hero image" className="absolute top-0 left-0 w-full h-full object-cover rounded-[5px]"/>
+					<div className="absolute top-0 left-0 w-full h-full" style={{background: "linear-gradient(to right, rgb(13, 19, 15), rgba(13, 19, 35, 0.88), rgba(13, 19, 35, 0.5), rgba(13, 19, 35, 0.3), rgba(13, 19, 35, 0), rgba(13, 19, 35, 0))"}}></div>
+					<MaskText show={showDesc} className="hidden md:flex absolute left-[20px] bottom-[20px] z-[1] max-w-[592px] flex-col items-start gap-[20px]">
+						<h2 className="font-bold text-[32px] leading-[37px] text-[var(--color-white)] lg:text-[64px] lg:leading-[70px]">Hating Game</h2>
 						<Button color="violet" type="button">Play <b>Me</b></Button>
 					</MaskText>
 				</motion.div>
-				<div ref={cardsRef} className={s.heroCardInner}>
-					<MaskText show={showDesc} className={s.heroCardDescM}>
-						<h2>Hating Game</h2>
+				<div ref={cardsRef} className="mx-auto flex w-full h-full max-w-[992px] flex-col items-start gap-[20px] transition-[max-width] ease-linear">
+					<MaskText show={showDesc} className="md:hidden mx-auto flex w-full max-w-[266px] flex-col items-center gap-[20px] py-[20px]">
+						<h2 className="font-bold text-[32px] leading-[37px] text-[var(--color-white)] lg:text-[64px] lg:leading-[70px]">Hating Game</h2>
 						<Button color="violet" type="button">Play <b>Me</b></Button>
 					</MaskText>
-					<MaskText show={showText} className={s.heroCardText}>
-						<h3>
+					<MaskText show={showText} className="flex w-full flex-col items-start gap-[30px] px-[20px] py-[60px] md:flex-row md:items-center md:gap-[70px]">
+						<h3 className="w-full max-w-[245px] font-bold text-[32px] leading-[37px] text-[var(--color-white)] md:max-w-[495px] md:text-[32px] md:leading-[37px] lg:text-[64px] lg:leading-[70px]">
 							MovieMe is the  <em>un-subscription</em>
 						</h3>
-						<p>
+						<p className="ml-auto w-full max-w-[220px] text-left text-[18px] leading-[22px] font-bold md:text-[22px] md:leading-[30px]">
 							Handpicked films,
 							not an endless scroll.
 						</p>
