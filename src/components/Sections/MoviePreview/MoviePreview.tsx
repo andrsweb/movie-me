@@ -209,7 +209,7 @@ export default function MoviePreview() {
 										damping: 30
 									}}
 								>
-									<Link href="#" className="group flex h-full w-full flex-col relative no-underline">
+									<Link href={`/movie/${item.slug}?id=${item.id}`} className="group flex h-full w-full flex-col relative no-underline">
 										<Image src={item.src} width={150} height={226} alt={item.title} className="w-full h-full object-cover block" />
 										<div
 											className="absolute inset-0 flex items-end justify-center px-[10px] pb-[20px] pt-[10px] opacity-0 transition-opacity duration-[200ms] ease-in-out group-hover:opacity-100"
@@ -289,7 +289,7 @@ export default function MoviePreview() {
 				</div>
 
 				<motion.div
-					className="w-full h-[65%] md:h-full flex flex-col items-center justify-center relative z-[20] px-[20px] py-[82px] md:px-[50px] md:py-[50px]"
+					className="w-full h-[65%] md:h-full flex flex-col items-center justify-center relative z-[-1] px-[20px] py-[82px] md:px-[50px] md:py-[50px]"
 					style={{ opacity: wrapperOpacity, y: enableWrapperShift ? wrapperOffsetY : 0 }}
 				>
 					<h2 className="sr-only">Watch More, Pay Less - Only for What You Watch</h2>
