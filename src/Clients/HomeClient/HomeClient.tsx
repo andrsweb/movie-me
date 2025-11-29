@@ -8,11 +8,10 @@ import Dropdowns from "@/components/Sections/Dropdowns/Dropdowns";
 import Cta from "@/components/Sections/Cta/Cta";
 import AnimatedText from "@/components/Sections/AnimatedText/AnimatedText";
 import Form from "@/components/Sections/Form/Form";
-import s from './HomeClient.module.scss'
 
 export default function HomeClient() {
 	return (
-		<div className={s.page}>
+		<div className="w-full">
 			<Hero/>
 			<MoviePreview/>
 			<About/>
