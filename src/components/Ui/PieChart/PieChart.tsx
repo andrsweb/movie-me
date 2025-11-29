@@ -2,7 +2,6 @@
 
 import { motion, useReducedMotion, useInView } from 'framer-motion';
 import React,{ useEffect, useState, useRef } from 'react';
-import s from './PieChart.module.scss';
 
 interface PieChartProps {
 	sliceAngle?: number;
@@ -143,8 +142,8 @@ export default function PieChart({
 	const circleOffset = getCircleOffset();
 
 	return (
-		<div ref={chartRef} className={`${s.pieChart} ${className}`}>
-			<svg className={s.svg} viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet" shapeRendering="crispEdges" overflow="visible">
+		<div ref={chartRef} className={`flex items-start justify-center will-change-transform overflow-visible absolute right-0 top-[15%] z-[-1] xs:top-[5%] md:relative md:top-auto md:right-auto ${className}`}>
+			<svg className="block overflow-visible w-[230px] h-[230px] md:w-[300px] md:h-[300px]" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet" shapeRendering="crispEdges" overflow="visible">
 				<motion.g
 					style={{ willChange: 'transform' }}
 					animate={{ y: circleOffset }}
