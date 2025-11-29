@@ -2,6 +2,7 @@
 
 @theme {
     --color-white: #ffffff;
+    --color-pop-corn: #FAF8ED;
     --color-black: #111111;
     --color-dark: #0D1323;
     --color-dark-blue: #0D1323;
@@ -62,6 +63,15 @@
             rgba(13, 19, 35, 0.3),
             rgba(13, 19, 35, 0),
             rgba(13, 19, 35, 0)
+    );
+
+    --gradient-dark-bottom: linear-gradient(
+            to top,
+            rgba(13, 19, 35, 1) 0%,
+            rgba(13, 19, 35, 0.85) 30%,
+            rgba(13, 19, 35, 0.6) 55%,
+            rgba(13, 19, 35, 0.3) 75%,
+            rgba(13, 19, 35, 0) 100%
     );
 
     --gradient-light: linear-gradient(
@@ -183,7 +193,7 @@
     }
 
     p {
-        margin: 0 0 1rem;
+        margin: 0;
     }
 
     p:last-child {
