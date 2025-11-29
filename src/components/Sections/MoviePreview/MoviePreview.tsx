@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useState, useEffect, useMemo } from "react"
-import { motion, useScroll, useTransform, useMotionValueEvent, Variants } from "framer-motion"
+import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion"
 import clsx from "clsx"
 import Image from "next/image"
 import Link from "next/link"
