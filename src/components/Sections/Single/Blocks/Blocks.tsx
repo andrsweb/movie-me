@@ -26,9 +26,9 @@ export default function Blocks () {
                           </div>
                             <About small={true} />
                         </div>
-                        <div className="flex flex-col items-center flex-1 gap-[32px] lg:py-[80px] w-[100%]">
+                        <div className="flex flex-col items-center flex-1 gap-[32px] lg:pt-[80px] w-[100%]">
                             <div className="w-[100%] flex flex-col items-center bg-[#162542] rounded-[20px] gap-[30px] md:gap-[50px] px-[20px] py-[30px] lg:py-[40px]">
-                                <h5 className="font-bold text-[18px] leading-[22px] md:text-[22px] md:leading-[30px] text-[var(--color-pop-corn)]">
+                                <h5 className="w-full text-left font-bold text-[18px] leading-[22px] md:text-[22px] md:leading-[30px] text-[var(--color-pop-corn)]">
                                     Stream one on. Finish on the other.
                                 </h5>
                                 <Image className="w-full h-auto" src="/img/steps-r.svg" width={464} height={330} alt="steps" />
