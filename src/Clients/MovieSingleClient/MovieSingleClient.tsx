@@ -3,8 +3,9 @@ import MovieSingleInfo from "@/components/Sections/Single/MovieSingleInfo/MovieS
 import MovieCarousel from "@/components/Sections/Single/MovieCarousel/MovieCarousel";
 import TrendingNow from "@/components/Sections/Single/TrendingNow/TrendingNow";
 import Bill from "@/components/Sections/Home/Bill/Bill";
-import moviesData from '@/data/movies.json'
-import {Movie} from '@/types/movie'
+import Cta from "@/components/Sections/Home/Cta/Cta";
+import moviesData from '@/data/movies.json';
+import {Movie} from '@/types/movie';
 
 interface MovieSingleClientProps {
     movie: Movie
@@ -20,6 +21,7 @@ export default function MovieSingleClient({movie}: MovieSingleClientProps) {
             <MovieCarousel currentMovie={movie} movies={similarMovies} />
             <TrendingNow />
             <Bill />
+            <Cta form={true} />
         </div>
     )
 }
