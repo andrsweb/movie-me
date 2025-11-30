@@ -2,7 +2,6 @@
 
 import { useRef } from "react"
 import Image from "next/image"
-import PieChart from "@/components/Ui/PieChart/PieChart"
 import Container from "@/components/Common/Container/Container"
 import ProgressSlider from "@/components/Ui/ProgressSlider/ProgressSlider"
 
@@ -18,7 +17,7 @@ export default function About() {
 			<Container maxWidth={1046}>
 				<div className="flex flex-col items-start gap-[60px]">
 					<div className="w-full flex flex-col items-start justify-between gap-[30px] sm:flex-row sm:p-0">
-						<div className="w-full max-w-[193px] flex flex-col items-start gap-[30px] md:max-w-[521px]">
+						<div className="w-full max-w-[193px] sm:max-w-[293px] flex flex-col items-start gap-[30px] md:max-w-[521px]">
 							<span className="hidden font-normal text-[18px] leading-[22px] text-[var(--color-white)] md:block">
 								How It Works
 							</span>
@@ -27,24 +26,8 @@ export default function About() {
 								you only pay for the slices you eat.
 							</h3>
 						</div>
-						<div className="flex justify-center items-center ml-auto">
-							<PieChart
-								sliceAngle={55}
-								mainColor="#3C588F"
-								sliceColor="#29406D"
-								flyAngle={-50}
-								animationDuration={2000}
-								step1Duration={400}
-								step2Duration={800}
-								returnDelay={1600}
-								returnDuration={400}
-								cyclePause={1000}
-								initialDelay={500}
-								step1Offset={10}
-								step2Offset={20}
-								sliceDistance1={15}
-								sliceDistance2={30}
-							/>
+						<div className="absolute right-0 sm:right-[6%] top-0 z-[-1] flex shrink-0 justify-center items-center ml-auto md:w-[300px] md:h-[300px] md:relative md:right-auto md:top-auto">
+							<Image className="w-full h-full" unoptimized src="/img/circle.gif" alt="circle.gif" width={220} height={220} />
 						</div>
 					</div>
 					<div className="w-full flex flex-col items-start gap-[60px]">
