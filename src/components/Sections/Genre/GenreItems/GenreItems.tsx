@@ -25,12 +25,12 @@ export default function GenreItems({ movies, related }: GenreItemsProps) {
             <h2 className="sr-only">Hidden title for seo</h2>
 			<Container maxWidth={1380} className="pb-[60px] md:pb-[80px]">
 				<div className="flex w-full flex-col items-center gap-[40px]">
-					<section className="flex w-full flex-wrap justify-center xxl:justify-between gap-[16px]">
+					<section className="flex w-full flex-wrap justify-center gap-[16px]">
 						{movies.map((movie) => (
 							<Link
 								key={movie.id}
 								href={`/movie/${movie.slug}?id=${movie.id}`}
-								className="group relative block h-[185px] w-[123px] shrink-0 rounded-[4px] bg-[rgba(34,49,86,0.6)] md:h-[294px] md:w-[196px]"
+								className="group relative block h-[185px] w-[123px] shrink-0 rounded-[4px] bg-[#162542] md:h-[294px] md:w-[196px]"
 								prefetch={false}
 							>
 								<div className="relative h-full w-full">
