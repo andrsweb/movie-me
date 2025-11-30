@@ -1,6 +1,8 @@
 import MovieSingleHero from "@/components/Sections/Single/MovieSingleHero/MovieSingleHero";
 import MovieSingleInfo from "@/components/Sections/Single/MovieSingleInfo/MovieSingleInfo";
 import MovieCarousel from "@/components/Sections/Single/MovieCarousel/MovieCarousel";
+import TrendingNow from "@/components/Sections/Single/TrendingNow/TrendingNow";
+import Bill from "@/components/Sections/Home/Bill/Bill";
 import moviesData from '@/data/movies.json'
 import {Movie} from '@/types/movie'
 
@@ -16,6 +18,8 @@ export default function MovieSingleClient({movie}: MovieSingleClientProps) {
             <MovieSingleHero movie={movie}/>
             <MovieSingleInfo movie={movie}/>
             <MovieCarousel currentMovie={movie} movies={similarMovies} />
+            <TrendingNow />
+            <Bill />
         </div>
     )
 }
