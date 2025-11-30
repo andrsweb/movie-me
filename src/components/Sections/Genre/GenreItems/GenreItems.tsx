@@ -25,7 +25,7 @@ export default function GenreItems({ movies, related }: GenreItemsProps) {
             <h2 className="sr-only">Hidden title for seo</h2>
 			<Container maxWidth={1380} className="pb-[60px] md:pb-[80px]">
 				<div className="flex w-full flex-col items-center gap-[40px]">
-					<section className="flex w-full flex-wrap justify-center gap-[16px]">
+					<section className="flex w-full flex-wrap justify-center xxl:justify-between gap-[16px]">
 						{movies.map((movie) => (
 							<Link
 								key={movie.id}
@@ -66,7 +66,7 @@ export default function GenreItems({ movies, related }: GenreItemsProps) {
 									<Link
 										key={genre.slug}
 										href={`/genres/${genre.slug}`}
-										className="flex w-full flex-col gap-[10px] rounded-[10px] bg-[#162542] p-[20px] !pr-0 md:w-[calc((100%-20px)/2)] md:gap-[20px] md:p-[30px]"
+										className="flex w-full flex-col gap-[10px] rounded-[10px] bg-[#162542] p-[20px] !pr-0 transition-opacity duration-300 ease-out [@media(hover:hover)_and_(pointer:fine)]:hover:opacity-50 md:w-[calc((100%-20px)/2)] md:gap-[20px] md:p-[30px]"
 										prefetch={false}
 									>
 										<h3 className="text-[18px] font-bold leading-[22px] text-[var(--color-pop-corn)] md:text-[32px] md:leading-[48px]">
