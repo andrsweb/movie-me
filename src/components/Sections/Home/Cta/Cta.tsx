@@ -5,8 +5,13 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import Container from '@/components/Common/Container/Container'
 import Image from "next/image";
 import Link from "next/link";
+import LeadCaptureForm from '@/components/Sections/Home/Form/LeadCaptureForm'
 
-export default function Cta() {
+interface CtaProps {
+    form?: boolean
+}
+
+export default function Cta({form = false}: CtaProps) {
 	const sectionRef = useRef<HTMLElement>(null)
 	
 	const { scrollYProgress } = useScroll({
@@ -20,7 +25,7 @@ export default function Cta() {
 	return (
 		<motion.section 
 			ref={sectionRef}
-			className="w-full py-[60px] md:py-[100px]"
+			className={`w-full py-[60px] md:py-[100px] ${form && "bg-[#7E90B9]"}`}
 			style={{ 
 				opacity: sectionOpacity,
 				y: sectionY
@@ -42,6 +47,9 @@ export default function Cta() {
 					<p className="font-bold text-[18px] leading-[22px] text-center text-[var(--color-black)] md:text-[32px] md:leading-[48px]">
 						It only takes a few minutes to get started
 					</p>
+					{form && (
+						<LeadCaptureForm variant="cta" />
+					)}
 					<div className="flex items-center gap-[20px]">
 						<Link href="https://play.google.com/store/apps/details?id=com.movieme.app&hl=en" target="_blank" rel="noopener noreferrer" className="transition-opacity ease-in-out hover:opacity-70">
 							<Image src="/img/svg/app-store.svg" width={159} height={46} alt="Apple store logo" />
