@@ -14,6 +14,7 @@ interface TrendingItem {
 
 interface TrendingNowProps {
     title?: string
+    containerWidth?: number
 }
 
 const TRENDING_ITEMS: TrendingItem[] = [
@@ -34,13 +35,13 @@ const TRENDING_ITEMS: TrendingItem[] = [
     },
 ]
 
-export default function TrendingNow({title = 'Trending on MovieMe now'}: TrendingNowProps) {
+export default function TrendingNow({title = 'Trending on MovieMe now', containerWidth=1540}: TrendingNowProps) {
     if (TRENDING_ITEMS.length === 0) return null
 
     return (
         <section className="w-full py-[15px] lg:py-[40px]">
             <h2 className="sr-only">{title}</h2>
-            <Container maxWidth={1540}>
+            <Container maxWidth={containerWidth}>
                 <h3 className="text-[16px] leading-[20px] font-normal text-[var(--color-pop-corn)] md:text-[26px] lg:text-[32px] lg:leading-[48px]">
                     {title}
                 </h3>

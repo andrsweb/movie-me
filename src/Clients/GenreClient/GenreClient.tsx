@@ -1,9 +1,10 @@
 "use client"
 
-import type { Movie } from "@/types/movie"
+import type { Movie } from "@/types/movie";
 
-import GenreHero from "@/components/Sections/Genre/GenreHero/GenreHero"
-import GenreItems from "@/components/Sections/Genre/GenreItems/GenreItems"
+import GenreHero from "@/components/Sections/Genre/GenreHero/GenreHero";
+import GenreItems from "@/components/Sections/Genre/GenreItems/GenreItems";
+import TrendingNow from "@/components/Sections/Single/TrendingNow/TrendingNow";
 
 type BreadcrumbItem = {
 	label: string
@@ -37,6 +38,7 @@ export default function GenreClient({
 				title={`${title} Movies`}
 			/>
 			<GenreItems movies={movies} related={relatedGenres} />
+            <TrendingNow containerWidth={1380} />
 		</div>
 	)
 }
