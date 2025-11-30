@@ -93,7 +93,7 @@ export default function Footer() {
 										<Link className="text-[16px] leading-[20px] text-[var(--color-white)] transition-opacity duration-[200ms] ease-in-out hover:opacity-[var(--opacity-base)] md:text-[20px] md:leading-[30px]" href="#">How It Works</Link>
 									</li>
 									<li className="w-full">
-										<Link className="text-[16px] leading-[20px] text-[var(--color-white)] transition-opacity duration-[200ms] ease-in-out hover:opacity-[var(--opacity-base)] md:text-[20px] md:leading-[30px]" href="#">Browse Movies</Link>
+										<Link className="text-[16px] leading-[20px] text-[var(--color-white)] transition-opacity duration-[200ms] ease-in-out hover:opacity-[var(--opacity-base)] md:text-[20px] md:leading-[30px]" href="/genres">Browse Movies</Link>
 									</li>
 									<li className="w-full">
 										<Link className="text-[16px] leading-[20px] text-[var(--color-white)] transition-opacity duration-[200ms] ease-in-out hover:opacity-[var(--opacity-base)] md:text-[20px] md:leading-[30px]" href="#">Vision/Mission</Link>
