@@ -4,6 +4,7 @@ import clsx from "clsx";
 
 interface ProgressSliderProps {
 	className?: string;
+	variant?: 'default' | 'small';
 }
 
 const MIN_PROGRESS = 1;
@@ -14,9 +15,10 @@ const PRICE_PER_MINUTE = 0.02;
 const INITIAL_PROGRESS = 15;
 const KEYBOARD_STEP = 5;
 
-export default function ProgressSlider({ className = '' }: ProgressSliderProps) {
+export default function ProgressSlider({ className = '', variant = 'default' }: ProgressSliderProps) {
 	const [displayedMinutes, setDisplayedMinutes] = useState(10);
 	const [displayedPrice, setDisplayedPrice] = useState("$0.20");
+	const isSmallVariant = variant === 'small';
 
 	const progress = useMotionValue(INITIAL_PROGRESS);
 	const springProgress = useSpring(progress, { stiffness: 600, damping: 40 });
@@ -92,9 +94,12 @@ export default function ProgressSlider({ className = '' }: ProgressSliderProps) 
 	}, [updateProgress, progress]);
 	
 	return (
-		<div className={clsx("w-full py-[30px]", className)}>
+		<div className={clsx("w-full", isSmallVariant ? 'py-0' : 'py-[30px]', className)}>
 			<div
-				className="relative h-1 bg-[var(--color-blue)] rounded-1 mb-[15px] cursor-pointer touch-none"
+				className={clsx(
+					"relative mb-[15px] cursor-pointer touch-action-none bg-[var(--color-blue)]",
+					isSmallVariant ? 'h-[6px] rounded-[999px]' : 'h-1 rounded-[4px]'
+				)}
 				ref={barRef}
 				role="slider"
 				aria-valuemin={MIN_MINUTES}
@@ -108,27 +113,66 @@ export default function ProgressSlider({ className = '' }: ProgressSliderProps) 
 				onKeyDown={handleKeyDown}
 			>
 				<motion.div 
-					className="h-full bg-[var(--color-gold)] rounded-1" 
+					className={clsx(
+						'h-full bg-[var(--color-gold)]',
+						isSmallVariant ? 'rounded-[999px]' : 'rounded-[4px]'
+					)} 
 					style={{ width: trackWidth }}
 				/>
 				<motion.div
-					className="absolute top-1/2 w-4 h-4 bg-[var(--color-gold)] rounded-full md:w-[13px] md:h-[13px]"
+					className={clsx(
+						'absolute top-1/2 rounded-full bg-[var(--color-gold)]',
+						isSmallVariant ? 'h-[14px] w-[14px]' : 'h-4 w-4 md:h-[13px] md:w-[13px]'
+					)}
 					style={{ left: trackWidth, transform: 'translateY(-50%) translateX(-2px)' }}
 				/>
 			</div>
-			<div className="flex justify-between items-end text-white">
+			<div className="flex items-end justify-between">
 				<div className="flex flex-col">
-					<p className="font-normal text-[14px] leading-[18px] text-[var(--color-violet)] mb-1">For every</p>
-					<div className="flex items-center gap-1">
-						<span className="font-bold text-[32px] leading-[48px] text-[var(--color-violet)]">
+					<p
+						className={clsx(
+							'font-normal text-[14px] leading-[18px] mb-1',
+							' text-[var(--color-violet)]',
+						)}
+					>
+						For every
+					</p>
+					<div className="flex items-baseline gap-[6px]">
+						<span
+							className={clsx(
+								'font-bold',
+								isSmallVariant ? 'text-[28px] leading-[36px] text-[var(--color-violet)]' : 'text-[32px] leading-[48px] text-[var(--color-violet)]',
+							)}
+						>
 							{displayedMinutes} mins
-						</span> 
-						<span className="font-normal text-[16px] leading-[20px] text-[var(--color-violet)]">you play</span>
+						</span>
+						<span
+							className={clsx(
+								'font-normal',
+								' text-[16px] leading-[20px] text-[var(--color-violet)]',
+							)}
+						>
+							you play
+						</span>
 					</div>
 				</div>
-				<div className="flex flex-col">
-					<p className="font-normal text-[14px] leading-[18px] text-[var(--color-violet)] mb-1">You only pay</p>
-					<span className="font-bold text-[32px] leading-[48px] text-[var(--color-violet)]">{displayedPrice}</span>
+				<div className="flex flex-col items-end">
+					<p
+						className={clsx(
+							'font-normal text-[14px] leading-[18px] mb-1',
+							' text-[var(--color-violet)]',
+						)}
+					>
+						You only pay
+					</p>
+					<span
+						className={clsx(
+							'font-bold',
+							isSmallVariant ? 'text-[28px] leading-[36px] text-[var(--color-violet)]' : 'text-[32px] leading-[48px] text-[var(--color-violet)]',
+						)}
+					>
+						{displayedPrice}
+					</span>
 				</div>
 			</div>
 		</div>
