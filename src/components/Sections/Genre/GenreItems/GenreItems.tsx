@@ -39,11 +39,11 @@ export default function GenreItems({ movies, related }: GenreItemsProps) {
 										fill
 										src={movie.src}
 										alt={movie.title}
-										className="h-full w-full rounded-[14px] object-cover"
+										className="h-full w-full rounded-[4px] object-cover"
 										sizes="(max-width: 767px) 123px, 196px"
 									/>
 									<div
-										className="pointer-events-none absolute inset-0 flex items-end justify-center rounded-[14px] p-[12px] opacity-0 translate-y-3 transition-all duration-300 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-100 [@media(hover:hover)_and_(pointer:fine)]:group-hover:translate-y-0"
+										className="pointer-events-none absolute inset-0 flex items-end justify-center rounded-[4px] p-[12px] opacity-0 translate-y-3 transition-all duration-300 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-100 [@media(hover:hover)_and_(pointer:fine)]:group-hover:translate-y-0"
 										style={{ background: movieCardOverlayBackground }}
 									>
 										<div className="text-center">
