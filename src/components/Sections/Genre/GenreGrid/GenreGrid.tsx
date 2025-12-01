@@ -21,7 +21,7 @@ export default function GenreGrid({ genres }: GenreGridProps) {
 			<Container maxWidth={1540} className="pb-[60px] md:pb-[80px]">
 				<div className="flex w-full flex-wrap gap-[10px] md:gap-[20px]">
 					{genres.map((genre) => {
-						const genreMovies = movies.filter(movie => movie.genre === genre.name).slice(0, 4)
+						const genreMovies = movies.filter(movie => movie.genre === genre.name).slice(0, 10)//Change this num to set images/items in card
 						
 						return (
 							<GenreCard
