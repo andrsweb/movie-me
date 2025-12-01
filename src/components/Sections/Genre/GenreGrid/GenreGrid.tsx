@@ -18,7 +18,7 @@ export default function GenreGrid({ genres }: GenreGridProps) {
 	
 	return (
 		<section className="w-full">
-			<Container maxWidth={1380} className="pb-[60px] md:pb-[80px]">
+			<Container maxWidth={1540} className="pb-[60px] md:pb-[80px]">
 				<div className="flex w-full flex-wrap gap-[10px] md:gap-[20px]">
 					{genres.map((genre) => {
 						const genreMovies = movies.filter(movie => movie.genre === genre.name).slice(0, 4)
@@ -31,7 +31,7 @@ export default function GenreGrid({ genres }: GenreGridProps) {
 									slug: genre.slug,
 									posters: genreMovies
 								}}
-								className="basis-full md:w-[calc((100%-20px)/2)] md:basis-[calc((100%-20px)/2)] lg:w-[calc((100%-40px)/3)] lg:basis-[calc((100%-40px)/3)]"
+								className="basis-full md:w-[calc((100%-20px)/2)] md:basis-[calc((100%-20px)/2)] xl:w-[calc((100%-40px)/3)] xl:basis-[calc((100%-40px)/3)]"
 							/>
 						)
 					})}
